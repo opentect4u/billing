@@ -1,0 +1,22 @@
+{
+  "name": "syn_billing",
+  "version": "1.0.0",
+  "description": "admin section for syn_billing",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon server"
+  },
+  "author": "Sayantika Dhar",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "dateformat": "^4.5.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.0",
+    "mysql": "^2.18.1",
+    "nodemon": "^3.0.3"
+  }
+}

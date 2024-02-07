@@ -1,0 +1,46 @@
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="card ml-5 mr-5">
+            <div class="card-body">
+                <div class="titleSec">
+                    <h2><b><span class="badge badge-light"
+                                style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i data-feather="file" class="feather-icon"></i>&nbsp;Receiptwise Sale Report</span></b></h2>
+                    <form method="POST" action="/report/collection_report_final" class="">
+                        <div class="row mt-4">
+                            <div class="form-group col-md-6">
+                                <label for="dt_frm"><b style="color: black;">Form Date:</b></label>
+                                <input type="date" name="dt_frm" id="dt_frm" class="form-control" value=""
+                                    required />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="dt_to"><b style="color: black;">To Date:</b></label>
+                                <input type="date" name="dt_to" id="dt_to" class="form-control" value="" required />
+                            </div>
+
+
+                            <div class="form-group col-md-12">
+                                <label for="rec_no"><b style="color: black;">Receipt No:</b></label>
+                                 <select name="rec_no" class="form-control s2id" id="rec_no" required>
+                                    <option value="">Select Receipt No.</option>
+                                    <% data.forEach(dt => { %>
+                                        <option value="<%= dt.receipt_no %>">
+                                            <%= dt.receipt_no %>
+                                        </option>
+                                   <% }) %>
+                                 </select>
+                            </div>
+                            <div class="form-group col-8 mt-3" style="margin-left: 30vw;">
+                                <input type="submit" value="SUBMIT" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <script>
+    $('#dt_to').on('change')
+</script> -->
