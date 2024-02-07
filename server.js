@@ -8,7 +8,7 @@ const { ReportRouter } = require("./routes/ReportRouter");
 var app = express(),
   expressLayouts = require("express-ejs-layouts"),
   path = require("path"),
-  port = 3000;
+  port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 // parse requests of content-type - application/json
@@ -34,6 +34,10 @@ app.use((req, res, next) => {
   res.locals.path = req.path;
   // console.log(req.path);
   next();
+});
+
+app.get("/",async (req, res) => {
+  res.redirect("/login")
 });
 
 app.get("/dashboard", async (req, res) => {
