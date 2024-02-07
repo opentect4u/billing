@@ -11,32 +11,52 @@
             <div class="card-body" id="tableData">
                 <div class="table-responsive" id="divToPrint">
                     <center>
-                        <h4 class="card-title">Sale report from between <%= dateFormat(frm_dt, "dd/mm/yyyy" ) %> to <%=
-                                    dateFormat(to_dt, "dd/mm/yyyy" ) %>
-                        </h4>
-                        <h6><b>For <%= br_narration %></b>
-                        </h6>
+                        <h5 class="" style="color: black;"><b><%= comp_dt[0].company_name %></h5></2>
+                        <h5 class="" style="color: black;"><b><%= comp_dt[0].address %></h5></b>
+                        <label style="color: black;"><b>Phone No:&nbsp;<span style="color: black;"><%= comp_dt[0].phone_no %></span></b></label>&nbsp;&nbsp;
+                        <label style="color: black;"><b>Email Id:&nbsp;<span style="color: black;"><%= comp_dt[0].email_id %></span></b></label>
                     </center>
+                    <center>
+                        <h5 class="card-title">Sale Report Between <%= dateFormat(frm_dt, "dd/mm/yyyy" ) %> to <%=
+                                    dateFormat(to_dt, "dd/mm/yyyy" ) %>
+                        </h5>
+                        
+                    </center>
+                    <label><b>Location:&nbsp;<span style="color: black;"><%= br_narration %></span></b></label>
+                        
                     <table class="table table-striped table-bordered no-wrap">
                         <thead>
+                            <% data.forEach(function(item,index) { %>
                             <tr>
                                 <th><b style="color: black;">Sl No.</b></th>
                                 <th><b style="color: black;">Receipt No.</b></th>
                                 <th><b style="color: black;">Date</b></th>
+                                <% if (item.cust_inf == 'Y') { %>
+                                    <th><b style="color: black;">Customer Name</b></th>
+                                 <% } %>
+                                 <% if (item.cust_inf == 'Y') { %>
+                                    <th><b style="color: black;">Phone No</b></th>
+                                 <% } %>
                                 <th><b style="color: black;">Qty</b></th>
                                 <th><b style="color: black;">Price</b></th>
                                 <th><b style="color: black;">Discount</b></th>
-                                <th><b style="color: black;">CGST</b></th>
-                                <th><b style="color: black;">SGST</b></th>
+                                <% if (item.gst_flag == 'Y') { %>
+                                    <th><b style="color: black;">CGST</b></th>
+                                  <% } %>
+                                  <% if (item.gst_flag == 'Y') { %>
+                                    <th><b style="color: black;">SGST</b></th>
+                                  <% } %>
+                                <th><b style="color: black;">Round off</b></th>
                                 <th><b style="color: black;">Amount</b></th>
-                                <th><b style="color: black;">Mode</b></th>
+                                <th><b style="color: black;">Created By</b></th>
                             </tr>
+                            <% }) %>
                         </thead>
                         <tbody>
                             <% var tot_qty=0, tot_price=0, tot_dis=0, tot_gst=0, tot_sgst=0, tot_amt=0;
-                                data.forEach(function(item,index) { tot_qty +=item.qty; tot_price +=item.price; tot_dis
+                                data.forEach(function(item,index) { tot_qty +=item.no_of_items; tot_price +=item.price; tot_dis
                                 +=item.discount_amt; tot_gst +=item.cgst_amt; tot_sgst +=item.sgst_amt; tot_amt
-                                +=item.amount; %>
+                                +=item.net_amt; %>
                                 <tr>
                                     <td><%= index+1 %></td>
                                     <td>
@@ -45,8 +65,18 @@
                                     <td>
                                         <%= dateFormat(item.trn_date, "dd/mm/yyyy" ) %>
                                     </td>
+                                    <% if (item.cust_inf == 'Y') { %>
+                                        <td>
+                                            <%= item.cust_name %>
+                                        </td>
+                                   <% } %>
+                                    <% if (item.cust_inf == 'Y') { %>
                                     <td>
-                                        <%= item.qty %>
+                                        <%= item.phone_no %>
+                                    </td>
+                                    <% } %>
+                                    <td>
+                                        <%= item.no_of_items %>
                                     </td>
                                     <td>
                                         <%= item.price %>
@@ -54,25 +84,39 @@
                                     <td>
                                         <%= item.discount_amt %>
                                     </td>
+                                    <% if (item.gst_flag == 'Y') { %>
+                                        <td>
+                                            <%= item.cgst_amt %>
+                                        </td>
+                                    <% } %>
+                                    <% if (item.gst_flag == 'Y') { %>
+                                        <td>
+                                            <%= item.sgst_amt %>
+                                        </td>
+                                    <% } %>
                                     <td>
-                                        <%= item.cgst_amt %>
+                                        <%= item.round_off %>
                                     </td>
                                     <td>
-                                        <%= item.sgst_amt %>
+                                        <%= item.net_amt %>
                                     </td>
                                     <td>
-                                        <%= item.amount %>
-                                    </td>
-                                    <td>
-                                        <%= pay_mode[item.pay_mode] %>
+                                        <%= item.created_by %>
                                     </td>
                                 </tr>
                                 <% }) %>
 
                         </tbody>
                         <tfoot>
+                            <% data.forEach(function(item,index) { %>
                             <tr>
                                 <th colspan="3"><b style="color: black;">Total</b></th>
+                                <% if (item.cust_inf == 'Y') { %>
+                                    <th></th>
+                                  <% } %>
+                                  <% if (item.cust_inf == 'Y') { %>
+                                    <th></th>
+                                  <% } %>
                                 <th><b style="color: black;">
                                     <%= tot_qty %>
                                 </b></th>
@@ -82,17 +126,23 @@
                                 <th><b style="color: black;">
                                     <%= tot_dis %>
                                 </b></th>
-                                <th><b style="color: black;">
-                                    <%= tot_gst %>
-                                </b></th>
-                                <th><b style="color: black;">
-                                    <%= tot_sgst %>
-                                </b></th>
+                                <% if (item.gst_flag == 'Y') { %>
+                                    <th><b style="color: black;">
+                                        <%= tot_gst %>
+                                    </b></th>
+                                  <% } %>
+                                  <% if (item.gst_flag == 'Y') { %>
+                                    <th><b style="color: black;">
+                                        <%= tot_sgst %>
+                                    </b></th>
+                                  <% } %>
+                                <th></th>
                                 <th><b style="color: black;">
                                     <%= tot_amt %>
                                 </b></th>
                                 <th></th>
                             </tr>
+                            <% }) %>
                         </tfoot>
                     </table>
                 </div>

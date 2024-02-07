@@ -4,7 +4,7 @@
             <div class="card-body">
                 <div class="titleSec">
                     <h2><b><span class="badge badge-light"
-                                style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i data-feather="folder" class="feather-icon"></i>&nbsp;Collection
+                                style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i data-feather="folder" class="feather-icon"></i>&nbsp;Billing
                                 Report</span></b></h2>
                     <form method="POST" action="/report/collection_report_final" class="">
                         <div class="row mt-4">
@@ -19,15 +19,27 @@
                                 <input type="date" name="date_to" id="date_to" class="form-control" value="" required />
                             </div>
 
+                            <div class="form-group col-md-6">
+                                <label for="brn_id"><b style="color: black;">Location list:</b></label>
+                                <select name="brn_id" class="form-control s2id" id="brn_id" required>
+                                    <option value="">Select location</option>
+                                    <% brn_data.forEach(dt=> { %>
+                                        <option value="<%= dt.id %>">
+                                            <%= dt.branch_name %>
+                                        </option>
+                                        <% }) %>
+                                </select>
+                            </div>
 
-                            <div class="form-group col-md-12">
-                                <label for="pay_id"><b style="color: black;">Payment mode:</b></label>
-                                <select name="pay_id" class="form-control s2id" id="pay_id" required>
-                                    <option value="">Select Payment mode</option>
-                                    <option value="C">Cash</option>
-                                    <option value="U">UPI</option>
-                                    <option value="D">Card</option>
-                                    
+                            <div class="form-group col-md-6">
+                                <label for="user_id"><b style="color: black;">User list:</b></label>
+                                <select name="user_id" class="form-control s2id" id="user_id" required>
+                                    <option value="">Select User</option>
+                                    <% data.forEach(dt=> { %>
+                                        <option value="<%= dt.id %>">
+                                            <%= dt.created_by %>
+                                        </option>
+                                        <% }) %>
                                 </select>
                             </div>
 
