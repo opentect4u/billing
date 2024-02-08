@@ -10,6 +10,17 @@ const branch_list = () => {
   });
 };
 
+const user_list = (brn_id) => {
+ return new Promise (async (resolve, reject) => {
+ var select = "user_name",
+ table_name = "md_user",
+ where = `br_id =${brn_id} AND user_type = 'U'`,
+ order = null;
+ var ul_dt = await db_Select(select,table_name,where,order)
+ resolve(ul_dt)
+ });
+};
+
 const getSaleReport = (data) => {
   return new Promise(async (resolve, reject) => {
     if (data.brn_id > 0) {
@@ -32,24 +43,15 @@ const getSaleReport = (data) => {
 };
 
 
-const user_list = () =>{
- return new Promise( async (resolve, reject) => {
-  var select = "created_by,user_type",
-  table_name = "md_user",
-  where = `user_type= 'U'`;
-  var user_dt = await db_Select(select,table_name,where,null);
-  resolve(user_dt);
- });
-};
-
 const getPayReport = (data) => {
   return new Promise (async (resolve, reject) => {
-    var select = "cust_name,pay_mode, COUNT(receipt_no) tot_tnx, SUM(net_amt) tot_amt",
-    table_name = "td_receipt",
-    where = null,
-    order = "GROUP BY pay_mode"
+    var select = "a.created_by,a.pay_mode,a.net_amt,b.br_id,c.branch_name",
+    table_name = "td_receipt a, td_item_sale b, md_branch c",
+    where = `a.receipt_no = b.receipt_no AND b.br_id = c.id AND b.br_id = ${data.brn_id} AND a.created_by ='${data.user_id}'`;
+    order = "GROUP BY a.pay_mode"
     var res_dt = await db_Select(select,table_name,where,order);
     resolve(res_dt)
+    // console.log(res_dt);
   })
 }
 
@@ -84,16 +86,6 @@ return new Promise (async (resolve, reject) => {
 });
 };
 
-const receipt_list = (frm_dt, to_dt) => {
-  return new Promise (async (resolve, reject) => {
-    var select = "receipt_no,trn_dt",
-    table_name = "td_receipt",
-    where = `trn_dt BETWEEN '${frm_dt}' AND '${to_dt}'`;
-    var rec_dt = await db_Select(select, table_name, where, null);
-    resolve(rec_dt)
-  });
-};
-
 const comp_header = () => {
   return new Promise(async (resolve, reject) => {
    var select = "*",
@@ -105,4 +97,14 @@ const comp_header = () => {
   });
 };
 
-module.exports = { branch_list, getSaleReport, user_list, getPayReport, item_list, getSaleItemReport, receipt_list, comp_header };
+const receipt_list = (data) => {
+  return new Promise (async (resolve, reject) => {
+    var select = "receipt_no,trn_date,created_by,net_amt,pay_mode",
+    table_name = "td_receipt",
+    where = `trn_date BETWEEN '${data.dt_frm}' AND '${data.dt_to}'`;
+    var rec_dt = await db_Select(select, table_name, where, null);
+    resolve(rec_dt)
+  });
+};
+
+module.exports = { branch_list, getSaleReport, getPayReport, item_list, getSaleItemReport, comp_header, user_list, receipt_list };

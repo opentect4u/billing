@@ -21,35 +21,39 @@
                                 dateFormat(to_dt, "dd/mm/yyyy" ) %>
                     </h5>
                 </center>
-                
+                <label><b>Location:&nbsp;<span style="color: black;"><%= data[0].branch_name %></span></b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label><b>User Name:&nbsp;<span style="color: black;"><%= data[0].created_by %></span></b></label>
                     <table id="zero_config" class="table table-striped table-bordered no-wrap">
                         <thead>
                             <tr>
                                 <th><b style="color: black;">Sl No.</b></th>
-                                <th><b style="color: black;">Customer Name</b></th>
-                                <th><b style="color: black;">Amount</b></th>
                                 <th><b style="color: black;">Mode</b></th>
-                                <th><b style="color: black;">Total</b></th>
+                                <th><b style="color: black;">Amount</b></th>
                             </tr>
                         </thead>
                         <tbody>
                             <% var tot_amt=0;
                                 data.forEach(function(item,index) { tot_amt
-                                +=item.tot_amt;%>
+                                +=item.net_amt;%>
                                 <tr>
                                     <td><%= index+1 %></td>
-                                    <td><%= item.cust_name %></td>
-                                    <td>
-                                        <%= item.tot_amt %>
-                                    </td>
                                     <td>
                                         <%= pay_mode[item.pay_mode] %>
                                     </td>
-                                    <td><%= tot_amt %></td>
+                                    <td>
+                                        <%= item.net_amt %>
+                                    </td>
                                 </tr>
                                 <% }) %>
-
-                        </tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="2"><b style="color: black;">Total</b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_amt %>
+                                    </b></th>
+                                </tr> 
+                            </tfoot>
                     </table>
                 </div>
                 <div class="mt-2" id="btnclass">

@@ -35,16 +35,12 @@
                                 <label for="user_id"><b style="color: black;">User list:</b></label>
                                 <select name="user_id" class="form-control s2id" id="user_id" required>
                                     <option value="">Select User</option>
-                                    <% data.forEach(dt=> { %>
-                                        <option value="<%= dt.id %>">
-                                            <%= dt.created_by %>
-                                        </option>
-                                        <% }) %>
+                                   
                                 </select>
                             </div>
 
                             <div class="form-group col-8 mt-3" style="margin-left: 30vw;">
-                                <input type="submit" value="SUBMIT" class="btn btn-primary">
+                                <button class="btn btn-warning" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -53,3 +49,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    $("#brn_id").on("change", function () {
+        var brn_id = $(this).val()
+
+      $.ajax({
+        method: "GET",
+        url: "/report/getuserlist",
+        data: { brn_id: brn_id },
+        success: function (response) {
+            console.log(response);
+        //   $("#user_id").append(
+        //     $("<option>", { value: "", text: "Select User" })
+        //   );
+          if (response.suc > 0 && response.msg.length > 0)
+            response.msg.forEach (function (item, index) {
+              $("#user_id").append(
+                $("<option>", { value: item.id, text: item.user_name })
+              );
+            });
+        },
+        error: function (error) {
+        console.log(error);
+      },
+      });
+    });
+</script>

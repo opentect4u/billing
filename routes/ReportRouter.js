@@ -45,27 +45,30 @@ ReportRouter.post("/location_report", async (req, res) => {
     comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [], 
   };
   res.render("report/sale_report_final", viewData);
-  // console.log(viewData);
 });
 
 
 ReportRouter.get("/collection_report", async(req, res) => {
   var brn_list = await branch_list();
-  var user_lt = await user_list();
   var res_dt = {
-    data : user_lt.suc > 0 ? user_lt.msg : [],
     brn_data : brn_list.suc > 0 ? brn_list.msg : [],
   };
   res.render("report/collection_report", res_dt)
-  console.log(data);
+  // console.log(data);
 });
+
+ReportRouter.get("/getuserlist", async (req, res) => {
+  var data= req.query;
+  var user_dt = await user_list(data.brn_id);
+  res.send(user_dt)
+})
 
 ReportRouter.post("/collection_report_final", async (req, res) => {
   var data = req.body;
-  console.log(data);
+  // console.log(data);
   var res_dt = await getPayReport(data);
   var comp_dtls = await comp_header();
-  console.log(res_dt,"collection");
+  // console.log(res_dt,"collection");
   var viewData = {
     frm_dt: data.date_from,
     to_dt: data.date_to,
@@ -111,11 +114,19 @@ ReportRouter.post("/itemwise_report_final", async (req, res) => {
   });
 
   ReportRouter.get("/receiptwise_report", async(req, res) => {
-   var rec_list = await receipt_list();
-   var res_dt = {
-    data: rec_list.suc > 0 ? rec_list.msg : [],
-   };
-   res.render("report/receipt_report", res_dt)
+    res.render("report/receipt_report")
+  });
+
+  ReportRouter.post("/receipt_list", async (req, res) => {
+    var data = req.body;
+    // console.log(data,"1234");
+    var res_dt = await receipt_list(data);
+    res.send(res_dt);
+    // console.log(res_dt);
+  });
+
+  ReportRouter.get("/receiptwise_report_final", async(req, res) => {
+    res.render("report/receipt_report_final")
   });
 
 module.exports = { ReportRouter };
