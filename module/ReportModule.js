@@ -25,16 +25,16 @@ const getSaleReport = (data) => {
   return new Promise(async (resolve, reject) => {
     if (data.brn_id > 0) {
       var select =
-          "a.cust_name,a.phone_no,a.receipt_no,a.trn_date,b.br_id,c.branch_name,count(b.receipt_no)no_of_items,sum(a.price)price,sum(a.discount_amt)discount_amt,sum(a.cgst_amt)cgst_amt,sum(a.sgst_amt)sgst_amt,sum(a.round_off)rount_off,sum(a.amount)net_amt,a.created_by,d.gst_flag,d.cust_inf",
-        table_name = "td_receipt a,td_item_sale b,md_branch c,md_receipt_settings d",
-        where = `a.receipt_no = b.receipt_no AND b.comp_id = c.comp_id AND b.br_id = c.id AND b.comp_id = d.comp_id AND b.br_id = ${data.brn_id}`;
+          "a.cust_name,a.phone_no,a.receipt_no,a.trn_date,b.br_id,c.branch_name,count(b.receipt_no)no_of_items,sum(a.price)price,sum(a.discount_amt)discount_amt,sum(a.cgst_amt)cgst_amt,sum(a.sgst_amt)sgst_amt,sum(a.round_off)rount_off,sum(a.amount)net_amt,a.created_by",
+        table_name = "td_receipt a,td_item_sale b,md_branch c",
+        where = `a.receipt_no = b.receipt_no AND b.comp_id = c.comp_id AND b.br_id = c.id AND b.br_id = ${data.brn_id}`;
       var res_dt = await db_Select(select, table_name, where, null);
       resolve(res_dt);
     } else {
       var select =
-          "a.cust_name,a.phone_no,a.receipt_no,a.trn_date,b.br_id,c.branch_name,count(b.receipt_no)no_of_items,sum(a.price)price,sum(a.discount_amt)discount_amt,sum(a.cgst_amt)cgst_amt,sum(a.sgst_amt)sgst_amt,sum(a.round_off)round_off,sum(a.amount)net_amt,a.created_by,d.gst_flag,d.cust_inf",
-        table_name = "td_receipt a,td_item_sale b,md_branch c,md_receipt_settings d",
-        where = `a.receipt_no = b.receipt_no AND b.br_id = c.id AND b.comp_id = c.comp_id AND b.comp_id = d.comp_id`;
+          "a.cust_name,a.phone_no,a.receipt_no,a.trn_date,b.br_id,c.branch_name,count(b.receipt_no)no_of_items,sum(a.price)price,sum(a.discount_amt)discount_amt,sum(a.cgst_amt)cgst_amt,sum(a.sgst_amt)sgst_amt,sum(a.round_off)round_off,sum(a.amount)net_amt,a.created_by",
+        table_name = "td_receipt a,td_item_sale b,md_branch c",
+        where = `a.receipt_no = b.receipt_no AND b.br_id = c.id AND b.comp_id = c.comp_id`;
       order = "Group BY a.cust_name,a.phone_no,a.receipt_no,a.trn_date,b.br_id,c.branch_name ORDER BY a.receipt_no";
       var res_dt_2 = await db_Select(select, table_name, where, order);
       resolve(res_dt_2);
@@ -42,6 +42,16 @@ const getSaleReport = (data) => {
   });
 };
 
+const getRecptSet = (comp_id) => {
+  return new Promise(async (resolve, reject) => {
+    var select = "*",
+    table_name = "md_receipt_settings",
+    where = `comp_id = ${comp_id}`,
+    order = null;
+    var res_dt = await db_Select(select,table_name,where,order);
+    resolve(res_dt)
+  })
+}
 
 const getPayReport = (data) => {
   return new Promise (async (resolve, reject) => {
@@ -107,4 +117,14 @@ const receipt_list = (data) => {
   });
 };
 
-module.exports = { branch_list, getSaleReport, getPayReport, item_list, getSaleItemReport, comp_header, user_list, receipt_list };
+const rec_bill_dtls = (receipt_no) => {
+  return new Promise (async (resolve, reject) => {
+    var select = "receipt_no,trn_date,created_by,cust_name,phone_no",
+    table_name = "td_receipt",
+    where = `receipt_no=${receipt_no}`;
+    var res_dt = await db_Select(select, table_name, where, null);
+    resolve(res_dt);
+  });
+};
+
+module.exports = { branch_list, getSaleReport, getPayReport, item_list, getSaleItemReport, comp_header, user_list, receipt_list, getRecptSet, rec_bill_dtls };

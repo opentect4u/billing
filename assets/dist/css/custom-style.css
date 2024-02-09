@@ -1,0 +1,7 @@
+.page-wrapper>.container-fluid {
+    min-height: calc(100vh - 110px);
+}
+
+.text-color {
+    color: black;
+}

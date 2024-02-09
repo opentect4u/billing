@@ -1,14 +1,112 @@
-<div class="row">
+<div class="container-fluid">
+  <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="col-sm-6 mt-3">
-                <i class='fas fa-file-invoice' style='font-size:20px;'>&nbsp;<span style="font-size: 25px;color: black;">Receiptmwise Sale Report Details</span style="font-size: 25px;"></i>&nbsp;
+                <i class='fas fa-file-invoice' style='font-size:20px;'>&nbsp;<span class="text-color" style="font-size: 25px">Receiptwise Sale Report Details</span style="font-size: 25px;"></i>&nbsp;
                   <ul class="breadcrumb">
-                    <li><a href="/report/receiptwise_report">Receiptmwise Sale Report</a></li>&nbsp; / &nbsp;
-                    <li>Receiptmwise Sale Report Details</li>
+                    <li><a href="/report/receiptwise_report">Receiptwise Sale Report</a></li>&nbsp; / &nbsp;
+                    <li>Receiptwise Sale Report Details</li>
                   </ul>
                 </div>
+                <div class="card-body" id="divToPrint">
+                
+                  <center>
+                    <h3 class="text-color"><b><%= comp_dt[0].company_name %></h3></b>
+                    <h5 class="text-color">Welcome</h5>
+                    <h5 class="text-color">Your Purchase Bill</h5>
+                    <h5 class="text-color">RECEIPT</h5>
+                    <p class="text-color" style="border-style: dashed; border-width: 1px;width: 50%;"></p>
+                    <h5 class="text-color"><b><%= comp_dt[0].address %></h5></b>
+                    <h5 class="text-color"><b><%= brn_dt[0].branch_name %></b></h5>
+                    <p class="text-color" style="border-style: dashed; border-width: 1px;width: 50%;"></p>
+                    <label class="text-color" >MOBILE:&nbsp;<span class="text-color" style="margin-left: 17vw;"><%= comp_dt[0].phone_no %></span></label><br>
+                    <label class="text-color">EMAIL:&nbsp;<span class="text-color" style="margin-left: 13vw;"><%= comp_dt[0].email_id %></span></label>
+                    <p class="text-color" style="border-style: dashed; border-width: 1px;width: 50%;"></p>
+                    <label class="text-color" >RECPT. NO:&nbsp;<span class="text-color" style="margin-left: 14vw;"><%= bill_dt[0].receipt_no %></span></label><br>
+                    <label class="text-color">DATE:&nbsp;<span class="text-color" style="margin-left: 19vw;"></span><%= new Date(bill_dt[0].trn_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></label><br>
+                    <label class="text-color">CASHIER:&nbsp;<span class="text-color" style="margin-left: 18vw;"></span><%= bill_dt[0].created_by %></label>
+                    <p class="text-color" style="border-style: dashed; border-width: 1px;width: 50%;"></p>
+                    <label class="text-color" >NAME:&nbsp;<span class="text-color" style="margin-left: 20vw;"><%= bill_dt[0].cust_name %></span></label><br>
+                    <label class="text-color">PHONE:&nbsp;<span class="text-color" style="margin-left: 17vw;"></span><%= bill_dt[0].phone_no %></label><br>
+                    <p class="text-color" style="border-style: dashed; border-width: 1px;width: 50%;"></p>
+                    <label class="text-color" style="margin-left: 1vw;">ITEM&nbsp;</label>
+                    <label class="text-color" style="margin-left: 6vw;">QTY&nbsp;</label>
+                    <label class="text-color" style="margin-left: 3vw;">PRICE&nbsp;</label>
+                    <label class="text-color" style="margin-left: 3vw;">DIS.&nbsp;</label>
+                    <label class="text-color" style="margin-left: 3vw;">AMT&nbsp;</label>
+                    <p class="text-color" style="border-style: dashed; border-width: 1px;width: 50%;"></p>
+                    <label class="text-color" style="margin-left: 1vw;">ITEM&nbsp;</label>
+                    <label class="text-color" style="margin-left: 6vw;">QTY&nbsp;</label>
+                    <label class="text-color" style="margin-left: 3vw;">PRICE&nbsp;</label>
+                    <label class="text-color" style="margin-left: 3vw;">DIS.&nbsp;</label>
+                    <label class="text-color" style="margin-left: 3vw;">AMT&nbsp;</label>
+                    <p class="text-color" style="border-style: dashed; border-width: 1px;width: 50%;"></p>
+                    <label class="text-color">ITEM:&nbsp;<span class="text-color" style="margin-left: 1vw;"></span></label>
+                    <label class="text-color">QTY:&nbsp;<span class="text-color" style="margin-left: 1vw;"></span></label>
+                    <label class="text-color">AMT:&nbsp;<span class="text-color" style="margin-left: 1vw;"></span></label><br>
+                    <label class="text-color" >DISCOUNT:&nbsp;<span class="text-color" style="margin-left: 23vw;"></span></label><br>
+                    <label class="text-color">TOTAL:&nbsp;<span class="text-color" style="margin-left: 25vw;"></span></label><br>
+                    <label class="text-color">ROUND OFF:&nbsp;<span class="text-color" style="margin-left: 22vw;"></span></label><br>
+                    <label class="text-color">NET AMT:&nbsp;<span class="text-color" style="margin-left: 23.5vw;"></span></label>
+                    <p class="text-color" style="border-style: dashed; border-width: 1px;width: 50%;"></p>
+                    <h5 class="text-color">PAYMENT MODE</h5>
+                    <label class="text-color">CASH RECEIVED:&nbsp;<span class="text-color" style="margin-left: 19vw;"></span></label><br>
+                    <label class="text-color">RETURNED AMT:&nbsp;<span class="text-color" style="margin-left: 19vw;"></span></label>
+                    <p class="text-color" style="border-style: dashed; border-width: 1px;width: 50%;"></p>
+                    <h5 class="text-color">Thank You, Visit Again</h5>
+                    <h5 class="text-color">Have a nice day</h5>
+                    <h5 class="text-color">-----X-----</h5>
+                </center>
+                
+                </div>
+                <div class="mt-2" id="btnclass">
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <button type="button" class="btn btn-primary" id="printMe" onclick="printDiv()" style="border-radius: 11px;margin-bottom: 17px;margin-left: 18px;">
+                            Print
+                          </button>
+                      </div>
+                  </div>
+              </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+  function printDiv() {
+
+      var divToPrint = document.getElementById('divToPrint');
+
+      var WindowObject = window.open('', 'Print-Window');
+      WindowObject.document.open();
+      WindowObject.document.writeln('<!DOCTYPE html>');
+      WindowObject.document.writeln('<html><head><title></title><style type="text/css">');
+
+
+      WindowObject.document.writeln('@media print { .center { text-align: center;}' +
+          '                                         .inline { display: inline; }' +
+          '                                         .underline { text-decoration: underline; }' +
+          '                                         .left { margin-left: 315px;} ' +
+          '                                         .right { margin-right: 375px; display: inline; }' +
+          '                                          table { border-collapse: collapse; font-size: 10px; width: 100%}' +
+          '                                          th, td { border: 1px solid black; border-collapse: collapse; padding: 6px;}' +
+          '                                           th, td { }' +
+          '                                         .border { border: 1px solid black; } ' +
+          '                                         .bottom { bottom: 5px; width: 100%; position: fixed ' +
+          '                                       ' +
+          '                                   } } </style>');
+      WindowObject.document.writeln('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">');    
+      WindowObject.document.writeln('<link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">');    
+      WindowObject.document.writeln('<link rel="stylesheet" href="/css/adminlte.min.css">');    
+      WindowObject.document.writeln('</head><body onload="window.print()">');
+      WindowObject.document.writeln(divToPrint.innerHTML);
+      WindowObject.document.writeln('</body></html>');
+      WindowObject.document.close();
+      setTimeout(function () {
+          WindowObject.close();
+      }, 8);
+
+  }
+</script>

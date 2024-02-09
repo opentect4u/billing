@@ -16,7 +16,7 @@ AdminRouter.post("/admin_login", async (req, res) => {
     if (res_dt.msg.length > 0) {
       console.log(await bcrypt.compare(data.password, res_dt.msg[0].password));
       if (await bcrypt.compare(data.password, res_dt.msg[0].password)) {
-        // req.session.user = res_dt.msg[0];
+        req.session.user = res_dt.msg[0];
         res.redirect("/report/location_report");
       } else {
         result = {

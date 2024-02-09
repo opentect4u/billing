@@ -1,111 +1,116 @@
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="col-sm-6 mt-3">
-                <i class='fas fa-file-invoice' style='font-size:20px;'>&nbsp;<span style="font-size: 25px;color: black;">Itemwise Sale Report Details</span style="font-size: 25px;"></i>&nbsp;
-                  <ul class="breadcrumb">
-                    <li><a href="/report/itemwise_report">Itemwise Sale Report</a></li>&nbsp; / &nbsp;
-                    <li>Itemwise Sale Report Details</li>
-                  </ul>
-                </div>
-            <div class="card-body" id="tableData">
-                <div class="table-responsive" id="divToPrint">
-                <center>
-                    <h4 class="card-title">Itemwise Sale report between <%= dateFormat(from_dt, "dd/mm/yyyy" ) %> to <%=
-                                dateFormat(to_dt, "dd/mm/yyyy" ) %>
-                    </h4>
-                    <h6><b>For <%= br_narration %></b>
-                        </h6>
-                </center>
-                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
-                        <thead>
-                            <tr>
-                                <th><b style="color: black;">Sl No.</b></th>
-                                <th><b style="color: black;">Receipt No.</b></th>
-                                <th><b style="color: black;">Date</b></th>
-                                <th><b style="color: black;">Qty</b></th>
-                                <th><b style="color: black;">Price</b></th>
-                                <th><b style="color: black;">Discount</b></th>
-                                <th><b style="color: black;">CGST</b></th>
-                                <th><b style="color: black;">SGST</b></th>
-                                <th><b style="color: black;">Amount</b></th>
-                                <th><b style="color: black;">Item Name</b></th>
-                                <th><b style="color: black;">Mode</b></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% var tot_qty=0, tot_price=0, tot_dis=0, tot_gst=0, tot_sgst=0, tot_amt=0;
-                                data.forEach(function(item,index){ tot_qty +=item.qty; tot_price +=item.price; tot_dis +=item.discount_amt; tot_gst +=item.cgst_amt; tot_sgst +=item.sgst_amt; tot_amt +=item.amount; %>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="col-sm-6 mt-3">
+                    <i class='fas fa-file-invoice' style='font-size:20px;'>&nbsp;<span style="font-size: 25px;color: black;">Itemwise Sale Report Details</span style="font-size: 25px;"></i>&nbsp;
+                      <ul class="breadcrumb">
+                        <li><a href="/report/itemwise_report">Itemwise Sale Report</a></li>&nbsp; / &nbsp;
+                        <li>Itemwise Sale Report Details</li>
+                      </ul>
+                    </div>
+                <div class="card-body" id="tableData">
+                    <div class="table-responsive" id="divToPrint">
+                        <center>
+                            <h5 class="" style="color: black;"><b><%= comp_dt[0].company_name %></h5></2>
+                            <h5 class="" style="color: black;"><b><%= comp_dt[0].address %></h5></b>
+                            <label style="color: black;"><b>Phone No:&nbsp;<span style="color: black;"><%= comp_dt[0].phone_no %></span></b></label>&nbsp;&nbsp;
+                            <label style="color: black;"><b>Email Id:&nbsp;<span style="color: black;"><%= comp_dt[0].email_id %></span></b></label>
+                        </center>
+                    <center>
+                        <h5 class="card-title">Itemwise Sale report between <%= dateFormat(from_dt, "dd/mm/yyyy" ) %> to <%=
+                                    dateFormat(to_dt, "dd/mm/yyyy" ) %>
+                        </h5>
+                        
+                    </center><br>
+                    <label><b>Location:&nbsp;<span style="color: black;"><%= br_narration %></span></b></label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label><b>Item Name:&nbsp;<span style="color: black;"><%= data[0].item_name %></span></b></label>
+                          <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                            <thead>
                                 <tr>
-                                    <td><%= index+1 %></td>
-                                    <td>
-                                        <%= item.receipt_no %>
-                                    </td>
-                                    <td>
-                                        <%= dateFormat(item.trn_date, "dd/mm/yyyy" ) %>
-                                    </td>
-                                    <td>
-                                        <%= item.qty %>
-                                    </td>
-                                    <td>
-                                        <%= item.price %>
-                                    </td>
-                                    <td>
-                                        <%= item.discount_amt %>
-                                    </td>
-                                    <td>
-                                        <%= item.cgst_amt %>
-                                    </td>
-                                    <td>
-                                        <%= item.sgst_amt %>
-                                    </td>
-                                    <td>
-                                        <%= item.amount %>
-                                    </td>
-                                    <td>
-                                        <%= item.item_name %>
-                                    </td>
-                                    <td>
-                                        <%= pay_mode[item.pay_mode] %>
-                                    </td>
+                                    <th><b style="color: black;">Sl No.</b></th>
+                                    <th><b style="color: black;">Receipt No.</b></th>
+                                    <th><b style="color: black;">Date</b></th>
+                                    <th><b style="color: black;">Qty</b></th>
+                                    <th><b style="color: black;">Price</b></th>
+                                    <th><b style="color: black;">Discount</b></th>
+                                    <th><b style="color: black;">CGST</b></th>
+                                    <th><b style="color: black;">SGST</b></th>
+                                    <th><b style="color: black;">Amount</b></th>
+                                    <th><b style="color: black;">Mode</b></th>
                                 </tr>
-                                <% }) %>
-
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th colspan="3"><b style="color: black;">Total</b></th>
-                                <th><b style="color: black;">
-                                    <%= tot_qty %>
-                                </b></th>
-                                <th><b style="color: black;">
-                                    <%= tot_price %>
-                                </b></th>
-                                <th><b style="color: black;">
-                                    <%= tot_dis %>
-                                </b></th>
-                                <th><b style="color: black;">
-                                    <%= tot_gst %>
-                                </b></th>
-                                <th><b style="color: black;">
-                                    <%= tot_sgst %>
-                                </b></th>
-                                <th><b style="color: black;">
-                                    <%= tot_amt %>
-                                </b></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div class="mt-2" id="btnclass">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <button type="button" class="btn btn-primary" id="printMe" onclick="printDiv()" style="border-radius: 20px;">
-                              Print
-                            </button>
-                            <button id="downloadBtn" class="btn btn-primary" style="border-radius: 20px;">Download Excel</button>
+                            </thead>
+                            <tbody>
+                                <% var tot_qty=0, tot_price=0, tot_dis=0, tot_gst=0, tot_sgst=0, tot_amt=0;
+                                    data.forEach(function(item,index){ tot_qty +=item.qty; tot_price +=item.price; tot_dis +=item.discount_amt; tot_gst +=item.cgst_amt; tot_sgst +=item.sgst_amt; tot_amt +=item.amount; %>
+                                    <tr>
+                                        <td><%= index+1 %></td>
+                                        <td>
+                                            <%= item.receipt_no %>
+                                        </td>
+                                        <td>
+                                            <%= dateFormat(item.trn_date, "dd/mm/yyyy" ) %>
+                                        </td>
+                                        <td>
+                                            <%= item.qty %>
+                                        </td>
+                                        <td>
+                                            <%= item.price %>
+                                        </td>
+                                        <td>
+                                            <%= item.discount_amt %>
+                                        </td>
+                                        <td>
+                                            <%= item.cgst_amt %>
+                                        </td>
+                                        <td>
+                                            <%= item.sgst_amt %>
+                                        </td>
+                                        <td>
+                                            <%= item.amount %>
+                                        </td>
+                                        <td>
+                                            <%= pay_mode[item.pay_mode] %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+    
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3"><b style="color: black;">Total</b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_qty %>
+                                    </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_price %>
+                                    </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_dis %>
+                                    </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_gst %>
+                                    </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_sgst %>
+                                    </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_amt %>
+                                    </b></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="mt-2" id="btnclass">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-primary" id="printMe" onclick="printDiv()" style="border-radius: 20px;">
+                                  Print
+                                </button>
+                                <button id="downloadBtn" class="btn btn-primary" style="border-radius: 20px;">Download Excel</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -113,6 +118,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     function printDiv() {

@@ -1,68 +1,70 @@
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="col-sm-6 mt-3">
-                <i class='fas fa-file-invoice' style='font-size:20px;'>&nbsp;<span style="font-size: 25px;color: black;">Billing Report Details</span style="font-size: 25px;"></i>&nbsp;
-                  <ul class="breadcrumb">
-                    <li><a href="/report/collection_report">Billing Report</a></li>&nbsp; / &nbsp;
-                    <li>Billing Report Details</li>
-                  </ul>
-                </div>
-            <div class="card-body" id="tableData">
-                <div class="table-responsive"  id="divToPrint">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="col-sm-6 mt-3">
+                    <i class='fas fa-file-invoice' style='font-size:20px;'>&nbsp;<span style="font-size: 25px;color: black;">Billing Report Details</span style="font-size: 25px;"></i>&nbsp;
+                      <ul class="breadcrumb">
+                        <li><a href="/report/collection_report">Billing Report</a></li>&nbsp; / &nbsp;
+                        <li>Billing Report Details</li>
+                      </ul>
+                    </div>
+                <div class="card-body" id="tableData">
+                    <div class="table-responsive"  id="divToPrint">
+                        <center>
+                            <h5 class="" style="color: black;"><b><%= comp_dt[0].company_name %></h5></2>
+                            <h5 class="" style="color: black;"><b><%= comp_dt[0].address %></h5></b>
+                            <label style="color: black;"><b>Phone No:&nbsp;<span style="color: black;"><%= comp_dt[0].phone_no %></span></b></label>&nbsp;&nbsp;
+                            <label style="color: black;"><b>Email Id:&nbsp;<span style="color: black;"><%= comp_dt[0].email_id %></span></b></label>
+                        </center>
                     <center>
-                        <h5 class="" style="color: black;"><b><%= comp_dt[0].company_name %></h5></2>
-                        <h5 class="" style="color: black;"><b><%= comp_dt[0].address %></h5></b>
-                        <label style="color: black;"><b>Phone No:&nbsp;<span style="color: black;"><%= comp_dt[0].phone_no %></span></b></label>&nbsp;&nbsp;
-                        <label style="color: black;"><b>Email Id:&nbsp;<span style="color: black;"><%= comp_dt[0].email_id %></span></b></label>
+                        <h5 class="card-title">Billing Report Between <%= dateFormat(frm_dt, "dd/mm/yyyy" ) %> to <%=
+                                    dateFormat(to_dt, "dd/mm/yyyy" ) %>
+                        </h5>
                     </center>
-                <center>
-                    <h5 class="card-title">Billing Report Between <%= dateFormat(frm_dt, "dd/mm/yyyy" ) %> to <%=
-                                dateFormat(to_dt, "dd/mm/yyyy" ) %>
-                    </h5>
-                </center>
-                <label><b>Location:&nbsp;<span style="color: black;"><%= data[0].branch_name %></span></b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <label><b>User Name:&nbsp;<span style="color: black;"><%= data[0].created_by %></span></b></label>
-                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
-                        <thead>
-                            <tr>
-                                <th><b style="color: black;">Sl No.</b></th>
-                                <th><b style="color: black;">Mode</b></th>
-                                <th><b style="color: black;">Amount</b></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% var tot_amt=0;
-                                data.forEach(function(item,index) { tot_amt
-                                +=item.net_amt;%>
+                    <label><b>Location:&nbsp;<span style="color: black;"><%= data[0].branch_name %></span></b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label><b>User Name:&nbsp;<span style="color: black;"><%= data[0].created_by %></span></b></label>
+                        <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                            <thead>
                                 <tr>
-                                    <td><%= index+1 %></td>
-                                    <td>
-                                        <%= pay_mode[item.pay_mode] %>
-                                    </td>
-                                    <td>
-                                        <%= item.net_amt %>
-                                    </td>
+                                    <th><b style="color: black;">Sl No.</b></th>
+                                    <th><b style="color: black;">Mode</b></th>
+                                    <th><b style="color: black;">Amount</b></th>
                                 </tr>
-                                <% }) %>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="2"><b style="color: black;">Total</b></th>
-                                    <th><b style="color: black;">
-                                        <%= tot_amt %>
-                                    </b></th>
-                                </tr> 
-                            </tfoot>
-                    </table>
-                </div>
-                <div class="mt-2" id="btnclass">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <button type="button" class="btn btn-primary" id="printMe" onclick="printDiv()" style="border-radius: 20px;">
-                              Print
-                            </button>
-                            <button id="downloadBtn" class="btn btn-primary" style="border-radius: 20px;">Download Excel</button>
+                            </thead>
+                            <tbody>
+                                <% var tot_amt=0;
+                                    data.forEach(function(item,index) { tot_amt
+                                    +=item.net_amt;%>
+                                    <tr>
+                                        <td><%= index+1 %></td>
+                                        <td>
+                                            <%= pay_mode[item.pay_mode] %>
+                                        </td>
+                                        <td>
+                                            <%= item.net_amt %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="2"><b style="color: black;">Total</b></th>
+                                        <th><b style="color: black;">
+                                            <%= tot_amt %>
+                                        </b></th>
+                                    </tr> 
+                                </tfoot>
+                        </table>
+                    </div>
+                    <div class="mt-2" id="btnclass">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-primary" id="printMe" onclick="printDiv()" style="border-radius: 20px;">
+                                  Print
+                                </button>
+                                <button id="downloadBtn" class="btn btn-primary" style="border-radius: 20px;">Download Excel</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,6 +72,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     function printDiv() {

@@ -1,3 +1,4 @@
+<div class="container-fluid">
 <div class="row mt-5">
     <div class="col-md-12">
         <div class="card ml-5 mr-5">
@@ -31,7 +32,7 @@
                                 <th style="color: black;">Created User</th>
                                 <th style="color: black;">Net Amount</th>
                                 <th style="color: black;">Mode</th>
-                                <th style="color: black;">Edit</th>
+                                <th style="color: black;">Show</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -42,7 +43,7 @@
         </div>
     </div>
 </div>
-
+</div>
 <script>
     $('#showreceiptdtls').hide()
     $('#submitbtn').click(function () {
@@ -83,7 +84,7 @@ function get_receipt_dtls(dt_frm, dt_to){
                 <td>${resData.created_by}</td>
                 <td>${resData.net_amt}</td>
                 <td>${resData.pay_mode=='C' ? 'Cash' : resData.pay_mode=='U' ? 'UPI' : resData.pay_mode=='D' ? 'Card' : ''}</td>
-                <td><a href="/report/receiptwise_report_final?receipt_no=${resData.receipt_no}" class='btn btn-info' style="border-radius:6px"><i class="fa fa-edit"></i></a></td> 
+                <td><a href="/report/receiptwise_report_final?receipt_no=${resData.receipt_no}" class='btn btn-info' style="border-radius:6px"><i class="fa fa-eye"></i></a></td> 
               </tr>
               `)
               i++;

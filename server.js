@@ -28,8 +28,20 @@ app.set("layout", "templates/layout");
 // SET ASSETS AS A STATIC PATH //
 app.use(express.static(path.join(__dirname, "assets/")));
 
+// Set up the session middleware
+app.use(
+  session({
+    secret: "Synergic Billing", // Change this to a secure random string
+    resave: false,
+    saveUninitialized: true,
+    cookie : {
+      maxAge: 3600000
+    }
+  })
+);
+
 app.use((req, res, next) => {
-  // res.locals.user = req.session.user;
+  res.locals.user = req.session.user;
   // console.log(req.path);
   res.locals.path = req.path;
   // console.log(req.path);
