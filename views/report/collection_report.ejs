@@ -10,7 +10,7 @@
                         <form method="POST" action="/report/collection_report_final" class="">
                             <div class="row mt-4">
                                 <div class="form-group col-md-6">
-                                    <label for="date_from"><b style="color: black;">Form Date:</b></label>
+                                    <label for="date_from"><b style="color: black;">From Date:</b></label>
                                     <input type="date" name="date_from" id="date_from" class="form-control" value=""
                                         required />
                                 </div>
@@ -39,7 +39,8 @@
                                        
                                     </select>
                                 </div>
-    
+
+                                <input type="hidden" name="brn_name" id="brn_name" value="">
                                 <div class="form-group col-8 mt-3" style="margin-left: 30vw;">
                                     <button class="btn btn-warning" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
                                 </div>
@@ -51,6 +52,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    $("#brn_id").change( function() {
+        $('#brn_name').val($('#brn_id :selected').text().trim());
+    });
+</script>
 
 <script>
     $("#brn_id").on("change", function () {

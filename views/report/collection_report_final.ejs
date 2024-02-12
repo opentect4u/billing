@@ -20,10 +20,10 @@
                     <center>
                         <h5 class="card-title">Billing Report Between <%= dateFormat(frm_dt, "dd/mm/yyyy" ) %> to <%=
                                     dateFormat(to_dt, "dd/mm/yyyy" ) %>
-                        </h5>
+                        </h5><br>
                     </center>
-                    <label><b>Location:&nbsp;<span style="color: black;"><%= data[0].branch_name %></span></b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <label><b>User Name:&nbsp;<span style="color: black;"><%= data[0].created_by %></span></b></label>
+                    <label><b>Location:&nbsp;<span style="color: black;"><%= brn_name %></span></b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label><b>User Name:&nbsp;<span style="color: black;"><%= user_id %></span></b></label>
                         <table id="zero_config" class="table table-striped table-bordered no-wrap">
                             <thead>
                                 <tr>

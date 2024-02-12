@@ -4,6 +4,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const { AdminRouter } = require("./routes/AdminRouter");
 const { ReportRouter } = require("./routes/ReportRouter");
+const { BulkRouter } = require("./routes/BulkRouter");
 
 var app = express(),
   expressLayouts = require("express-ejs-layouts"),
@@ -75,6 +76,7 @@ app.get("/login", (req, res) => {
 
 app.use("/admin", AdminRouter);
 app.use("/report", ReportRouter);
+app.use("/bulk", BulkRouter);
 
 app.listen(port, (err) => {
   if (err) throw new Error(err);
