@@ -1,12 +1,33 @@
 <div class="container-fluid">
     <div class="row mt-5">
       <div class="col-md-12">
+        <% if(message){ %>
+          <div class="col-md-12">
+              <div class="alert alert-<%= message.type %> alert-dismissible bg-<%= message.type %> text-white border-0 fade show"
+                  role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  <%= message.message %>
+              </div>
+          </div>
+      <% } %>
         <div class="card ml-5 mr-5">
           <div class="card-body">
             <div class="titleSec">
-              <h2><b><span class="badge badge-light"
-                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i
-                      data-feather="upload" class="feather-icon"></i>&nbsp;Bulk Upload</span></b></h2>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <h2><b><span class="badge badge-light"
+                            style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i
+                              data-feather="upload" class="feather-icon"></i>&nbsp;Bulk Upload</span></b></h2>
+                          </div>
+                          <div class="col-sm-6">
+                            <button id="downloadBtn" class="btn btn-primary" style="border-radius: 12px;float: right;" type="button" onclick="downloadCsv()">Download Sample CSV</button>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    <form action="/bulk/csv_upload" method="post" id="myForm" enctype="multipart/form-data">
                     <div class="row mt-4">
                         <div class="form-group col-md-6">
                             <label for="comp_id"><b style="color: black;">Company Name:</b></label>
@@ -20,20 +41,21 @@
                             </select>
                         </div>
                         <div class="form-group col-md-6" id="up">
-                            <label for="photo"><b style="color: black;">Upload CSV File:</b></label>
-                            <input type="file" name="photo" id="photo" accept=".CSV">
+                            <label for="import_csv"><b style="color: black;">Upload CSV File:</b></label>
+                            <input type="file" name="import_csv" id="import_csv" accept=".CSV">
                             </select>
                         </div>
+                        <div class="form-group col-8 mt-3" style="margin-left: 28vw;">
+                          <button class="btn btn-warning" id= "btn" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                      </div>
                     </div>
-                    <div class="form-group col-8 mt-3" style="margin-left: 28vw;">
-                        <button class="btn btn-warning" id= "btn" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
-                    </div>
+                     </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+
 
   <script>
     $('#up').hide();
@@ -42,4 +64,50 @@
     $("#comp_id").change( function() {
     $('#up').show();
     });
+
+    $("#up").change( function() {
+    $('#btn').show();
+    });
   </script>
+
+
+<script>
+ function downloadCsv(){
+        $.ajax({
+            method: "POST",
+            url: "/bulk/download_csv",
+            data: {  },
+            xhrFields: {
+                responseType: 'blob' // Receive response as a binary blob
+            },
+            beforeSend: function () {
+                // $(".loader-wrapper").show();
+            },
+            success: function (data) {
+            // Create a Blob URL for the PDF
+                const pdfUrl = URL.createObjectURL(data);
+
+                // Create an anchor element for downloading the PDF
+                const a = document.createElement('a');
+                a.href = pdfUrl;
+                a.download = `${new Date().getTime()}.csv`; // Set the desired filename
+                a.style.display = 'none';
+
+                // Append the anchor to the document body and trigger a click event
+                document.body.appendChild(a);
+                a.click();
+
+                // Cleanup: Remove the anchor and revoke the Blob URL
+                document.body.removeChild(a);
+                URL.revokeObjectURL(pdfUrl);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            },
+            complete: function () {
+                // $(".loader-wrapper").hide();
+            }
+        })
+    }
+</script>
+

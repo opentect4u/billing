@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const { AdminRouter } = require("./routes/AdminRouter");
 const { ReportRouter } = require("./routes/ReportRouter");
 const { BulkRouter } = require("./routes/BulkRouter");
+const { ItemRouter } = require("./routes/ItemRouter");
 
 var app = express(),
   expressLayouts = require("express-ejs-layouts"),
@@ -45,6 +46,8 @@ app.use((req, res, next) => {
   res.locals.user = req.session.user;
   // console.log(req.path);
   res.locals.path = req.path;
+  res.locals.message = req.session.message;
+  delete req.session.message;
   // console.log(req.path);
   next();
 });
@@ -77,6 +80,7 @@ app.get("/login", (req, res) => {
 app.use("/admin", AdminRouter);
 app.use("/report", ReportRouter);
 app.use("/bulk", BulkRouter);
+app.use("/items",ItemRouter);
 
 app.listen(port, (err) => {
   if (err) throw new Error(err);

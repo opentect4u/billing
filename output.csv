@@ -1,4 +1,2 @@
-Name,Age,Email
-John,30,john@example.com
-Jane,25,jane@example.com
-Doe,35,doe@example.com
+HSN CODE,Item Name,Description,Unit Id,Container Id,Price,Discount,Cgst,Sgst,Created By,Created Dt
+
