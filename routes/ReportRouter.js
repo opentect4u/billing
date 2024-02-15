@@ -38,8 +38,9 @@ ReportRouter.post("/location_report", async (req, res) => {
   var data = req.body;
   // console.log(data);
   var comp_id = req.session.user.comp_id;
+  console.log(comp_id);
   // console.log(data, "123");
-  var res_dt = await getSaleReport(data,comp_id);
+  var res_dt = await getSaleReport(data, comp_id);
   var comp_dtls = await comp_header();
   var sett = await getRecptSet(comp_id);
   console.log(res_dt);
@@ -84,7 +85,7 @@ ReportRouter.post("/collection_report_final", async (req, res) => {
   var data = req.body;
   // console.log(data);
   var comp_id = req.session.user.comp_id;
-  var res_dt = await getPayReport(data,comp_id);
+  var res_dt = await getPayReport(data, comp_id);
   var comp_dtls = await comp_header();
   // console.log(comp_dtls,"collection");
   var viewData = {
@@ -114,7 +115,7 @@ ReportRouter.post("/itemwise_report_final", async (req, res) => {
   var data = req.body;
   // console.log(data);
   var comp_id = req.session.user.comp_id;
-  var res_dt = await getSaleItemReport(data,comp_id);
+  var res_dt = await getSaleItemReport(data, comp_id);
   var comp_dtls = await comp_header();
   // console.log(res_dt,"rrrr");
   var viewData = {
