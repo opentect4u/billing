@@ -4,7 +4,7 @@
             <div class="card ml-5 mr-5">
                 <div class="card-body">
                     <div class="titleSec">
-                        <h2><i class="fa fa-caret-square-o-left"></i>
+                        <h2>
                             <b><span class="badge badge-light"
                                     style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i class="fa fa-edit"></i>&nbsp;Edit Item Details</span></b></h2>
                          <form method="POST" action="/items/save_edit_data" class="">
@@ -57,11 +57,10 @@
                                     />
                                 </div>
 
-                                <input type="hidden" name="id" id="id" value="<%= id %>">
-                                <div class="form-group col-8 mt-3" style="margin-left: 29vw;">
+                                <input type="hidden" name="id" id="id" value="<%= id %>">    
+                                <div class="form-group col-md-8 mt-3" style="margin-left: 29vw;">
                                     <button class="btn btn-warning" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
                                 </div>
-                                
                             </div>
                         </form>
                     </div>
