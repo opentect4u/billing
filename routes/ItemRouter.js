@@ -39,8 +39,9 @@ ItemRouter.get('/item_name_list', async (req, res) => {
 
 ItemRouter.get('/add_edit_dtls', async (req, res) => {
   var data = req.query;
+  var comp_id = req.session.user.comp_id;
   // console.log(data,"lalal");
-  var item_dtl = await item_list();
+  var item_dtl = await item_list(comp_id);
   var item_edit_dtl = await item_edit_dtls(data.id)
   // console.log(item_edit_dtl);
   // console.log(item_dtl);
@@ -61,7 +62,8 @@ res.redirect("/items/items_details")
 
 ItemRouter.get("/add_dtls", async (req, res) =>{
   var data = req.query;
-  var item_dtl = await item_list();
+  var comp_id = req.session.user.comp_id;
+  var item_dtl = await item_list(comp_id);
  var res_dt = {
   data: item_dtl.suc > 0 ? item_dtl.msg : [],
  }
@@ -70,7 +72,7 @@ ItemRouter.get("/add_dtls", async (req, res) =>{
 
 ItemRouter.post("/save_data", async (req, res) => {
   var data = req.body;
-  console.log(data,"lalal");
+  // console.log(data,"lalal");
   comp_id = req.session.user.comp_id
   var add_data = await save_add_item_data(data,comp_id);
   res.redirect("/items/items_details")

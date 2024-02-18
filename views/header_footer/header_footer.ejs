@@ -28,8 +28,12 @@
                 <label for="comp_id"><b style="color: black;">Company Name:</b></label>
                 <select name="comp_id" class="form-control s2id" id="comp_id" required>
                     <option value="">Select Company Name</option>
-                   <% com_dt.forEach(dt => { %>
-                      <option value="<%= dt.id %>">
+                   <% com_dt.forEach(dt => { 
+                    var _selected=''
+                    if(dt.id == comp_id) {
+                      _selected = 'selected'
+                    } %>
+                      <option value="<%= dt.id %>" <%= _selected %>>
                         <%= dt.company_name %>
                       </option>
                   <% }) %>
@@ -121,4 +125,10 @@
       },
   });
  });
+</script>
+
+<script>
+  $(document).ready(function () {
+     $('#comp_id').change()
+  })
 </script>

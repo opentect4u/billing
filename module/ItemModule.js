@@ -20,11 +20,11 @@ return new Promise(async (resolve, reject) => {
 });
 };
 
-const item_list = () => {
+const item_list = (comp_id) => {
   return new Promise(async (resolve, reject) => {
     var select = "*",
       table_name = "md_items",
-      where = null;
+      where = `com_id = '${comp_id}'`;
     var res_dt = await db_Select(select, table_name, where, null);
     resolve(res_dt);
   });

@@ -27,7 +27,8 @@ ReportRouter.use((req, res, next) => {
 });
 
 ReportRouter.get("/location_report", async (req, res) => {
-  var brn_list = await branch_list();
+  comp_id = req.session.user.comp_id
+  var brn_list = await branch_list(comp_id);
   var res_dt = {
     data: brn_list.suc > 0 ? brn_list.msg : [],
   };
@@ -38,7 +39,7 @@ ReportRouter.post("/location_report", async (req, res) => {
   var data = req.body;
   // console.log(data);
   var comp_id = req.session.user.comp_id;
-  console.log(comp_id);
+  // console.log(comp_id);
   // console.log(data, "123");
   var res_dt = await getSaleReport(data, comp_id);
   var comp_dtls = await comp_header();
@@ -67,7 +68,8 @@ ReportRouter.post("/location_report", async (req, res) => {
 });
 
 ReportRouter.get("/collection_report", async (req, res) => {
-  var brn_list = await branch_list();
+  comp_id = req.session.user.comp_id
+  var brn_list = await branch_list(comp_id);
   var res_dt = {
     brn_data: brn_list.suc > 0 ? brn_list.msg : [],
   };
@@ -102,8 +104,9 @@ ReportRouter.post("/collection_report_final", async (req, res) => {
 });
 
 ReportRouter.get("/itemwise_report", async (req, res) => {
-  var brn_list = await branch_list();
-  var item_lt = await item_list();
+  var comp_id = req.session.user.comp_id;
+  var brn_list = await branch_list(comp_id);
+  var item_lt = await item_list(comp_id);
   var res_dt = {
     data: brn_list.suc > 0 ? brn_list.msg : [],
     data_item: item_lt.suc > 0 ? item_lt.msg : [],
@@ -154,14 +157,15 @@ ReportRouter.post("/receipt_list", async (req, res) => {
 
 ReportRouter.get("/receiptwise_report_final", async (req, res) => {
   var data = req.query;
-  console.log(data, "lalal");
+  var comp_id = req.session.user.comp_id;
+  // console.log(data, "lalal");
   var comp_dtls = await comp_header();
-  var brn_dtls = await branch_list();
+  var brn_dtls = await branch_list(comp_id);
   var bill_dtls = await rec_bill_dtls(data.receipt_no);
   var bill_item_dtls = await rec_bill_item_dtls(data.receipt_no, data.user);
-  console.log(bill_dtls);
-  console.log(brn_dtls);
-  console.log(bill_item_dtls);
+  // console.log(bill_dtls);
+  // console.log(brn_dtls);
+  // console.log(bill_item_dtls);
   var res_dt = {
     comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [],
     brn_dt: brn_dtls.suc > 0 ? brn_dtls.msg : [],
