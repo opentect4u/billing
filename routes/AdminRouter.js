@@ -14,7 +14,7 @@ AdminRouter.post("/admin_login", async (req, res) => {
   var res_dt = await db_Select(select, table_name, whr, order);
   if (res_dt.suc > 0) {
     if (res_dt.msg.length > 0) {
-      console.log(await bcrypt.compare(data.password, res_dt.msg[0].password));
+      // console.log(await bcrypt.compare(data.password, res_dt.msg[0].password));
       if (await bcrypt.compare(data.password, res_dt.msg[0].password)) {
         req.session.user = res_dt.msg[0];
         res.redirect("/report/location_report");

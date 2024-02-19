@@ -47,11 +47,11 @@ Header_footerRouter.get("/edit_header_footer", async (req, res) => {
 
 Header_footerRouter.post("/save_edit_data", async (req, res) => {
   var data = req.body;
-  // comp_id = req.session.user.comp_id;
-     console.log(data,"lala");
+  comp_id = req.session.user.comp_id;
+    //  console.log(data,"lala");
     //  console.log(comp_id,'la');
   var edit_header_footer_data = await save_edit_header_footer(data);
-  console.log(edit_header_footer_data);
+  // console.log(edit_header_footer_data);
   res.redirect("/header_footer/get_header_footer");
 });
 

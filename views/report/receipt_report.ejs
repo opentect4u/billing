@@ -8,7 +8,7 @@
                                   style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i data-feather="file" class="feather-icon"></i>&nbsp;Receiptwise Sale Report</span></b></h2>
                           <div class="row mt-4">
                               <div class="form-group col-md-5">
-                                  <label for="dt_frm"><b style="color: black;">Form Date:</b></label>
+                                  <label for="dt_frm"><b style="color: black;">From Date:</b></label>
                                   <input type="date" name="dt_frm" id="dt_frm" class="form-control" value=""
                                       required />
                               </div>
@@ -84,7 +84,7 @@
                   <td>${resData.created_by}</td>
                   <td>${resData.net_amt}</td>
                   <td>${resData.pay_mode=='C' ? 'Cash' : resData.pay_mode=='U' ? 'UPI' : resData.pay_mode=='D' ? 'Card' : ''}</td>
-                  <td><a href="/report/receiptwise_report_final?receipt_no=${resData.receipt_no}" class='btn btn-info' style="border-radius:6px"><i class="fa fa-eye"></i></a></td> 
+                  <td><a href="/report/receiptwise_report_final?receipt_no=${resData.receipt_no}&&user=${resData.created_by}" class='btn btn-info' style="border-radius:6px"><i class="fa fa-eye"></i></a></td> 
                 </tr>
                 `)
                 i++;

@@ -1,0 +1,194 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="col-sm-6 mt-3">
+                    <i class='fas fa-file-invoice' style='font-size:20px;'>&nbsp;<span style="font-size: 25px;color: black;">GST Statement Details</span style="font-size: 25px;"></i>&nbsp;
+                      <ul class="breadcrumb">
+                        <li><a href="/gst/gst_statement">GST Statement</a></li>&nbsp; / &nbsp;
+                        <li>GST Statement Details</li>
+                      </ul>
+                    </div>
+                <div class="card-body" id="tableData">
+                    <div class="table-responsive" id="divToPrint">
+                        <center>
+                            <h5 class="" style="color: black;"><b><%= comp_dt[0].company_name %></h5></2>
+                            <h5 class="" style="color: black;"><b><%= comp_dt[0].address %></h5></b>
+                            <label style="color: black;"><b>Phone No:&nbsp;<span style="color: black;"><%= comp_dt[0].phone_no %></span></b></label>&nbsp;&nbsp;
+                            <label style="color: black;"><b>Email Id:&nbsp;<span style="color: black;"><%= comp_dt[0].email_id %></span></b></label>
+                        </center>
+                        <center>
+                            <h5 class="card-title">GST Statement Between <%= dateFormat(frm_dt, "dd/mm/yyyy" ) %> to <%=
+                                        dateFormat(to_dt, "dd/mm/yyyy" ) %>
+                            </h5>
+                            
+                        </center>
+                        <label><b>Location:&nbsp;<span style="color: black;"><%= brn_name %></span></b></label>
+                        <table class="table table-striped table-bordered no-wrap">
+                            <thead>
+                                <tr>
+                                    <th><b style="color: black;">Sl No.</b></th>
+                                    <th><b style="color: black;">Receipt No.</b></th>
+                                    <th><b style="color: black;">Date</b></th>
+                                    <th><b style="color: black;">Taxable Amount</b></th>
+                                    <th><b style="color: black;">CGST</b></th>
+                                    <th><b style="color: black;">SGST</b></th>
+                                    <th><b style="color: black;">Total Tax</b></th>
+                                    <th><b style="color: black;">Amount</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% tot_taxable_amt=0, tot_gst=0, tot_sgst=0, tot_total_tax=0, tot_amt=0;
+                                    data.forEach(function(item,index) { tot_taxable_amt +=item.taxable_amt; tot_gst +=item.cgst_amt; tot_sgst +=item.sgst_amt; tot_amt
+                                    +=item.net_amt; tot_total_tax +=item.total_tax; %>
+                                    <tr>
+                                        <td><%= index+1 %></td>
+                                        <td>
+                                            <%= item.receipt_no %>
+                                        </td>
+                                        <td>
+                                            <%= dateFormat(item.trn_date, "dd/mm/yyyy" ) %>
+                                        </td>
+                                        <td>
+                                            <%= item.taxable_amt %>
+                                        </td>
+                                        <td>
+                                            <%= item.cgst_amt %>
+                                        </td>
+                                        <td>
+                                            <%= item.sgst_amt %>
+                                        </td>
+                                        <td>
+                                            <%= item.total_tax %>
+                                        </td>
+                                        <td>
+                                            <%= item.net_amt %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+    
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3"><b style="color: black;">Total</b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_taxable_amt.toFixed(2) %>
+                                    </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_gst.toFixed(2) %>
+                                     </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_sgst.toFixed(2) %>
+                                    </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_total_tax.toFixed(2) %>
+                                    </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_amt.toFixed(2) %>
+                                    </b></th>
+                                </tr>
+                            </tfoot>
+                        </table>    
+                       
+                    </div>
+                    <div class="mt-2" id="btnclass">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-primary" id="printMe" onclick="printDiv()" style="border-radius: 20px;">
+                                  Print
+                                </button>
+                                <button id="downloadBtn" class="btn btn-primary" style="border-radius: 20px;">Download Excel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+    function printDiv() {
+  
+        var divToPrint = document.getElementById('divToPrint');
+  
+        var WindowObject = window.open('', 'Print-Window');
+        WindowObject.document.open();
+        WindowObject.document.writeln('<!DOCTYPE html>');
+        WindowObject.document.writeln('<html><head><title></title><style type="text/css">');
+  
+  
+        WindowObject.document.writeln('@media print { .center { text-align: center;}' +
+            '                                         .inline { display: inline; }' +
+            '                                         .underline { text-decoration: underline; }' +
+            '                                         .left { margin-left: 315px;} ' +
+            '                                         .right { margin-right: 375px; display: inline; }' +
+            '                                          table { border-collapse: collapse; font-size: 10px; width: 100%}' +
+            '                                          th, td { border: 1px solid black; border-collapse: collapse; padding: 6px;}' +
+            '                                           th, td { }' +
+            '                                         .border { border: 1px solid black; } ' +
+            '                                         .bottom { bottom: 5px; width: 100%; position: fixed ' +
+            '                                       ' +
+            '                                   } } </style>');
+        WindowObject.document.writeln('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">');    
+        WindowObject.document.writeln('<link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">');    
+        WindowObject.document.writeln('<link rel="stylesheet" href="/css/adminlte.min.css">');    
+        WindowObject.document.writeln('</head><body onload="window.print()">');
+        WindowObject.document.writeln(divToPrint.innerHTML);
+        WindowObject.document.writeln('</body></html>');
+        WindowObject.document.close();
+        setTimeout(function () {
+            WindowObject.close();
+        }, 8);
+  
+    }
+  </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script>
+    function exportTableToExcel(tableID, filename) {
+      //const ws = XLSX.utils.book_new();
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.table_to_sheet(document.getElementById(tableID));
+
+      // Add a new row with the name "hello"
+      XLSX.utils.sheet_add_aoa(ws, [
+      
+      ['Sl. No.', 'Receipt No.', 'Date', 'Taxable Amount', 'CGST', 'SGST', 'Total Tax', 'Amount']]);
+
+      // Add the worksheet to the workbook
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+      XLSX.writeFile(wb, filename);
+      exit()
+
+        const wbout = XLSX.write(ws, {
+            bookType: 'xlsx',
+            bookSST: true,
+            type: 'binary'
+        });
+
+        function s2ab(s) {
+            const buf = new ArrayBuffer(s.length);
+            const view = new Uint8Array(buf);
+            for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+            return buf;
+        }
+
+        const blob = new Blob([s2ab(wbout)], {
+            type: 'application/octet-stream'
+        });
+        saveAs(blob, filename);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const downloadBtn = document.getElementById('downloadBtn');
+        downloadBtn.addEventListener('click', function() {
+            // Call the exportTableToExcel function, passing the table ID and desired filename
+            exportTableToExcel('tableData', 'GST Statement.xlsx');
+        });
+    });
+</script>

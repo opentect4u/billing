@@ -137,17 +137,30 @@ const rec_bill_dtls = (receipt_no) => {
   });
 };
 
-const rec_bill_item_dtls = (receipt_no, user) => {
+const rec_bill_item_dtls = (receipt_no, user,comp_id) => {
   return new Promise(async (resolve, reject) => {
     var select =
         "a.price,a.discount_amt,a.amount,a.round_off,a.net_amt,b.qty,c.item_name",
       table_name = "td_receipt a, td_item_sale b, md_items c",
-      where = `a.receipt_no = b.receipt_no AND a.trn_date = b.trn_date AND b.item_id = c.id
-    AND a.receipt_no = ${receipt_no} AND a.created_by = '${user}';`;
+      where = `a.receipt_no = b.receipt_no AND a.trn_date = b.trn_date AND b.item_id = c.id AND b.comp_id = c.com_id AND a.receipt_no = ${receipt_no} AND a.created_by = '${user}' AND b.comp_id = '${comp_id}';`;
     var res_dt = await db_Select(select, table_name, where, null);
     resolve(res_dt);
   });
 };
+
+const user_wise_list = (data,comp_id) =>{
+  return new Promise(async (resolve, reject) => {
+    var select = "SUM(a.net_amt)net_amt,d.user_name,c.branch_name",
+      table_name = "td_receipt a, td_item_sale b, md_branch c, md_user d",
+      where = `a.receipt_no = b.receipt_no AND a.trn_date = b.trn_date
+      AND b.br_id = c.id AND b.br_id = d.br_id AND a.created_by = b.created_by
+      AND a.created_by = d.user_id AND b.comp_id = '${comp_id}'
+      and a.trn_date BETWEEN  '${data.dt_frm}' AND '${data.dt_to}'`
+      order = `GROUP BY a.created_by`;
+    var rec_dt = await db_Select(select, table_name, where, order);
+    resolve(rec_dt);
+  });
+}
 
 module.exports = {
   branch_list,
@@ -161,4 +174,5 @@ module.exports = {
   getRecptSet,
   rec_bill_dtls,
   rec_bill_item_dtls,
+  user_wise_list,
 };

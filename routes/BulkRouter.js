@@ -53,9 +53,9 @@ BulkRouter.post("/csv_upload", async (req, res) => {
         var csv_file_name = csv_file.name
         csv_file.mv('assets/uploads/' + csv_file_name, async (err) => {
             if (err) {
-                console.log(`${csv_file_name} not uploaded ${err}`);
+                // console.log(`${csv_file_name} not uploaded ${err}`);
             } else {
-                console.log(`Successfully ${csv_file_name} uploaded`);
+                // console.log(`Successfully ${csv_file_name} uploaded`);
                 var csv_data = await uploadCsv('assets/uploads/' + csv_file_name)
                 for (let dt of csv_data) {
                 //   console.log(dt[9]);
@@ -74,7 +74,7 @@ BulkRouter.post("/csv_upload", async (req, res) => {
                         var up_data1 = await db_Insert(table_name1,fields1,values1,whr1,flag1) ;
                     }
                 }
-                console.log(csv_data.length);
+                // console.log(csv_data.length);
                 // res.send(up_data1)
                 req.session.message = {
                     type: "successful",
@@ -107,7 +107,7 @@ BulkRouter.post("/csv_upload", async (req, res) => {
                 resolve(csvDataColl)
             })
             stream.pipe(fileStream);
-            console.log('Closed');
+            // console.log('Closed');
         })
 }
 

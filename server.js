@@ -7,6 +7,7 @@ const { ReportRouter } = require("./routes/ReportRouter");
 const { BulkRouter } = require("./routes/BulkRouter");
 const { ItemRouter } = require("./routes/ItemRouter");
 const { Header_footerRouter } = require("./routes/Header_footerRouter");
+const { GstRouter } = require("./routes/GstRouter");
 
 var app = express(),
   expressLayouts = require("express-ejs-layouts"),
@@ -82,7 +83,8 @@ app.use("/admin", AdminRouter);
 app.use("/report", ReportRouter);
 app.use("/bulk", BulkRouter);
 app.use("/items",ItemRouter);
-app.use('/header_footer',Header_footerRouter);
+app.use("/header_footer",Header_footerRouter);
+app.use("/gst",GstRouter);
 
 app.listen(port, (err) => {
   if (err) throw new Error(err);

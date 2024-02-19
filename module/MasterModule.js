@@ -8,7 +8,7 @@ const db_Select = (select, table_name, whr, order) => {
   return new Promise((resolve, reject) => {
     db.query(sql, (err, result) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
         data = { suc: 0, msg: JSON.stringify(err) };
       } else {
         data = { suc: 1, msg: result, sql };
@@ -35,7 +35,7 @@ const db_Insert = (table_name, fields, values, whr, flag) => {
   return new Promise((resolve, reject) => {
     db.query(sql, (err, lastId) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
         data = { suc: 0, msg: JSON.stringify(err) };
       } else {
         data = { suc: 1, msg: msg, lastId };
@@ -51,7 +51,7 @@ const db_Delete = (table_name, whr) => {
   return new Promise((resolve, reject) => {
     db.query(sql, (err, lastId) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
         data = { suc: 0, msg: JSON.stringify(err) };
       } else {
         data = { suc: 1, msg: "Deleted Successfully !!" };
@@ -67,7 +67,7 @@ const db_Check = async (fields, table_name, whr) => {
   return new Promise((resolve, reject) => {
     db.query(sql, (err, result) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
         data = { suc: 0, msg: JSON.stringify(err) };
       } else {
         data = { suc: 1, msg: result.length };

@@ -12,6 +12,7 @@ const {
   getRecptSet,
   rec_bill_dtls,
   rec_bill_item_dtls,
+  user_wise_list,
 } = require("../module/ReportModule");
 const { pay_mode, db_Select } = require("../module/MasterModule");
 const ReportRouter = express.Router(),
@@ -44,7 +45,7 @@ ReportRouter.post("/location_report", async (req, res) => {
   var res_dt = await getSaleReport(data, comp_id);
   var comp_dtls = await comp_header();
   var sett = await getRecptSet(comp_id);
-  console.log(res_dt);
+  // console.log(res_dt);
   // console.log(comp_dtls);
   var viewData = {
     frm_dt: data.from_date,
@@ -162,7 +163,7 @@ ReportRouter.get("/receiptwise_report_final", async (req, res) => {
   var comp_dtls = await comp_header();
   var brn_dtls = await branch_list(comp_id);
   var bill_dtls = await rec_bill_dtls(data.receipt_no);
-  var bill_item_dtls = await rec_bill_item_dtls(data.receipt_no, data.user);
+  var bill_item_dtls = await rec_bill_item_dtls(data.receipt_no,data.user,comp_id);
   // console.log(bill_dtls);
   // console.log(brn_dtls);
   // console.log(bill_item_dtls);
@@ -174,5 +175,18 @@ ReportRouter.get("/receiptwise_report_final", async (req, res) => {
   };
   res.render("report/receipt_report_final", res_dt);
 });
+
+ReportRouter.get('/user_sale', async (req, res) =>{
+  res.render('report/user_sale');
+});
+
+ReportRouter.post('/user_list', async (req, res) =>{
+  var data = req.body;
+  console.log(data);
+  var comp_id = req.session.user.comp_id;
+  console.log(comp_id);
+  var res_dt = await user_wise_list(data,comp_id);
+  res.send(res_dt)
+})
 
 module.exports = { ReportRouter };
