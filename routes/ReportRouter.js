@@ -182,10 +182,11 @@ ReportRouter.get('/user_sale', async (req, res) =>{
 
 ReportRouter.post('/user_list', async (req, res) =>{
   var data = req.body;
-  console.log(data);
   var comp_id = req.session.user.comp_id;
-  console.log(comp_id);
   var res_dt = await user_wise_list(data,comp_id);
+  // var viewData = {
+  //   data: res_dt.suc > 0 ? res_dt.msg : [],
+  // }
   res.send(res_dt)
 })
 

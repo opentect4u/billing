@@ -32,6 +32,7 @@
                                     <th style="color: black;">Net Amount</th>
                                   </tr>
                                 </thead>
+    
                                 <tbody>
                                 </tbody>
                               </table>
@@ -51,50 +52,47 @@
       get_user_dtls(dt_frm,dt_to);
     });
     
-    function get_user_dtls(dt_frm, dt_to){
-      $.ajax({
-          type: "POST",
-          url: "/report/user_list",
-          data: { dt_frm: dt_frm, dt_to: dt_to},
-          success: function(response) {
-            // console.log(response);
-            $('#showuserdtls tbody').empty()
-            let i = 1;
-            
-            if(response.suc > 0 && response.msg.length > 0)
-              response.msg.forEach(function(resData) {
-            // console.log(resData);
-           
-            // function formatDate(inputDate) {
-            //             const date = new Date(inputDate);
-            //             const year = date.getFullYear();
-            //             const month = String(date.getMonth() + 1).padStart(2, '0');
-            //             const day = String(date.getDate()).padStart(2, '0');
-            //             return `${day}/${month}/${year}`;
-            //          } 
-                        
-                  $('#showuserdtls tbody').append(`
-                  <tr>
-                    <td>${i}</td>
-                    <td>${resData.branch_name}</td>
-                    <td>${resData.user_name}</td>
-                    <td>${resData.net_amt}</td>
-                  </tr>
-                  `)
-                  i++;
-              });
-            else{
-              $('#showuserdtls tbody').append(`
-                <tr>
-                  <td colspan="4" class="text-danger text-center">No data found</td>
-                </tr>
-              `)
-            }
-    
-          },
-        error: function (error) {
-          // console.log(error);
-        },
-      });
-    }
-    </script>
+    function get_user_dtls(dt_frm, dt_to) {
+  $.ajax({
+    type: "POST",
+    url: "/report/user_list",
+    data: { dt_frm: dt_frm, dt_to: dt_to },
+    success: function(response) {
+      $('#showuserdtls tbody').empty();
+      let i = 1;
+      let tot_amt = 0; 
+
+      if (response.suc > 0 && response.msg.length > 0) {
+        response.msg.forEach(function(resData) {
+          $('#showuserdtls tbody').append(`
+            <tr>
+              <td>${i}</td>
+              <td>${resData.branch_name}</td>
+              <td>${resData.user_name}</td>
+              <td>${resData.net_amt}</td>
+            </tr>
+          `);
+          tot_amt += resData.net_amt; 
+          i++;
+        });
+        
+        $('#showuserdtls tbody').append(`
+          <tr>
+            <th colspan="3" style="color: black;">Total</th>
+            <th style="color: black;">${tot_amt}</th>
+          </tr>
+        `);
+      } else {
+        $('#showuserdtls tbody').append(`
+          <tr>
+            <td colspan="4" class="text-danger text-center">No data found</td>
+          </tr>
+        `);
+      }
+    },
+    error: function(error) {
+    //  console.log(error);
+    },
+  });
+}
+</script>
