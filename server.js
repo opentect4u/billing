@@ -8,6 +8,7 @@ const { BulkRouter } = require("./routes/BulkRouter");
 const { ItemRouter } = require("./routes/ItemRouter");
 const { Header_footerRouter } = require("./routes/Header_footerRouter");
 const { GstRouter } = require("./routes/GstRouter");
+const { SettingsRouter } = require("./routes/SettingsRouter");
 
 var app = express(),
   expressLayouts = require("express-ejs-layouts"),
@@ -55,7 +56,12 @@ app.use((req, res, next) => {
 });
 
 app.get("/",async (req, res) => {
-  res.redirect("/login")
+  var user = req.session.user;
+  if (!user) {
+    res.redirect("/login");
+  } else {
+    res.redirect("/report/location_report");
+  }
 });
 
 app.get("/dashboard", async (req, res) => {
@@ -85,6 +91,7 @@ app.use("/bulk", BulkRouter);
 app.use("/items",ItemRouter);
 app.use("/header_footer",Header_footerRouter);
 app.use("/gst",GstRouter);
+app.use("/settings",SettingsRouter)
 
 app.listen(port, (err) => {
   if (err) throw new Error(err);

@@ -9,7 +9,7 @@ AdminRouter.post("/admin_login", async (req, res) => {
   console.log(data);
   var select = "a.*,b.*",
     table_name = "md_user a , md_company b",
-    whr = `a.email_id='${data.email_id}' AND a.user_type='A'`,
+    whr = `a.comp_id=b.id AND a.email_id='${data.email_id}' AND a.user_type='A'`,
     order = null;
   var res_dt = await db_Select(select, table_name, whr, order);
   if (res_dt.suc > 0) {
@@ -27,9 +27,11 @@ AdminRouter.post("/admin_login", async (req, res) => {
       }
     } else {
       result = { suc: 0, msg: "No data found" };
+      res.redirect("/login");
     }
   } else {
     result = { suc: 0, msg: res_dt.msg };
+    res.redirect("/login");
   }
 });
 

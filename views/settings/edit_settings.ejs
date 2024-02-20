@@ -1,0 +1,67 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card ml-5 mr-5">
+                <div class="card-body">
+                    <div class="titleSec">
+                        <h2>
+                            <b><span class="badge badge-light"
+                                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i
+                                        class="fa fa-edit"></i>&nbsp;Edit Settings Details</span></b>
+                        </h2>
+                        <ul class="breadcrumb">
+                            <li><a href="/settings/settings_details">Settings</a></li>&nbsp; / &nbsp;
+                            <li>Edit Settings Details</li>
+                          </ul>
+                        <form method="POST" action="/settings/save_edit_data" class="">
+                            <div class="row mt-4">
+                                <div class="form-group col-9">
+                                    <label for="comp_id" style="color: black;"><b>Company Name:</b></label>
+                                    <select name="comp_id" class="form-control" id="comp_id" disabled>
+                                        <option value="">Select Comapny Name</option>
+                                        <% settings_dt.forEach(dt=> { %>
+                                            <option value="<%= dt.comp_id %>" selected>
+                                                <%= dt.company_name %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-4 cust-toggle1">
+                                    <label for="gst_flag" style="color: black;"><b>GST Flag</b></label><br>
+                                    <input type="checkbox" value="Y" id="gst_flag" data-toggle="toggle"
+                                        data-onstyle="success" data-offstyle="danger" data-on="Active"
+                                        data-off="Deactive" name="gst_flag" 
+                                        <%=(settings_dt[0].gst_flag=='Y')?'checked':''%>>
+                                </div>
+
+                                <div class="col-md-4 cust-toggle1">
+                                    <label for="cust_info" style="color: black;"><b>Customer Info</b></label><br>
+                                    <input type="checkbox" value="Y" id="cust_info" data-toggle="toggle"
+                                        data-onstyle="success" data-offstyle="danger" data-on="Active"
+                                        data-off="Deactive" name="cust_info"
+                                        <%=(settings_dt[0].cust_inf=='Y')?'checked':''%>>
+                                </div>
+
+                                <div class="col-md-4 cust-toggle1">
+                                    <label for="pay_mode" style="color: black;"><b>Pay Mode</b></label><br>
+                                    <input type="checkbox" value="Y" id="pay_mode" data-toggle="toggle"
+                                        data-onstyle="success" data-offstyle="danger" data-on="Active"
+                                        data-off="Deactive" name="pay_mode"
+                                        <%=(settings_dt[0].pay_mode=='Y')?'checked':''%>>
+                                </div>
+
+                                <input type="hidden" id="com_id" name="com_id" value="<%= com_id %>">
+                                <div class="form-group col-md-8 mt-4" style="margin-left: 23vw;">
+                                    <button class="btn btn-warning" type="submit" value="SUBMIT"
+                                        style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
