@@ -22,16 +22,20 @@ AdminRouter.post("/admin_login", async (req, res) => {
         result = {
           suc: 0,
           msg: "Please check your userid or password",
+          dt: res_dt
         };
-        res.redirect("/login");
+        res.send(result)
+        // res.redirect("/login");
       }
     } else {
-      result = { suc: 0, msg: "No data found" };
-      res.redirect("/login");
+      result = { suc: 0, msg: "No data found", dt: res_dt };
+      res.send(result)
+      // res.redirect("/login");
     }
   } else {
-    result = { suc: 0, msg: res_dt.msg };
-    res.redirect("/login");
+    result = { suc: 0, msg: res_dt.msg, dt: res_dt };
+    res.send(result)
+    // res.redirect("/login");
   }
 });
 
