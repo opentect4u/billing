@@ -13,6 +13,7 @@ SettingsRouter.use((req, res, next) => {
 
 SettingsRouter.get('/settings_details', async (req, res) =>{
   var comp_id = req.session.user.comp_id;
+  console.log(req.session.user.comp_id,"data");
   var set_dtls = await settings_details(comp_id);
   console.log(set_dtls);
   var viewData = {

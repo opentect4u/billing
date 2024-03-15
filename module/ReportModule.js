@@ -79,7 +79,7 @@ const item_list = (comp_id) => {
   return new Promise(async (resolve, reject) => {
     var select = "*",
       table_name = "md_items",
-      where = `com_id=${comp_id}`;
+      where = `comp_id=${comp_id}`;
     var res_dt = await db_Select(select, table_name, where, null);
     resolve(res_dt);
   });
@@ -91,14 +91,14 @@ const getSaleItemReport = (data, comp_id) => {
       var select =
           "a.receipt_no,a.trn_date,a.qty,a.price,a.discount_amt,a.cgst_amt,a.sgst_amt,b.amount,b.pay_mode,c.item_name,d.branch_name",
         table_name = "td_item_sale a, td_receipt b, md_items c, md_branch d",
-        where = `a.receipt_no = b.receipt_no AND a.comp_id = c.com_id AND a.comp_id = d.comp_id AND a.br_id = d.id AND a.item_id = c.id AND a.trn_date BETWEEN '${data.from_dt}' AND '${data.to_dt}' AND a.comp_id = ${comp_id} AND a.br_id = ${data.brn_id} AND a.item_id = ${data.item_id}`;
+        where = `a.receipt_no = b.receipt_no AND a.comp_id = c.comp_id AND a.comp_id = d.comp_id AND a.br_id = d.id AND a.item_id = c.id AND a.trn_date BETWEEN '${data.from_dt}' AND '${data.to_dt}' AND a.comp_id = ${comp_id} AND a.br_id = ${data.brn_id} AND a.item_id = ${data.item_id}`;
       var res_dt = await db_Select(select, table_name, where, null);
       resolve(res_dt);
     } else {
       var select =
           "a.receipt_no,a.trn_date,a.qty,a.price,a.discount_amt,a.cgst_amt,a.sgst_amt,b.amount,b.pay_mode,c.item_name,d.branch_name",
         table_name = "td_item_sale a, td_receipt b, md_items c, md_branch d",
-        where = `a.receipt_no = b.receipt_no AND a.comp_id = c.com_id AND a.comp_id = d.comp_id AND a.br_id = d.id AND a.item_id = c.id AND a.trn_date BETWEEN '${data.from_dt}' AND '${data.to_dt}' AND a.comp_id = ${comp_id} AND a.item_id = ${data.item_id}`;
+        where = `a.receipt_no = b.receipt_no AND a.comp_id = c.comp_id AND a.comp_id = d.comp_id AND a.br_id = d.id AND a.item_id = c.id AND a.trn_date BETWEEN '${data.from_dt}' AND '${data.to_dt}' AND a.comp_id = ${comp_id} AND a.item_id = ${data.item_id}`;
       var res_dt2 = await db_Select(select, table_name, where, null);
       resolve(res_dt2);
     }
@@ -142,7 +142,7 @@ const rec_bill_item_dtls = (receipt_no, user,comp_id) => {
     var select =
         "a.price,a.discount_amt,a.amount,a.round_off,a.net_amt,b.qty,c.item_name",
       table_name = "td_receipt a, td_item_sale b, md_items c",
-      where = `a.receipt_no = b.receipt_no AND a.trn_date = b.trn_date AND b.item_id = c.id AND b.comp_id = c.com_id AND a.receipt_no = ${receipt_no} AND a.created_by = '${user}' AND b.comp_id = '${comp_id}';`;
+      where = `a.receipt_no = b.receipt_no AND a.trn_date = b.trn_date AND b.item_id = c.id AND b.comp_id = c.comp_id AND a.receipt_no = ${receipt_no} AND a.created_by = '${user}' AND b.comp_id = '${comp_id}';`;
     var res_dt = await db_Select(select, table_name, where, null);
     resolve(res_dt);
   });

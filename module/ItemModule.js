@@ -4,7 +4,7 @@ const item_lt = (comp_id, keyWord) => {
   return new Promise(async (resolve, reject) => {
     var select = "*",
       table_name = "md_items",
-      where = `com_id = ${comp_id} AND item_name LIKE "%${keyWord}%"`;
+      where = `comp_id = ${comp_id} AND item_name LIKE "%${keyWord}%"`;
     var res_dt = await db_Select(select, table_name, where, null);
     resolve(res_dt);
   });
@@ -24,7 +24,7 @@ const item_list = (comp_id) => {
   return new Promise(async (resolve, reject) => {
     var select = "*",
       table_name = "md_items",
-      where = `com_id = '${comp_id}'`;
+      where = `comp_id = '${comp_id}'`;
     var res_dt = await db_Select(select, table_name, where, null);
     resolve(res_dt);
   });
@@ -32,7 +32,7 @@ const item_list = (comp_id) => {
 
 const item_edit_dtls = (id) => {
   return new Promise(async (resolve, reject) => {
-    var select = "a.id,a.com_id,a.hsn_code,a.item_name,b.item_id,b.price,b.discount,b.cgst,b.sgst",
+    var select = "a.id,a.comp_id,a.hsn_code,a.item_name,b.item_id,b.price,b.discount,b.cgst,b.sgst",
     table_name = "md_items a , md_item_rate b",
     where = `a.id = b.item_id AND a.id = ${id}`;
     var res_dt = await db_Select(select,table_name,where,null);
@@ -66,7 +66,7 @@ const save_add_item_data = (data,comp_id) => {
   return new Promise (async (resolve, reject) =>{
    datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
    var table_name = "md_items",
-   fields = `(com_id,hsn_code,item_name,created_by,created_dt)`,
+   fields = `(comp_id,hsn_code,item_name,created_by,created_dt)`,
    values = `('${comp_id}','${data.code}','${data.item_name}','admin','${datetime}')`,
    where = null,
    flag = 0;

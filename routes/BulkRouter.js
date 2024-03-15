@@ -60,7 +60,7 @@ BulkRouter.post("/csv_upload", async (req, res) => {
                 for (let dt of csv_data) {
                 //   console.log(dt[9]);
                   var table_name = "md_items",
-                  fields = `(com_id,hsn_code,item_name,description,unit_id,container_id,created_by,created_dt)`,
+                  fields = `(comp_id,hsn_code,item_name,description,unit_id,container_id,created_by,created_dt)`,
                   values = `('${data.comp_id}', '${dt[0]}','${dt[1]}','NA','0','0','${dt[9]}','${datetime}')`;
                   whr = null,
                   flag = 0;
