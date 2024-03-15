@@ -43,7 +43,7 @@ ReportRouter.post("/location_report", async (req, res) => {
   // console.log(comp_id);
   // console.log(data, "123");
   var res_dt = await getSaleReport(data, comp_id);
-  var comp_dtls = await comp_header();
+  var comp_dtls = await comp_header(comp_id);
   var sett = await getRecptSet(comp_id);
   // console.log(res_dt);
   // console.log(comp_dtls);
@@ -89,7 +89,7 @@ ReportRouter.post("/collection_report_final", async (req, res) => {
   // console.log(data);
   var comp_id = req.session.user.comp_id;
   var res_dt = await getPayReport(data, comp_id);
-  var comp_dtls = await comp_header();
+  var comp_dtls = await comp_header(comp_id);
   // console.log(comp_dtls,"collection");
   var viewData = {
     frm_dt: data.date_from,
@@ -120,7 +120,7 @@ ReportRouter.post("/itemwise_report_final", async (req, res) => {
   // console.log(data);
   var comp_id = req.session.user.comp_id;
   var res_dt = await getSaleItemReport(data, comp_id);
-  var comp_dtls = await comp_header();
+  var comp_dtls = await comp_header(comp_id);
   // console.log(res_dt,"rrrr");
   var viewData = {
     from_dt: data.from_dt,
@@ -160,7 +160,7 @@ ReportRouter.get("/receiptwise_report_final", async (req, res) => {
   var data = req.query;
   var comp_id = req.session.user.comp_id;
   // console.log(data, "lalal");
-  var comp_dtls = await comp_header();
+  var comp_dtls = await comp_header(comp_id);
   var brn_dtls = await branch_list(comp_id);
   var bill_dtls = await rec_bill_dtls(data.receipt_no);
   var bill_item_dtls = await rec_bill_item_dtls(data.receipt_no,data.user,comp_id);

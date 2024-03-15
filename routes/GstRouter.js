@@ -27,7 +27,7 @@ GstRouter.post('/save_gst_statement', async (req, res) =>{
     comp_id = req.session.user.comp_id
     // console.log(comp_id);
     var res_dt = await getGSTstatement(data,comp_id);
-    var comp_dtls = await comp_header();
+    var comp_dtls = await comp_header(comp_id);
     // console.log(res_dt,comp_dtls);
     var viewData = {
         frm_dt: data.date_from,
@@ -55,7 +55,7 @@ GstRouter.post('/save_gst_summary_report', async (req, res) =>{
    comp_id = req.session.user.comp_id;
 //    console.log(comp_id);
    var res_dt = await getGstSummary(data,comp_id);
-   var comp_dtls = await comp_header();
+   var comp_dtls = await comp_header(comp_id);
 //    console.log(res_dt,comp_dtls);
    var viewData = {
     frm_dt: data.date_from,

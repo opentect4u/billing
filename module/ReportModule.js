@@ -105,11 +105,11 @@ const getSaleItemReport = (data, comp_id) => {
   });
 };
 
-const comp_header = () => {
+const comp_header = (comp_id) => {
   return new Promise(async (resolve, reject) => {
     var select = "*",
       table_name = "md_company",
-      where = null;
+      where = `id = '${comp_id}'`;
     var comp_dt = await db_Select(select, table_name, where, null);
     resolve(comp_dt);
     // console.log(comp_dt);
