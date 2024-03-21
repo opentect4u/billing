@@ -30,8 +30,10 @@ SettingsRouter.get('/edit_settings', async (req, res) =>{
     var res_dt = {
         settings_dt: setting_dtls.suc > 0 ? setting_dtls.msg : [],
         com_id : data.comp_id,
+        discount_type: [{id: 'A',name:'Amount'}, {id: 'P',name:'Percentage'}],
+        receipt_type: [{id: 'P', name:'Print'}, {id: 'S', name:'SMS'}, {id: 'B', name:'Both'}]
     };
-    console.log(res_dt);
+    // console.log(res_dt);
     res.render('settings/edit_settings',res_dt)
 });
 
@@ -49,6 +51,8 @@ SettingsRouter.post("/save_edit_data", async (req, res) => {
     var comp_lt = await comp_list(comp_id);
     var res_dt = {
       data: comp_lt.suc > 0 ? comp_lt.msg : [],
+    discount_type: [{id: 'A',name:'Amount'}, {id: 'P',name:'Percentage'}]
+
     };
     //   console.log(data, "lolo");
     res.render("settings/add_settings", res_dt);

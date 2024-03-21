@@ -13,6 +13,8 @@ const {
   rec_bill_dtls,
   rec_bill_item_dtls,
   user_wise_list,
+  stock_list,
+  cancelbill_list,
 } = require("../module/ReportModule");
 const { pay_mode, db_Select } = require("../module/MasterModule");
 const ReportRouter = express.Router(),
@@ -189,5 +191,53 @@ ReportRouter.post('/user_list', async (req, res) =>{
   // }
   res.send(res_dt)
 })
+
+ReportRouter.get("/stock_report", async (req, res) => {
+  var comp_id = req.session.user.comp_id
+  var brn_list = await branch_list(comp_id);
+  var res_dt = {
+    data: brn_list.suc > 0 ? brn_list.msg : [],
+  };
+  res.render("report/stock_report",res_dt);
+});
+
+ReportRouter.post("/stock_report", async (req, res) => {
+  var comp_id = req.session.user.comp_id
+  var comp_dtls = await comp_header(comp_id);
+  var br_id = req.body.brn_id
+  var all_stock_list = await stock_list(comp_id,br_id);
+  console.log(all_stock_list);
+  var res_dt = {
+    brn_name: req.body.brn_name,
+    comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [],
+    data: all_stock_list.suc > 0 ? all_stock_list.msg : [],
+  };
+  res.render("report/stock_report_final",res_dt);
+});
+
+ReportRouter.get("/cancelbill_report", async (req, res) => {
+  var comp_id = req.session.user.comp_id
+  var brn_list = await branch_list(comp_id);
+  var res_dt = {
+    data: brn_list.suc > 0 ? brn_list.msg : [],
+  };
+  res.render("report/cancel_bill_report",res_dt);
+});
+
+ReportRouter.post("/cancelbill_report", async (req, res) => {
+  var comp_id = req.session.user.comp_id
+  var comp_dtls = await comp_header(comp_id);
+  var br_id = req.body.brn_id
+  var all_cancelbill_list = await cancelbill_list(data,comp_id,br_id);
+  console.log(all_cancelbill_list);
+  var res_dt = {
+    frm_dt: data.frm_dt,
+    to_dt: data.to_dt,
+    brn_name: req.body.brn_name,
+    comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [],
+    data: all_cancelbill_list.suc > 0 ? all_cancelbill_list.msg : [],
+  };
+  res.render("report/cancel_bill_report_final",res_dt);
+});
 
 module.exports = { ReportRouter };

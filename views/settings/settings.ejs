@@ -23,7 +23,7 @@
                 </div>
               </div>
   
-              <table class="table table-striped table-bordered no-wrap mt-3" id="showdetails" style="width:100%">
+              <table class="table table-sm table-striped table-bordered no-wrap mt-3" id="showdetails" >
                 <thead>
                   <tr>
                     <th style="color: black;">Sl. No.</th>
@@ -31,6 +31,9 @@
                     <th style="color: black;">GST Flag</th>
                     <th style="color: black;">Customer Info</th>
                     <th style="color: black;">Pay Mode</th>
+                    <th style="color: black;">Unit Flag</th>
+                    <th style="color: black;">Inventory</th>
+                    <th style="color: black;">Discount</th>
                     <th style="color: black;">Action</th>
                   </tr>
                 </thead>
@@ -49,6 +52,15 @@
                                         </td>
                                         <td>
                                             <%= item.pay_mode %>
+                                        </td>
+                                        <td>
+                                          <%= item.unit_flag %>
+                                        </td>
+                                        <td>
+                                          <%= item.stock_flag %>
+                                        </td>
+                                        <td>
+                                          <%= item.discount_flag %>
                                         </td>
                                         <td>
                                            <a href="/settings/edit_settings?comp_id=<%= item.comp_id %>"class='btn btn-info' style='border-radius:6px'><i class='fa fa-edit'></i></a>

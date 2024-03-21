@@ -3,7 +3,7 @@ const { db_Select, db_Insert } = require("./MasterModule");
 const settings_details = (comp_id) =>{
     return new Promise(async (resolve, reject) => {
         var select =
-            "a.comp_id,a.gst_flag,a.cust_inf,a.pay_mode,b.company_name",
+            "a.comp_id,a.gst_flag,a.cust_inf,a.pay_mode,b.company_name,a.unit_flag,a.stock_flag,a.discount_flag,a.discount_type,a.rcpt_type",
           table_name = "md_receipt_settings a, md_company b",
           where = `a.comp_id = b.id AND a.comp_id = '${comp_id}'`;
         var res_dt = await db_Select(select, table_name, where, null);
@@ -14,10 +14,11 @@ const settings_details = (comp_id) =>{
 const edit_settings_dtls = (data) =>{
     return new Promise(async (resolve, reject) => {
         var select =
-            "a.comp_id,a.gst_flag,a.cust_inf,a.pay_mode,b.company_name",
+            "a.comp_id,a.gst_flag,a.cust_inf,a.pay_mode,b.company_name,a.unit_flag,a.stock_flag,a.discount_flag,a.discount_type,a.rcpt_type",
           table_name = "md_receipt_settings a, md_company b",
           where = `a.comp_id = b.id AND a.comp_id = '${data.comp_id}'`;
         var res_dt = await db_Select(select, table_name, where, null);
+        console.log(res_dt);
         resolve(res_dt);
       });
 };
@@ -32,7 +33,13 @@ const save_edit_settings = (data) => {
           data.cust_info == "Y" ? "Y" : "N"
         }', pay_mode = '${
           data.pay_mode == "Y" ? "Y" : "N"
-        }',modified_by = 'admin', modified_at = '${datetime}'`,
+        }',unit_flag = '${
+          data.unit == "Y" ? "Y" : "N"
+        }',stock_flag = '${
+          data.inventory == "Y" ? "Y" : "N"
+        }',discount_flag = '${
+          data.discount == "Y" ? "Y" : "N"
+        }', discount_type='${data.discount_type}',rcpt_type='${data.receipt_type}', modified_by = 'admin', modified_at = '${datetime}'`,
         values = null,
         where = `comp_id = ${data.com_id}`,
         flag = 1;

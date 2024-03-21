@@ -162,6 +162,28 @@ const user_wise_list = (data,comp_id) =>{
   });
 }
 
+const stock_list = (comp_id, br_id) =>{
+  return new Promise(async (resolve, reject) => {
+    var select = "a.item_id, b.item_name, c.unit_name, a.stock, a.created_by, a.created_dt, a.modified_by, a.modified_dt",
+      table_name = "td_stock a JOIN md_items b ON  a.item_id=b.id AND a.comp_id=b.comp_id LEFT JOIN md_unit c on c.sl_no=b.unit_id",
+      where = `a.comp_id=${comp_id} ${br_id > 0 ? `AND a.br_id=${br_id}` : ''}`
+      order = null;
+    var rec_dt = await db_Select(select, table_name, where, order);
+    resolve(rec_dt);
+  });
+}
+
+const cancelbill_list = (data, comp_id, br_id) =>{
+  return new Promise(async (resolve, reject) => {
+    var select = "SELECT a.cancel_rcpt_id,a.receipt_no,b.comp_id,b.br_id,a.trn_date,a.price,a.discount_amt,a.cgst_amt,a.sgst_amt,a.amount,a.round_off,a.net_amt,a.pay_mode,a.received_amt,a.cust_name,a.phone_no,a.gst_flag,a.discount_type,a.created_by,a.created_dt,a.modified_by,a.modified_dt,a.cancelled_by,a.cancelled_dt",
+      table_name = "td_receipt_cancel_new AS a, td_item_sale_cancel AS b",
+      where = `date(a.cancelled_dt) BETWEEN '${data.dt_frm}' AND '${data.dt_to}' AND a.receipt_no=b.receipt_no AND b.comp_id=${comp_id} ${br_id > 0 ? `AND b.br_id=${br_id}` : ''}`
+      order = null;
+    var res_dt = await db_Select(select, table_name, where, order);
+    resolve(res_dt);
+  });
+}
+
 module.exports = {
   branch_list,
   getSaleReport,
@@ -175,4 +197,6 @@ module.exports = {
   rec_bill_dtls,
   rec_bill_item_dtls,
   user_wise_list,
+  stock_list,
+  cancelbill_list
 };

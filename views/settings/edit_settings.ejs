@@ -12,7 +12,7 @@
                         <ul class="breadcrumb">
                             <li><a href="/settings/settings_details">Settings</a></li>&nbsp; / &nbsp;
                             <li>Edit Settings Details</li>
-                          </ul>
+                        </ul>
                         <form method="POST" action="/settings/save_edit_data" class="">
                             <div class="row mt-4">
                                 <div class="form-group col-9">
@@ -28,28 +28,92 @@
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-4 cust-toggle1">
+                                <div class="col-md-3 cust-toggle1">
                                     <label for="gst_flag" style="color: black;"><b>GST Flag</b></label><br>
                                     <input type="checkbox" value="Y" id="gst_flag" data-toggle="toggle"
                                         data-onstyle="success" data-offstyle="danger" data-on="Active"
-                                        data-off="Deactive" name="gst_flag" 
-                                        <%=(settings_dt[0].gst_flag=='Y')?'checked':''%>>
+                                        data-off="Deactive" name="gst_flag" <%=(settings_dt[0].gst_flag=='Y'
+                                        )?'checked':''%>>
                                 </div>
 
-                                <div class="col-md-4 cust-toggle1">
+                                <div class="col-md-3 cust-toggle1">
                                     <label for="cust_info" style="color: black;"><b>Customer Info</b></label><br>
                                     <input type="checkbox" value="Y" id="cust_info" data-toggle="toggle"
                                         data-onstyle="success" data-offstyle="danger" data-on="Active"
-                                        data-off="Deactive" name="cust_info"
-                                        <%=(settings_dt[0].cust_inf=='Y')?'checked':''%>>
+                                        data-off="Deactive" name="cust_info" <%=(settings_dt[0].cust_inf=='Y'
+                                        )?'checked':''%>>
                                 </div>
 
-                                <div class="col-md-4 cust-toggle1">
+                                <div class="col-md-3 cust-toggle1">
                                     <label for="pay_mode" style="color: black;"><b>Pay Mode</b></label><br>
                                     <input type="checkbox" value="Y" id="pay_mode" data-toggle="toggle"
                                         data-onstyle="success" data-offstyle="danger" data-on="Active"
-                                        data-off="Deactive" name="pay_mode"
-                                        <%=(settings_dt[0].pay_mode=='Y')?'checked':''%>>
+                                        data-off="Deactive" name="pay_mode" <%=(settings_dt[0].pay_mode=='Y'
+                                        )?'checked':''%>>
+                                </div>
+
+                                <div class="col-md-3 cust-toggle1">
+                                    <label for="unit" style="color: black;"><b>Unit</b></label><br>
+                                    <input type="checkbox" value="Y" id="unit" data-toggle="toggle"
+                                        data-onstyle="success" data-offstyle="danger" data-on="Active"
+                                        data-off="Deactive" name="unit" <%=(settings_dt[0].unit_flag=='Y'
+                                        )?'checked':''%>>
+                                </div>
+
+                                <div class="col-md-3 cust-toggle1">
+                                    <label for="inventory" style="color: black;"><b>Inventory</b></label><br>
+                                    <input type="checkbox" value="Y" id="inventory" data-toggle="toggle"
+                                        data-onstyle="success" data-offstyle="danger" data-on="Active"
+                                        data-off="Deactive" name="inventory" <%=(settings_dt[0].stock_flag=='Y'
+                                        )?'checked':''%>>
+                                </div>
+
+                                <div class="col-md-3 cust-toggle1">
+                                    <label for="discount" style="color: black;"><b>Discount</b></label><br>
+                                    <input type="checkbox" value="Y" id="discount" data-toggle="toggle"
+                                        data-onstyle="success" data-offstyle="danger" data-on="Active"
+                                        data-off="Deactive" name="discount" <%=(settings_dt[0].discount_flag=='Y'
+                                        )?'checked':''%>>
+                                </div>
+
+                                <div class="col-md-3 col-lg-3" id="dis_hide">
+                                    <label for="discount_type" style="color: black"><b>Discount Type</b></label><br>
+                                        <div class="form-group mb-3">
+                                            <select class="form-control" name="discount_type" id="discount_type">
+                                                <option value="">Select Discount Type</option>
+                                                <% discount_type.forEach(dt=> {
+                                                    _selected=''
+                                                    if(dt.id == settings_dt[0].discount_type) _selected = 'selected'
+                                                     %>
+                                                    <option value="<%= dt.id %>" <%= _selected %>>
+                                                        <%= dt.name %>
+                                                    </option>
+                                                    <% }) %>
+                                            </select>
+                                        </div>
+                                </div>
+
+                                <div class="col-md-3 col-lg-3">
+                                    <!-- <div class="card">
+                                        <div class="card-body"> -->
+                                    <!-- <h4 class="card-title">Discount Type</h4> -->
+                                    <label for="receipt_type" style="color: black;"><b>Receipt Type</b></label><br>
+                                    <div class="form-group mb-3">
+                                        <!-- <label for="exampleFormControlSelect1">Select No</label> -->
+                                        <select class="form-control" name="receipt_type" id="receipt_type">
+                                            <option value="">Select Receipt Type</option>
+                                            <% receipt_type.forEach(dt=> {
+                                                _selected=''
+                                                if(dt.id == settings_dt[0].rcpt_type) _selected = 'selected'
+                                                 %>
+                                                <option value="<%= dt.id %>" <%= _selected %>>
+                                                    <%= dt.name %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
+                                    <!-- </div>
+                                    </div> -->
                                 </div>
 
                                 <input type="hidden" id="com_id" name="com_id" value="<%= com_id %>">
@@ -65,3 +129,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#discount').on('change', function () {
+        if ($(this).is(':checked')) {
+            $('#dis_hide').show()
+        } else {
+            $('#discount').removeAttr('required')
+            $('#dis_hide').hide()
+        }
+    })
+</script>
