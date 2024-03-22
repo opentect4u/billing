@@ -1,0 +1,141 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <div class="card ml-5 mr-5">
+          <div class="card-body">
+            <div class="titleSec">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h2>
+                    <b><span class="badge badge-light" style="
+                          border-radius: 8px;
+                          color: rgb(15, 15, 15);
+                          font-weight: 500;
+                          padding: 8px 15px;
+                        "><i class="fa fa-ban"></i>&nbsp;Add Stock</span></b>
+                  </h2>
+                </div>
+                <div class="col-sm-6">
+                  <a type="button" class="btn btn-primary" title="Add" id="myBtn" href="/items/add_dtls"
+                    style="border-radius: 8px; float: right">
+                    <i class="fa fa-plus"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-8">
+                  <div class="input-group customize-input">
+                    <input class="form-control custom-shadow custom-radius border-0 bg-white" type="search"
+                      placeholder="Search Items" id="autocomplete" aria-label="Search" />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-md-12">
+                  <div class="ui-widget">
+                    <input id="autocomplete" />
+                  </div>
+                </div> -->
+              </div>
+  
+              <table class="table table-striped table-bordered no-wrap mt-4" id="showitemtdtls" style="width:100%">
+                <thead>
+                  <tr>
+                    <th style="color: black;">Sl. No.</th>
+                    <th style="color: black;">HSN Code</th>
+                    <th style="color: black;">Item Name</th>
+                    <th style="color: black;">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+  <!-- <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> -->
+  <script src="/extra-libs/auto_complite/jquery.autocomplete.js"></script>
+  <script>
+    $('#showitemtdtls').hide();
+    $(document).ready(function () {
+
+      $("#autocomplete").autocomplete({
+        lookup: function (query, done) {
+          // Do Ajax call or lookup locally, when done,
+          // call the callback and pass your results:
+          var keyword = this.params.query;
+          var item_list = [];
+          console.log(keyword.length, 'KeyLength');
+          if (keyword.length > 2) {
+            $.ajax({
+              method: "GET",
+              url: "/items/item_list",
+              data: { keyword: keyword },
+              success: function (response) {
+                console.log(response);
+                if (response.suc > 0 && response.msg.length > 0)
+                  response.msg.forEach(function (item, index) {
+                    item_list.push({ value: item.item_name, data: item.id });
+                  });
+                console.log(item_list);
+                console.log("here");
+                var resu = {
+                  suggestions: item_list,
+                };
+                done(resu);
+              },
+              error: function (error) {
+                console.log(error);
+              },
+            });
+          }
+        },
+        onSelect: function (suggestion) {
+          // alert("You selected: " + suggestion.value + ", " + suggestion.data);
+          console.log("You selected: " + suggestion.value + ", " + suggestion.data);
+          $('#showitemtdtls').show();
+          $.ajax({
+            method: "GET",
+            url: "/items/item_name_list",
+            data: { id: suggestion.data },
+            success: function (response) {
+              console.log(response);
+              $('#showitemtdtls tbody').empty()
+              let i = 1;
+  
+  
+              if (response.suc > 0 && response.msg.length > 0)
+                response.msg.forEach(function (item_list) {
+                  console.log(item_list);
+  
+                  $('#showitemtdtls tbody').append(`
+                   <tr>
+                    <td>${i}</td>
+                    <td>${item_list.hsn_code}</td>
+                    <td>${item_list.item_name}</td>
+                    <td><a href="/items/add_edit_dtls?id=${item_list.id}" class='btn btn-info' style="border-radius:6px; margin-left: 9px";><i class="fa fa-edit"></i></a></td>
+                  </tr>
+                   `)
+                  i++;
+                });
+              else {
+                $('#showitemtdtls tbody').append(`
+                <tr>
+                  <td colspan="4" class="text-danger text-center">No data found</td>
+                </tr>
+              `)
+              }
+            },
+            error: function (error) {
+              console.log(error);
+            },
+          });
+        }
+      });
+    });
+  </script>
