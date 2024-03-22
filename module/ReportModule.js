@@ -175,9 +175,9 @@ const stock_list = (comp_id, br_id) =>{
 
 const cancelbill_list = (data, comp_id, br_id) =>{
   return new Promise(async (resolve, reject) => {
-    var select = "SELECT a.cancel_rcpt_id,a.receipt_no,b.comp_id,b.br_id,a.trn_date,a.price,a.discount_amt,a.cgst_amt,a.sgst_amt,a.amount,a.round_off,a.net_amt,a.pay_mode,a.received_amt,a.cust_name,a.phone_no,a.gst_flag,a.discount_type,a.created_by,a.created_dt,a.modified_by,a.modified_dt,a.cancelled_by,a.cancelled_dt",
+    var select = "a.cancel_rcpt_id,a.receipt_no,b.comp_id,b.br_id,a.trn_date,a.price,a.discount_amt,a.cgst_amt,a.sgst_amt,a.amount,a.round_off,a.net_amt,a.pay_mode,a.received_amt,a.cust_name,a.phone_no,a.gst_flag,a.discount_type,a.created_by,a.created_dt,a.modified_by,a.modified_dt,a.cancelled_by,a.cancelled_dt",
       table_name = "td_receipt_cancel_new AS a, td_item_sale_cancel AS b",
-      where = `date(a.cancelled_dt) BETWEEN '${data.dt_frm}' AND '${data.dt_to}' AND a.receipt_no=b.receipt_no AND b.comp_id=${comp_id} ${br_id > 0 ? `AND b.br_id=${br_id}` : ''}`
+      where = `date(a.cancelled_dt) BETWEEN '${data.from_dt}' AND '${data.to_dt}' AND a.receipt_no=b.receipt_no AND b.comp_id=${comp_id} ${br_id > 0 ? `AND b.br_id=${br_id}` : ''}`
       order = null;
     var res_dt = await db_Select(select, table_name, where, order);
     resolve(res_dt);

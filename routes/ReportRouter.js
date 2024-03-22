@@ -225,13 +225,14 @@ ReportRouter.get("/cancelbill_report", async (req, res) => {
 });
 
 ReportRouter.post("/cancelbill_report", async (req, res) => {
+  var data = req.body;
   var comp_id = req.session.user.comp_id
   var comp_dtls = await comp_header(comp_id);
   var br_id = req.body.brn_id
   var all_cancelbill_list = await cancelbill_list(data,comp_id,br_id);
-  console.log(all_cancelbill_list);
+  console.log(all_cancelbill_list, data);
   var res_dt = {
-    frm_dt: data.frm_dt,
+    from_dt: data.from_dt,
     to_dt: data.to_dt,
     brn_name: req.body.brn_name,
     comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [],

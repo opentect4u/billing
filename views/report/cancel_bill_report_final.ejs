@@ -18,7 +18,7 @@
                             <label style="color: black;"><b>Email Id:&nbsp;<span style="color: black;"><%= comp_dt[0].email_id %></span></b></label>
                         </center>
                         <center>
-                            <h5 class="card-title">Bill Cancelled Between <%= dateFormat(frm_dt, "dd/mm/yyyy" ) %> to <%=
+                            <h5 class="card-title">Bill Cancelled Between <%= dateFormat(from_dt, "dd/mm/yyyy" ) %> to <%=
                                         dateFormat(to_dt, "dd/mm/yyyy" ) %>
                             </h5>
                             
@@ -28,17 +28,17 @@
                             <thead>
                                 <tr>
                                     <th><b style="color: black;">Receipt No.</b></th>
+                                    <th><b style="color: black;">Cust. Name</b></th>
+                                    <th><b style="color: black;">Cust. Phone No.</b></th>
                                     <th><b style="color: black;">Transaction Date</b></th>
                                     <th><b style="color: black;">Price</b></th>
                                     <th><b style="color: black;">Discount</b></th>
                                     <th><b style="color: black;">CGST</b></th>
                                     <th><b style="color: black;">SGST</b></th>
                                     <th><b style="color: black;">Amount</b></th>
-                                    <th><b style="color: black;">Round Off</b></th>
+                                    <!-- <th><b style="color: black;">Round Off</b></th> -->
                                     <th><b style="color: black;">Net Amount</b></th>
                                     <th><b style="color: black;">Received Amount</b></th>
-                                    <th><b style="color: black;">Cust. Name</b></th>
-                                    <th><b style="color: black;">Cust. Phone No.</b></th>
                                     <th><b style="color: black;">Cancelled By</b></th>
                                     <th><b style="color: black;">Cancelled Date</b></th>
                                     <!-- <th><b style="color: black;">Total Tax</b></th> -->
@@ -52,6 +52,12 @@
                                         tot_cncl_bill +=item.net_amt; %>
                                     <tr>
                                         <td><%= item.receipt_no %></td>
+                                        <td>
+                                            <%= item.cust_name %>
+                                        </td>
+                                        <td>
+                                            <%= item.phone_no %>
+                                        </td>
                                         <td>
                                             <%= item.trn_date %>
                                         </td>
@@ -70,20 +76,14 @@
                                         <td>
                                             <%= item.amount %>
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <%= item.round_off %>
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <%= item.net_amt %>
                                         </td>
                                         <td>
                                             <%= item.received_amt %>
-                                        </td>
-                                        <td>
-                                            <%= item.cust_name %>
-                                        </td>
-                                        <td>
-                                            <%= item.phone_no %>
                                         </td>
                                         <td>
                                             <%= item.cancelled_by %>
@@ -98,11 +98,13 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th colspan="8"><b style="color: black;">Net Amount of Cancelled Bills</b></th>
+                                    <th><b style="color: black;">Net Amount of Cancelled Bills</b></th>
                                     <th><b style="color: black;">
                                         <%= tot_cncl_bill %>
                                     </b></th>
-                                    <th colspan="8"><b style="color: black;">Total no. of Cancelled Bills</b></th>
+                                </tr>
+                                <tr>
+                                    <th><b style="color: black;">Total no. of Cancelled Bills</b></th>
                                     <th><b style="color: black;">
                                         <%= cncl_bill_count %>
                                     </b></th>
