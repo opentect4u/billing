@@ -3,22 +3,10 @@ const { db_Select, db_Insert } = require("./MasterModule");
 const settings_details = (comp_id) =>{
     return new Promise(async (resolve, reject) => {
         var select =
-            "a.comp_id,a.gst_flag,a.cust_inf,a.pay_mode,b.company_name,a.unit_flag,a.stock_flag,a.discount_flag,a.discount_type,a.rcpt_type",
+            "b.company_name, a.*",
           table_name = "md_receipt_settings a, md_company b",
           where = `a.comp_id = b.id AND a.comp_id = '${comp_id}'`;
         var res_dt = await db_Select(select, table_name, where, null);
-        resolve(res_dt);
-      });
-};
-
-const edit_settings_dtls = (data) =>{
-    return new Promise(async (resolve, reject) => {
-        var select =
-            "a.comp_id,a.gst_flag,a.cust_inf,a.pay_mode,b.company_name,a.unit_flag,a.stock_flag,a.discount_flag,a.discount_type,a.rcpt_type",
-          table_name = "md_receipt_settings a, md_company b",
-          where = `a.comp_id = b.id AND a.comp_id = '${data.comp_id}'`;
-        var res_dt = await db_Select(select, table_name, where, null);
-        console.log(res_dt);
         resolve(res_dt);
       });
 };
@@ -29,7 +17,7 @@ const save_edit_settings = (data) => {
       var table_name = "md_receipt_settings",
         fields = `gst_flag = '${
           data.gst_flag == "Y" ? "Y" : "N"
-        }',cust_inf = '${
+        }', gst_type = ${data.gst_flag == 'Y' ? `'${data.gst_type}'` : null}, cust_inf = '${
           data.cust_info == "Y" ? "Y" : "N"
         }', pay_mode = '${
           data.pay_mode == "Y" ? "Y" : "N"
@@ -39,12 +27,11 @@ const save_edit_settings = (data) => {
           data.inventory == "Y" ? "Y" : "N"
         }',discount_flag = '${
           data.discount == "Y" ? "Y" : "N"
-        }', discount_type='${data.discount_type}',rcpt_type='${data.receipt_type}', modified_by = 'admin', modified_at = '${datetime}'`,
+        }', discount_type='${data.discount_type}',rcpt_type='${data.receipt_type}', refund_days = ${data.refund_days > 0 ? data.refund_days : 0}, modified_by = 'admin', modified_at = '${datetime}'`,
         values = null,
         where = `comp_id = ${data.com_id}`,
         flag = 1;
       var res_dt = await db_Insert(table_name, fields, values, where, flag);
-      // console.log(res_dt);
       resolve(res_dt);
     });
   };
@@ -74,4 +61,4 @@ const save_edit_settings = (data) => {
     });
   };
 
-module.exports = { settings_details,edit_settings_dtls, save_edit_settings, comp_list, save_add_settings }
+module.exports = { settings_details, save_edit_settings, comp_list, save_add_settings }

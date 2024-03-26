@@ -1,5 +1,6 @@
 const express = require('express');
-const { comp_list, settings_details, settings, edit_settings_dtls, save_edit_settings, save_add_settings } = require('../module/SettingsModule');
+const { comp_list, settings_details, settings, save_edit_settings, save_add_settings } = require('../module/SettingsModule');
+const { gst_type_master } = require('../module/MasterModule');
 const SettingsRouter = express.Router();
 
 SettingsRouter.use((req, res, next) => {
@@ -13,25 +14,26 @@ SettingsRouter.use((req, res, next) => {
 
 SettingsRouter.get('/settings_details', async (req, res) =>{
   var comp_id = req.session.user.comp_id;
-  console.log(req.session.user.comp_id,"data");
+  // console.log(req.session.user.comp_id,"data");
   var set_dtls = await settings_details(comp_id);
-  console.log(set_dtls);
+  // console.log(set_dtls);
   var viewData = {
     data: set_dtls.suc > 0 ? set_dtls.msg : [],
   };
-  console.log(viewData);
+  // console.log(viewData);
   res.render('settings/settings',viewData);
 });
 
 SettingsRouter.get('/edit_settings', async (req, res) =>{
     var data = req.query;
     console.log(data);
-    var setting_dtls = await edit_settings_dtls(data);
+    var setting_dtls = await settings_details(data.comp_id);
     var res_dt = {
         settings_dt: setting_dtls.suc > 0 ? setting_dtls.msg : [],
         com_id : data.comp_id,
         discount_type: [{id: 'A',name:'Amount'}, {id: 'P',name:'Percentage'}],
-        receipt_type: [{id: 'P', name:'Print'}, {id: 'S', name:'SMS'}, {id: 'B', name:'Both'}]
+        receipt_type: [{id: 'P', name:'Print'}, {id: 'S', name:'SMS'}, {id: 'B', name:'Both'}],
+        gst_type: gst_type_master
     };
     // console.log(res_dt);
     res.render('settings/edit_settings',res_dt)

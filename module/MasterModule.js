@@ -97,6 +97,11 @@ const pay_mode = {
   D: "Card",
 };
 
+const gst_type_master = {
+  I: 'Inclusive',
+  E: 'Exclusive'
+}
+
 module.exports = {
   db_Select,
   db_Insert,
@@ -104,4 +109,5 @@ module.exports = {
   db_Check,
   EncryptDataToSend,
   pay_mode,
+  gst_type_master
 };

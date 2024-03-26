@@ -31,11 +31,26 @@
                                 <div class="col-md-3 cust-toggle1">
                                     <label for="gst_flag" style="color: black;"><b>GST Flag</b></label><br>
                                     <input type="checkbox" value="Y" id="gst_flag" data-toggle="toggle"
-                                        data-onstyle="success" data-offstyle="danger" data-on="Active"
-                                        data-off="Deactive" name="gst_flag" <%=(settings_dt[0].gst_flag=='Y'
-                                        )?'checked':''%>>
+                                        data-onstyle="success" data-offstyle="danger" data-on="Exclusive"
+                                        data-off="Inclusive" name="gst_flag" <%= (settings_dt[0].gst_flag=='Y'
+                                        )?'checked':'' %>>
                                 </div>
 
+                                <div class="col-md-3" id="gst_type_div" style="display: <%= settings_dt[0].gst_flag=='Y' ? 'block' : 'none' %>;">
+                                    <label for="gst_type" style="color: black"><b>GST Type</b></label><br>
+                                    <div class="form-group mb-3">
+                                        <select class="form-control" name="gst_type" id="gst_type">
+                                            <% Object.entries(gst_type).forEach(dt => {
+                                                const [id, name] = dt;
+                                                var _selected = ''
+                                                if(id == settings_dt[0].gst_type) _selected = 'selected' %>
+                                                <option value="<%= id %>" <%= _selected %>><%= name %></option>
+                                            <% }); %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
                                 <div class="col-md-3 cust-toggle1">
                                     <label for="cust_info" style="color: black;"><b>Customer Info</b></label><br>
                                     <input type="checkbox" value="Y" id="cust_info" data-toggle="toggle"
@@ -67,7 +82,8 @@
                                         data-off="Deactive" name="inventory" <%=(settings_dt[0].stock_flag=='Y'
                                         )?'checked':''%>>
                                 </div>
-
+                            </div>
+                            <div class="row mt-3">
                                 <div class="col-md-3 cust-toggle1">
                                     <label for="discount" style="color: black;"><b>Discount</b></label><br>
                                     <input type="checkbox" value="Y" id="discount" data-toggle="toggle"
@@ -76,7 +92,7 @@
                                         )?'checked':''%>>
                                 </div>
 
-                                <div class="col-md-3 col-lg-3" id="dis_hide">
+                                <div class="col-md-3 col-lg-3" id="dis_hide" style="display: <%= settings_dt[0].discount_flag=='Y' ? 'block' : 'none' %>;">
                                     <label for="discount_type" style="color: black"><b>Discount Type</b></label><br>
                                         <div class="form-group mb-3">
                                             <select class="form-control" name="discount_type" id="discount_type">
@@ -92,7 +108,8 @@
                                             </select>
                                         </div>
                                 </div>
-
+                            </div>
+                            <div class="row mt-3">
                                 <div class="col-md-3 col-lg-3">
                                     <!-- <div class="card">
                                         <div class="card-body"> -->
@@ -115,7 +132,21 @@
                                     <!-- </div>
                                     </div> -->
                                 </div>
-
+                                <div class="col-md-3 col-lg-3">
+                                    <!-- <div class="card">
+                                        <div class="card-body"> -->
+                                    <!-- <h4 class="card-title">Discount Type</h4> -->
+                                    <label for="refund_days" style="color: black;"><b>Refund within (In Days)</b></label><br>
+                                    <div class="form-group mb-3">
+                                        <!-- <label for="exampleFormControlSelect1">Select No</label> -->
+                                        <input type="text" name="refund_days" id="refund_days" class="form-control" value="<%= settings_dt[0].refund_days > 0 ? settings_dt[0].refund_days : 0 %>"
+                                       required  />
+                                    </div>
+                                    <!-- </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="row">
                                 <input type="hidden" id="com_id" name="com_id" value="<%= com_id %>">
                                 <div class="form-group col-md-8 mt-4" style="margin-left: 23vw;">
                                     <button class="btn btn-warning" type="submit" value="SUBMIT"
@@ -137,6 +168,18 @@
         } else {
             $('#discount').removeAttr('required')
             $('#dis_hide').hide()
+        }
+    })
+</script>
+
+<script>
+    $('#gst_flag').on('change', function(){
+        if($(this).is(':checked')){
+            $('#gst_type_div').show()
+            $('#gst_type_div').attr('required', 'required')
+        }else{
+            $('#gst_type_div').removeAttr('required')
+            $('#gst_type_div').hide()
         }
     })
 </script>

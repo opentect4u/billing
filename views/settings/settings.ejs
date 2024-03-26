@@ -15,25 +15,28 @@
                           "><i class="fa fa-wrench"></i>&nbsp; Settings</span></b>
                   </h2>
                 </div>
-                <div class="col-sm-6">
-                  <a type="button" class="btn btn-primary" title="Add" id="myBtn" href="/settings/add_settings"
-                    style="border-radius: 8px; float: right">
-                    <i class="fa fa-plus"></i>
-                  </a>
-                </div>
+                <% if(data.length > 0){ %>
+                  <% }else{ %>
+                    <div class="col-sm-6">
+                      <a type="button" class="btn btn-primary" title="Add" id="myBtn" href="/settings/add_settings"
+                        style="border-radius: 8px; float: right">
+                        <i class="fa fa-plus"></i>
+                      </a>
+                    </div>
+                <% } %>
               </div>
   
               <table class="table table-sm table-striped table-bordered no-wrap mt-3" id="showdetails" >
                 <thead>
                   <tr>
                     <th style="color: black;">Sl. No.</th>
-                    <th style="color: black;">Company Name</th>
-                    <th style="color: black;">GST Flag</th>
+                    <th style="color: black;">Store Name</th>
+                    <!-- <th style="color: black;">GST Flag</th>
                     <th style="color: black;">Customer Info</th>
                     <th style="color: black;">Pay Mode</th>
                     <th style="color: black;">Unit Flag</th>
                     <th style="color: black;">Inventory</th>
-                    <th style="color: black;">Discount</th>
+                    <th style="color: black;">Discount</th> -->
                     <th style="color: black;">Action</th>
                   </tr>
                 </thead>
@@ -44,7 +47,7 @@
                                         <td>
                                             <%= item.company_name %>
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <%= item.gst_flag %>
                                         </td>
                                         <td>
@@ -61,7 +64,7 @@
                                         </td>
                                         <td>
                                           <%= item.discount_flag %>
-                                        </td>
+                                        </td> -->
                                         <td>
                                            <a href="/settings/edit_settings?comp_id=<%= item.comp_id %>"class='btn btn-info' style='border-radius:6px'><i class='fa fa-edit'></i></a>
                                         </td>
