@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card ml-5 mr-5">
+                <div class="card-body">
+                    <div class="titleSec">
+                        <h2>
+                            <b><span class="badge badge-light"
+                                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i
+                                        class="fa fa-edit"></i>&nbsp;Edit Unit</span></b>
+                        </h2>
+                        <ul class="breadcrumb">
+                            <li><a href="/unit_master">Unit</a></li>&nbsp; / &nbsp;
+                            <li>Edit Unit</li>
+                        </ul>
+                        <form method="POST" action="/save_unit" class="">
+                            <div class="row mt-4">
+                                <div class="col-md-3 col-lg-3">
+                                    <!-- <div class="card">
+                                        <div class="card-body"> -->
+                                    <!-- <h4 class="card-title">Discount Type</h4> -->
+                                    <label for="unit_name" style="color: black;"><b>Unit Name</b></label><br>
+                                    <div class="form-group mb-3">
+                                        <!-- <label for="exampleFormControlSelect1">Select No</label> -->
+                                        <input type="text" name="unit_name" id="unit_name" class="form-control" value="<%= data.length > 0 ? data[0].unit_name : '' %>"
+                                       required  />
+                                    </div>
+                                    <!-- </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <input type="hidden" id="id" name="id" value="<%= id %>">
+                                <div class="form-group col-md-8 mt-4" style="margin-left: 23vw;">
+                                    <button class="btn btn-warning" type="submit" value="SUBMIT"
+                                        style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

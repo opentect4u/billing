@@ -20,21 +20,22 @@
                                 </div>
 
                                  <div class="form-group col-md-6">
-                                    <label for="item_name"><b style="color: black;">Item Name:</b></label>
-                                    <select name="item_name" class="form-control s2id" id="item_name">
-                                        <option value="">Select Item Name</option>
-                                        <% item_dt.forEach(dt => { %>
-                                            <% if (dt.item_name === item_edit_dt[0].item_name) { %>
-                                                <option value="<%= dt.item_name %>" selected>
-                                                    <%= dt.item_name %>
+                                    <label for="unit_id"><b style="color: black;">Unit:</b></label>
+                                    <select name="unit_id" class="form-control s2id" id="unit_id">
+                                        <option value="">Select Unit</option>
+                                        <% unit_dt.forEach(dt => {
+                                            var _selected = '' 
+                                            if (dt.sl_no == item_edit_dt[0].unit_id) _selected = 'selected' %>
+                                                <option value="<%= dt.sl_no %>" <%= _selected %>>
+                                                    <%= dt.unit_name %>
                                                 </option>
-                                            <% } else { %>
-                                                <option value="<%= dt.item_name %>">
-                                                    <%= dt.item_name %>
-                                                </option>
-                                            <% } %>
                                         <% }) %>
                                     </select>   
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="item_name"><b style="color: black;">Item Name:</b></label>
+                                    <input type="text" name="item_name" id="item_name" class="form-control" value="<%= item_edit_dt[0].item_name %>" />   
                                 </div>
                                 
                                 <div class="form-group col-md-6">

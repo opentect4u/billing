@@ -9,6 +9,7 @@ const { ItemRouter } = require("./routes/ItemRouter");
 const { Header_footerRouter } = require("./routes/Header_footerRouter");
 const { GstRouter } = require("./routes/GstRouter");
 const { SettingsRouter } = require("./routes/SettingsRouter");
+const { UnitRouter } = require("./routes/UnitRouter");
 
 var app = express(),
   expressLayouts = require("express-ejs-layouts"),
@@ -92,6 +93,7 @@ app.use("/items",ItemRouter);
 app.use("/header_footer",Header_footerRouter);
 app.use("/gst",GstRouter);
 app.use("/settings",SettingsRouter)
+app.use(UnitRouter)
 
 app.listen(port, (err) => {
   if (err) throw new Error(err);

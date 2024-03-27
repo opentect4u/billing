@@ -19,16 +19,21 @@
                                        required  />
                                 </div>
 
-                                 <div class="form-group col-md-6">
-                                    <label for="item_name"><b style="color: black;">Item Name:</b></label>
-                                    <select name="item_name" class="form-control s2id" id="item_name">
-                                        <option value="">Select Item Name</option>
-                                        <% data.forEach(dt=> { %>
-                                            <option value="<%= dt.item_name %>">
-                                                <%= dt.item_name %>
-                                            </option>
-                                            <% }) %>
+                                <div class="form-group col-md-6">
+                                    <label for="unit_id"><b style="color: black;">Unit:</b></label>
+                                    <select name="unit_id" class="form-control s2id" id="unit_id">
+                                        <option value="">Select Unit</option>
+                                        <% unit_dt.forEach(dt => { %>
+                                                <option value="<%= dt.sl_no %>">
+                                                    <%= dt.unit_name %>
+                                                </option>
+                                        <% }) %>
                                     </select>   
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="item_name"><b style="color: black;">Item Name:</b></label>
+                                    <input type="text" name="item_name" id="item_name" class="form-control" value="" />   
                                 </div>
                     
                                 <div class="form-group col-md-6">

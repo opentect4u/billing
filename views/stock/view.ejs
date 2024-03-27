@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <div class="card ml-5 mr-5">
+          <div class="card-body">
+            <div class="titleSec">
+                <% if(message){ %>
+                    <div class="alert alert-<%= message.type %> alert-dismissible fade show" role="alert">
+                        <%= message.message %>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <% } %>
+              <div class="row">
+                <div class="col-sm-6">
+                  <h2>
+                    <b><span class="badge badge-light" style="
+                        border-radius: 8px;
+                        color: rgb(15, 15, 15);
+                        font-weight: 500;
+                        padding: 8px 15px;
+                      "><i class="fa fa-server"></i>&nbsp;Item Stock Details</span></b>
+                  </h2>
+                </div>
+                <div class="col-sm-6">
+                    <a type="button" class="btn btn-primary" title="Add" id="myBtn" href="/items/add_stock"
+                    style="border-radius: 8px; float: right">
+                    <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-12">
+                    <table id="dataTable" class="table table-sm table-striped table-bordered no-wrap mt-3" id="showdetails" >
+                      <thead>
+                        <tr>
+                          <th style="color: black;">Sl. No.</th>
+                          <th style="color: black;">Item</th>
+                          <th style="color: black;">Stock</th>
+                          <th style="color: black;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <% if(data.length > 0){
+                              var i = 1
+                              data.forEach(dt => { %>
+                              <tr>
+                                  <td><%= i %></td>
+                                  <td>
+                                      <%= dt.item_name %>
+                                  </td>
+                                  <td>
+                                      <%= dt.stock %>
+                                  </td>
+                                  <td>
+                                      <a href="/items/add_stock?item_id=<%= dt.item_id %>"class='btn btn-info' style='border-radius:6px'><i class='fa fa-edit'></i></a>
+                                  </td>
+                              </tr>
+                              <% i++; })}else{ %>
+                                  <tr>
+                                      <td colspan="4" class="text-center text-danger">No data found</td>
+                                  </tr>
+                              <% } %>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
