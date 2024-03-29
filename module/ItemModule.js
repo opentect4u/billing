@@ -84,25 +84,30 @@ const save_add_item_data = (data,comp_id) => {
 
 const getStockList = (comp_id, br_id, item_id = 0) => {
   return new Promise(async (resolve, reject) => {
-    var select = "a.comp_id, a.br_id, a.item_id, b.item_name, a.stock",
-    table_name = "td_stock a, md_items b",
-    where = `a.item_id = b.id AND a.comp_id = b.comp_id AND a.comp_id = ${comp_id} AND a.br_id = ${br_id} ${item_id > 0 ? `AND a.item_id = ${item_id}` : ''}`;
-    var res_dt = await db_Select(select,table_name,where,null);
+    var select = "a.id, a.item_name, a.comp_id, IF(b.stock > 0, b.stock, 0) stock",
+    table_name = "md_items a LEFT JOIN td_stock b on a.id=b.item_id AND a.comp_id=b.comp_id",
+    where = `a.comp_id = ${comp_id} ${item_id > 0 ? `AND a.id = ${item_id}` : ''}`;
+    var res_dt = await db_Select(select,table_name,where,'GROUP BY a.id');
     resolve(res_dt);
   });
 }
 
 const save_item_stock = (comp_id, br_id, user_name, data) => {
   return new Promise (async (resolve, reject) =>{
-    datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+    var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+    var select = "comp_id, br_id, item_id",
+    table_name = "td_stock",
+    where = `comp_id = ${comp_id} AND br_id = ${br_id} AND item_id = ${data.item_id}`;
+    var stock_dt = await db_Select(select,table_name,where,null);
+
     var table_name = "td_stock",
-    fields = `(comp_id, br_id, item_id, stock, created_by, created_dt)`,
-    values = `('${comp_id}', '${br_id}', '${data.item_id}','${data.stock}','${user_name}','${datetime}')`,
-    where = null,
-    flag = 0;
+      fields = stock_dt.suc > 0 && stock_dt.msg.length > 0 ? `stock = '${data.stock}', modified_by = '${user_name}', modified_dt = '${datetime}'` : `(comp_id, br_id, item_id, stock, created_by, created_dt)`,
+      values = `('${comp_id}', '${br_id}', '${data.item_id}','${data.stock}','${user_name}','${datetime}')`,
+      where = stock_dt.suc > 0 && stock_dt.msg.length > 0 ? `comp_id = ${comp_id} AND br_id = ${br_id} AND item_id = ${data.item_id}` : null,
+      flag = stock_dt.suc > 0 && stock_dt.msg.length > 0 ? 1 : 0;
     var res_dt = await db_Insert(table_name,fields,values,where,flag);
     resolve(res_dt);
    })
 }
 
-module.exports = { item_lt, item_list_id, item_edit_dtls, item_list, save_edit_item_data, save_add_item_data, getStockList };
+module.exports = { item_lt, item_list_id, item_edit_dtls, item_list, save_edit_item_data, save_add_item_data, getStockList, save_item_stock };

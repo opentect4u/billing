@@ -23,12 +23,12 @@
                       "><i class="fa fa-server"></i>&nbsp;Item Stock Details</span></b>
                   </h2>
                 </div>
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <a type="button" class="btn btn-primary" title="Add" id="myBtn" href="/items/add_stock"
                     style="border-radius: 8px; float: right">
                     <i class="fa fa-plus"></i>
                     </a>
-                </div>
+                </div> -->
               </div>
               <div class="row mt-4">
                 <div class="col-md-12">
@@ -54,7 +54,7 @@
                                       <%= dt.stock %>
                                   </td>
                                   <td>
-                                      <a href="/items/add_stock?item_id=<%= dt.item_id %>"class='btn btn-info' style='border-radius:6px'><i class='fa fa-edit'></i></a>
+                                      <a href="/items/add_stock?item_id=<%= dt.id %>"class='btn btn-info' style='border-radius:6px'><i class='fa fa-edit'></i></a>
                                   </td>
                               </tr>
                               <% i++; })}else{ %>

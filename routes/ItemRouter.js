@@ -1,5 +1,5 @@
 const express = require("express");
-const { item_lt,item_edit_dtls, item_list_id, item_list, save_edit_item_data, save_add_item_data, getStockList } = require("../module/ItemModule");
+const { item_lt,item_edit_dtls, item_list_id, item_list, save_edit_item_data, save_add_item_data, getStockList, save_item_stock } = require("../module/ItemModule");
 const { getUnitList } = require("../module/UnitModule");
 const ItemRouter = express.Router();
 
@@ -111,10 +111,11 @@ ItemRouter.get("/add_stock", async (req, res) =>{
   br_id = req.session.user.br_id;
   var item_dt = await item_list(comp_id),
   stock_dt = [];
-  if(data.item_id){
+  if(data.item_id > 0){
     stock_dt = await getStockList(comp_id, br_id, data.item_id)
   }
  var res_dt = {
+  id: data.item_id,
   item: item_dt.suc > 0 ? item_dt.msg : [],
   data: stock_dt.suc > 0 ? stock_dt.msg : [],
  }
@@ -127,8 +128,8 @@ ItemRouter.post('/save_item_stock', async (req, res) => {
   var comp_id = req.session.user.comp_id,
   br_id = req.session.user.br_id,
   user_name = req.session.user.user_name;
-  var add_data = await save_item_stock(data,comp_id);
-  res.redirect("/items/items_details")
+  var add_data = await save_item_stock(comp_id, br_id, user_name, data);
+  res.redirect("/items/stock")
 })
 
 module.exports = { ItemRouter };
