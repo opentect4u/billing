@@ -2,14 +2,14 @@ const { getUnitList, saveUnit } = require('../module/UnitModule');
 
 const UnitRouter = require('express').Router()
 
-UnitRouter.use((req, res, next) => {
-    var user = req.session.user;
-    if (!user) {
-        res.redirect("/login");
-    } else {
-        next();
-    }
-});
+// UnitRouter.use((req, res, next) => {
+//     var user = req.session.user;
+//     if (!user) {
+//         res.redirect("/login");
+//     } else {
+//         next();
+//     }
+// });
 
 UnitRouter.get('/unit_master', async (req, res) => {
     var comp_id = req.session.user.comp_id;

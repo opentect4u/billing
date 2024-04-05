@@ -1,0 +1,90 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card ml-5 mr-5">
+                <div class="card-body">
+                    <div class="titleSec">
+                        <h2><i class="fa fa-caret-square-o-left"></i>
+                            <b><span class="badge badge-light"
+                                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i class="fa fa-plus"></i>&nbsp;Add/Edit User</span></b></h2>
+                                    <ul class="breadcrumb">
+                                        <li><a href="/user/list">User List</a></li>&nbsp; / &nbsp;
+                                        <li>Add User List</li>
+                                      </ul>
+                         <form method="POST" action="/user/save_data" class="">
+                            <div class="row mt-4">
+                                <% if(br_list.length > 0){ %>
+                                    <div class="form-group col-md-6">
+                                        <label for="br_id"><b style="color: black;">Branch:</b></label>
+                                        <select name="br_id" class="form-control s2id" id="br_id">
+                                            <option value="">Select branch</option>
+                                            <% br_list.forEach(dt => {
+                                                var _selected = ''
+                                                if(data.length > 0) if(dt.id == data[0].br_id) _selected = 'selected'
+                                                 %>
+                                                    <option value="<%= dt.id %>" <%= _selected %>>
+                                                        <%= dt.branch_name %>
+                                                    </option>
+                                            <% }) %>
+                                        </select>   
+                                    </div>
+                                <% }else{ %>
+                                    <input type="hidden" name="br_id" value="0">
+                                <% } %>
+                                
+                                <div class="form-group col-md-6">
+                                    <label for="user_type"><b style="color: black;">User Type:</b></label>
+                                    <select name="user_type" class="form-control s2id" id="user_type">
+                                        <option value="">Select user type</option>
+                                        <% Object.entries(user_type).forEach(dt => {
+                                            const [id, name] = dt;
+                                            if(id != 'A'){
+                                            var _selected = ''
+                                            if(data.length > 0) if(id == data[0].user_type) _selected = 'selected'
+                                        %>
+                                            <option value="<%= id %>" <%= _selected %>><%= name %></option>
+                                        <% }}) %>
+                                    </select>   
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="user_name"><b style="color: black;">Name:</b></label>
+                                    <input type="text" name="user_name" id="user_name" class="form-control" value="<%= data.length > 0 ? data[0].user_name : '' %>" />   
+                                </div>
+                    
+                                <div class="form-group col-md-6">
+                                    <label for="phone_no"><b style="color: black;">Phone No:</b></label>
+                                    <input type="number" name="phone_no" id="phone_no" class="form-control" value="<%= data.length > 0 ? data[0].phone_no : '' %>"
+                                    required/>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="email_id"><b style="color: black;">Email:</b></label>
+                                    <input type="email" name="email_id" id="email_id" class="form-control" value="<%= data.length > 0 ? data[0].email_id : '' %>"
+                                    required/>
+                                </div>
+                                
+                                <% if(data.length > 0){ %>
+                                <div class="col-md-6 cust-toggle1">
+                                    <label for="active_flag" style="color: black;"><b>GST Flag</b></label><br>
+                                    <input type="checkbox" value="Y" id="active_flag" data-toggle="toggle"
+                                        data-onstyle="success" data-offstyle="danger" data-on="Active"
+                                        data-off="Deactive" name="active_flag" <%= data.length > 0 ? (data[0].active_flag=='Y'?'checked':'') : '' %>>
+                                </div>
+                                <% }else{ %>
+                                    <input type="hidden" name="active_flag" value="Y">
+                                <% } %>
+
+                                <input type="hidden" name="id" value="<%= id %>">
+                                <div class="form-group col-8 mt-3" style="margin-left: 29vw;">
+                                    <button class="btn btn-warning" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                                </div>
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

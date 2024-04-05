@@ -186,6 +186,10 @@
     padding-left: .8rem
 }
 
+.toggle.btn.btn-danger, .toggle.btn.btn-success{
+    width: 70% !important;
+}
+
 
 
 .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; cursor: pointer;}

@@ -10,6 +10,8 @@ const { Header_footerRouter } = require("./routes/Header_footerRouter");
 const { GstRouter } = require("./routes/GstRouter");
 const { SettingsRouter } = require("./routes/SettingsRouter");
 const { UnitRouter } = require("./routes/UnitRouter");
+const { ReceiptRouter } = require("./routes/ReceiptRouter");
+const { UserRouter } = require("./routes/UserRoter");
 
 var app = express(),
   expressLayouts = require("express-ejs-layouts"),
@@ -53,6 +55,7 @@ app.use((req, res, next) => {
   res.locals.message = req.session.message;
   delete req.session.message;
   // console.log(req.path);
+  console.log('MAIN HERE', req.path);
   next();
 });
 
@@ -94,6 +97,11 @@ app.use("/header_footer",Header_footerRouter);
 app.use("/gst",GstRouter);
 app.use("/settings",SettingsRouter)
 app.use(UnitRouter)
+app.use('/user', UserRouter)
+app.use('/bill', (req, res, next) => {
+  console.log('HERE');
+  next()
+}, ReceiptRouter)
 
 app.listen(port, (err) => {
   if (err) throw new Error(err);

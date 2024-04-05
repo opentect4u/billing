@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+  <html dir="ltr" lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <!-- Tell the browser to be responsive to screen width -->
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <title>Syn-Billing</title>
+    </head>
+  
+    <body>
+      <div class="page-wrapper">
+        <style>
+          table {
+            /* text-align: center; */
+            border: none;
+            padding: 10px;
+          }
+  
+          table .texAlignLeft {
+            text-align: left;
+          }
+  
+          table .texAlignRight {
+            text-align: right;
+          }
+
+          table tr.texAlignCenter td{
+            text-align: center;
+          }
+  
+          .tot_section {
+            display: flex;
+            justify-content: space-around;
+            flex-direction: row;
+          }
+        </style>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body" id="divToPrint">
+                  <table width="100%">
+                    <tr>
+                        <th colspan="8">OM TRADERS</th>
+                    </tr>
+                    <tr>
+                        <th colspan="8">Welcome Back</th>
+                    </tr>
+                    <tr>
+                        <th colspan="8">Your Receipt</th>
+                    </tr>
+                    <tr>
+                        <th colspan="8">DUPLICATE RECEIPT</th>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-color" style=" border-style: dashed; border-width: 1px; width: 100%;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">Store:</td>
+                        <td colspan="4">Customer Details:</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">Ashirwad Bhawan, G. C. Banarjee Road, Bhikhanpur,Bhagalpur, Bihar- 812001</td>
+                        <td colspan="4">Tanmoy Mondal</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            Contact Number: 7008893051 
+                            <br>
+                            Customer Care Email: purdcsltd@gmail.com
+                        </td>
+                        <td colspan="4">
+                            Phone: 9831887194
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-color" style=" border-style: dashed; border-width: 1px; width: 100%;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="8">Item Details</th>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-color" style=" border-style: dashed; border-width: 1px; width: 100%;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>MRP</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Discount</th>
+                        <th>CGST (%)</th>
+                        <th>SGST (%)</th>
+                        <th>Net Amount</th>
+                    </tr>
+                    <tr class="texAlignCenter">
+                        <td>Savlon Soap</td>
+                        <td>10.85</td>
+                        <td>1</td>
+                        <td>10.85</td>
+                        <td>0.00</td>
+                        <td>2.5</td>
+                        <td>2.5</td>
+                        <td>10.85</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-color" style=" border-style: dashed; border-width: 1px; width: 100%;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Total</td>
+                        <td colspan="2">Item: 1</td>
+                        <td colspan="2">QTY: 1</td>
+                        <td colspan="2">AMT: 10.85</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-color" style=" border-style: dashed; border-width: 1px; width: 100%;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="8">GST Breakup</th>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-color" style=" border-style: dashed; border-width: 1px; width: 100%;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">CGST</td>
+                        <td class="texAlignLeft" colspan="1">@2.25%</td>
+                        <td class="texAlignLeft" colspan="1">:</td>
+                        <td class="texAlignLeft" colspan="5">0.26</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">SGST</td>
+                        <td class="texAlignLeft" colspan="1">@2.25%</td>
+                        <td class="texAlignLeft" colspan="1">:</td>
+                        <td class="texAlignLeft" colspan="5">0.26</td>
+                    </tr>
+                    <tr>
+                        <th colspan="1">Total GST</th>
+                        <td></td>
+                        <td class="texAlignLeft" colspan="1">:</td>
+                        <td class="texAlignLeft" colspan="5">0.52</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-color" style=" border-style: dashed; border-width: 1px; width: 100%;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="8">Discount Breakup</th>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-color" style=" border-style: dashed; border-width: 1px; width: 100%;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">Discount</td>
+                        <td class="texAlignLeft" colspan="1">:</td>
+                        <td class="texAlignLeft" colspan="6">0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">Total Discount</td>
+                        <td class="texAlignLeft" colspan="1">:</td>
+                        <td class="texAlignLeft" colspan="6">0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-color" style=" border-style: dashed; border-width: 1px; width: 100%;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="8">Payment Summary</th>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-color" style=" border-style: dashed; border-width: 1px; width: 100%;"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">Round Off:</td>
+                        <td class="texAlignLeft" colspan="3">0.00</td>
+                        <td colspan="1">Net Amount:</td>
+                        <td class="texAlignLeft" colspan="3">10.85</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">Receipt No:</td>
+                        <td class="texAlignLeft" colspan="3">1712121460</td>
+                        <td colspan="1">Date:</td>
+                        <td class="texAlignLeft" colspan="3">2023-09-24 13:55:17</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">Cash Received:</td>
+                        <td class="texAlignLeft" colspan="3">50</td>
+                        <td colspan="1">Returned Amount:</td>
+                        <td class="texAlignLeft" colspan="3">40</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-color" style=" border-style: dashed; border-width: 1px; width: 100%;"></p>
+                        </td>
+                    </tr>
+                    <tr class="texAlignCenter">
+                        <td colspan="8">Thank You!</td>
+                    </tr>
+                    <tr class="texAlignCenter">
+                        <td colspan="8">Visit Again...</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  </html>

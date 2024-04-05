@@ -3,78 +3,230 @@
       <div class="col-md-12">
         <div class="card ml-5 mr-5">
           <div class="card-body">
-            <div class="titleSec">
-              <div class="row">
-                <div class="col-sm-6">
-                  <h2>
-                    <b><span class="badge badge-light" style="
-                            border-radius: 8px;
-                            color: rgb(15, 15, 15);
-                            font-weight: 500;
-                            padding: 8px 15px;
-                          "><i class="fa fa-wrench"></i>&nbsp; Settings</span></b>
-                  </h2>
-                </div>
-                <% if(data.length > 0){ %>
-                  <% }else{ %>
-                    <div class="col-sm-6">
-                      <a type="button" class="btn btn-primary" title="Add" id="myBtn" href="/settings/add_settings"
-                        style="border-radius: 8px; float: right">
-                        <i class="fa fa-plus"></i>
-                      </a>
+            <h2 class="card-title mb-3">
+              <b><span class="badge badge-light" style="
+                      border-radius: 8px;
+                      color: rgb(15, 15, 15);
+                      font-weight: 500;
+                      padding: 8px 15px;
+                    "><i class="fa fa-wrench"></i>&nbsp; Settings</span></b>
+            </h2>
+            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 my-4">
+                <li class="nav-item">
+                    <a href="#gen_sett" data-toggle="tab" aria-expanded="false"
+                        class="nav-link rounded-0 active">
+                        <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">General Settings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#dis_sett" data-toggle="tab" aria-expanded="true"
+                        class="nav-link rounded-0">
+                        <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">Discount Settings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#gst_sett" data-toggle="tab" aria-expanded="false"
+                        class="nav-link rounded-0">
+                        <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                        <span class="d-none d-lg-block">GST Settings</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane show active" id="gen_sett">
+                  <form method="POST" action="/settings/save_gen_edit_data" class="">
+                    <div class="row mt-3">
+                      <div class="col-md-3 cust-toggle1">
+                          <label for="cust_info" style="color: black;"><b>Customer Info</b></label><br>
+                          <input type="checkbox" value="Y" id="cust_info" data-toggle="toggle"
+                              data-onstyle="success" data-offstyle="danger" data-on="Active"
+                              data-off="Deactive" name="cust_info" <%=(settings_dt[0].cust_inf=='Y'
+                              )?'checked':''%>>
+                      </div>
+
+                      <div class="col-md-3 cust-toggle1">
+                          <label for="pay_mode" style="color: black;"><b>Pay Mode</b></label><br>
+                          <input type="checkbox" value="Y" id="pay_mode" data-toggle="toggle"
+                              data-onstyle="success" data-offstyle="danger" data-on="Active"
+                              data-off="Deactive" name="pay_mode" <%=(settings_dt[0].pay_mode=='Y'
+                              )?'checked':''%>>
+                      </div>
+
+                      <div class="col-md-3 cust-toggle1">
+                          <label for="unit" style="color: black;"><b>Unit</b></label><br>
+                          <input type="checkbox" value="Y" id="unit" data-toggle="toggle"
+                              data-onstyle="success" data-offstyle="danger" data-on="Active"
+                              data-off="Deactive" name="unit" <%=(settings_dt[0].unit_flag=='Y'
+                              )?'checked':''%>>
+                      </div>
+
+                      <div class="col-md-3 cust-toggle1">
+                          <label for="inventory" style="color: black;"><b>Inventory</b></label><br>
+                          <input type="checkbox" value="Y" id="inventory" data-toggle="toggle"
+                              data-onstyle="success" data-offstyle="danger" data-on="Active"
+                              data-off="Deactive" name="inventory" <%=(settings_dt[0].stock_flag=='Y'
+                              )?'checked':''%>>
+                      </div>
                     </div>
-                <% } %>
-              </div>
-  
-              <table class="table table-sm table-striped table-bordered no-wrap mt-3" id="showdetails" >
-                <thead>
-                  <tr>
-                    <th style="color: black;">Sl. No.</th>
-                    <th style="color: black;">Store Name</th>
-                    <!-- <th style="color: black;">GST Flag</th>
-                    <th style="color: black;">Customer Info</th>
-                    <th style="color: black;">Pay Mode</th>
-                    <th style="color: black;">Unit Flag</th>
-                    <th style="color: black;">Inventory</th>
-                    <th style="color: black;">Discount</th> -->
-                    <th style="color: black;">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <%  data.forEach(function(item,index) { %>
-                                    <tr>
-                                        <td><%= index+1 %></td>
-                                        <td>
-                                            <%= item.company_name %>
-                                        </td>
-                                        <!-- <td>
-                                            <%= item.gst_flag %>
-                                        </td>
-                                        <td>
-                                            <%= item.cust_inf %>
-                                        </td>
-                                        <td>
-                                            <%= item.pay_mode %>
-                                        </td>
-                                        <td>
-                                          <%= item.unit_flag %>
-                                        </td>
-                                        <td>
-                                          <%= item.stock_flag %>
-                                        </td>
-                                        <td>
-                                          <%= item.discount_flag %>
-                                        </td> -->
-                                        <td>
-                                           <a href="/settings/edit_settings?comp_id=<%= item.comp_id %>"class='btn btn-info' style='border-radius:6px'><i class='fa fa-edit'></i></a>
-                                        </td>
-                                    </tr>
-                                    <% }) %>
-                </tbody>
-              </table>
+                    <div class="row mt-3">
+                      <div class="col-md-3 col-lg-3">
+                          <!-- <div class="card">
+                              <div class="card-body"> -->
+                          <!-- <h4 class="card-title">Discount Type</h4> -->
+                          <label for="receipt_type" style="color: black;"><b>Receipt Type</b></label><br>
+                          <div class="form-group mb-3">
+                              <!-- <label for="exampleFormControlSelect1">Select No</label> -->
+                              <select class="form-control" name="receipt_type" id="receipt_type">
+                                  <option value="">Select Receipt Type</option>
+                                  <% receipt_type.forEach(dt=> {
+                                      _selected=''
+                                      if(dt.id == settings_dt[0].rcpt_type) _selected = 'selected'
+                                       %>
+                                      <option value="<%= dt.id %>" <%= _selected %>>
+                                          <%= dt.name %>
+                                      </option>
+                                      <% }) %>
+                              </select>
+                          </div>
+                          <!-- </div>
+                          </div> -->
+                      </div>
+                      <div class="col-md-3 col-lg-3">
+                          <!-- <div class="card">
+                              <div class="card-body"> -->
+                          <!-- <h4 class="card-title">Discount Type</h4> -->
+                          <label for="refund_days" style="color: black;"><b>Refund within (In Days)</b></label><br>
+                          <div class="form-group mb-3">
+                              <!-- <label for="exampleFormControlSelect1">Select No</label> -->
+                              <input type="text" name="refund_days" id="refund_days" class="form-control" value="<%= settings_dt[0].refund_days > 0 ? settings_dt[0].refund_days : 0 %>"
+                             required  />
+                          </div>
+                          <!-- </div>
+                          </div> -->
+                      </div>
+                    </div>
+                    <div class="row">
+                      <input type="hidden" name="com_id" value="<%= com_id %>">
+                      <div class="form-group col-md-8 mt-4" style="margin-left: 23vw;">
+                          <button class="btn btn-warning" type="submit" value="SUBMIT"
+                              style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="tab-pane" id="dis_sett">
+                  <form method="POST" action="/settings/save_dis_edit_data" class="">
+                    <div class="row mt-3">
+                      <div class="col-md-3 cust-toggle1">
+                          <label for="discount" style="color: black;"><b>Discount</b></label><br>
+                          <input type="checkbox" value="Y" id="discount" data-toggle="toggle"
+                              data-onstyle="success" data-offstyle="danger" data-on="Active"
+                              data-off="Deactive" name="discount" <%=(settings_dt[0].discount_flag=='Y'
+                              )?'checked':''%>>
+                      </div>
+                      <div class="col-md-9" id="dis_hide" style="display: <%= settings_dt[0].discount_flag=='Y' ? 'block' : 'none' %>;">
+                        <div class="row">
+                          <div class="col-md-6 col-lg-6">
+                              <label for="discount_type" style="color: black"><b>Discount Type</b></label><br>
+                              <div class="form-group mb-3">
+                                <select class="form-control" name="discount_type" id="discount_type">
+                                  <option value="">Select Discount Type</option>
+                                    <% discount_type.forEach(dt=> {
+                                        _selected=''
+                                        if(dt.id == settings_dt[0].discount_type) _selected = 'selected'
+                                          %>
+                                        <option value="<%= dt.id %>" <%= _selected %>>
+                                            <%= dt.name %>
+                                        </option>
+                                        <% }) %>
+                                </select>
+                              </div>
+                          </div>
+                          <div class="col-md-6 cust-toggle1">
+                            <label for="discount_pos" style="color: black;"><b>Discount Position</b></label><br>
+                            <input type="checkbox" value="Y" id="discount_pos" data-toggle="toggle"
+                                data-onstyle="success" data-offstyle="danger" data-on="Item wise"
+                                data-off="Bill wise" name="discount_pos" <%=(settings_dt[0].discount_position=='I'
+                                )?'checked':''%>>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      
+                    </div>
+                    <div class="row">
+                      <input type="hidden" name="com_id" value="<%= com_id %>">
+                      <div class="form-group col-md-8 mt-4" style="margin-left: 23vw;">
+                          <button class="btn btn-warning" type="submit" value="SUBMIT"
+                              style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="tab-pane" id="gst_sett">
+                  <form method="POST" action="/settings/save_gst_edit_data" class="">
+                    <div class="row mt-3">
+                      <div class="col-md-3 cust-toggle1">
+                          <label for="gst_flag" style="color: black;"><b>GST Flag</b></label><br>
+                          <input type="checkbox" value="Y" id="gst_flag" data-toggle="toggle"
+                              data-onstyle="success" data-offstyle="danger" data-on="Exclusive"
+                              data-off="Inclusive" name="gst_flag" <%= (settings_dt[0].gst_flag=='Y'
+                              )?'checked':'' %>>
+                      </div>
+
+                      <div class="col-md-3" id="gst_type_div" style="display: <%= settings_dt[0].gst_flag=='Y' ? 'block' : 'none' %>;">
+                          <label for="gst_type" style="color: black"><b>GST Type</b></label><br>
+                          <div class="form-group mb-3">
+                              <select class="form-control" name="gst_type" id="gst_type">
+                                  <% Object.entries(gst_type).forEach(dt => {
+                                      const [id, name] = dt;
+                                      var _selected = ''
+                                      if(id == settings_dt[0].gst_type) _selected = 'selected' %>
+                                      <option value="<%= id %>" <%= _selected %>><%= name %></option>
+                                  <% }); %>
+                              </select>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <input type="hidden" name="com_id" value="<%= com_id %>">
+                      <div class="form-group col-md-8 mt-4" style="margin-left: 23vw;">
+                          <button class="btn btn-warning" type="submit" value="SUBMIT"
+                              style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
             </div>
-          </div>
+        </div>
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    $('#discount').on('change', function () {
+        if ($(this).is(':checked')) {
+            $('#dis_hide').show()
+        } else {
+            $('#discount').removeAttr('required')
+            $('#dis_hide').hide()
+        }
+    })
+</script>
+
+<script>
+    $('#gst_flag').on('change', function(){
+        if($(this).is(':checked')){
+            $('#gst_type_div').show()
+            $('#gst_type_div').attr('required', 'required')
+        }else{
+            $('#gst_type_div').removeAttr('required')
+            $('#gst_type_div').hide()
+        }
+    })
+</script>

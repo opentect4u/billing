@@ -36,6 +36,55 @@ const save_edit_settings = (data) => {
     });
   };
 
+  const save_settings = (data, type, user_name, comp_id) => {
+    return new Promise(async (resolve, reject) => {
+      datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+      var table_name, fields, values, where, flag;
+      switch (type) {
+        case 'G':
+          table_name = "md_receipt_settings"
+          fields = `cust_inf = '${
+            data.cust_info == "Y" ? "Y" : "N"
+          }', pay_mode = '${
+            data.pay_mode == "Y" ? "Y" : "N"
+          }',unit_flag = '${
+            data.unit == "Y" ? "Y" : "N"
+          }',stock_flag = '${
+            data.inventory == "Y" ? "Y" : "N"
+          }',rcpt_type='${data.receipt_type}', refund_days = ${data.refund_days > 0 ? data.refund_days : 0}, modified_by = '${user_name}', modified_at = '${datetime}'`
+          values = null
+          where = `comp_id = ${comp_id}`
+          flag = 1
+          break;
+        case 'S':
+          table_name = "md_receipt_settings"
+          fields = `gst_flag = '${
+            data.gst_flag == "Y" ? "Y" : "N"
+          }', gst_type = ${data.gst_flag == 'Y' ? `'${data.gst_type}'` : null}, modified_by = '${user_name}', modified_at = '${datetime}'`
+          values = null
+          where = `comp_id = ${comp_id}`
+          flag = 1
+          break;
+        case 'D':
+          table_name = "md_receipt_settings"
+          fields = `discount_flag = '${
+            data.discount == "Y" ? "Y" : "N"
+          }', discount_position = '${
+            data.discount_pos == "Y" ? "I" : "B"
+          }', discount_type='${data.discount_type}', modified_by = '${user_name}', modified_at = '${datetime}'`
+          values = null
+          where = `comp_id = ${comp_id}`
+          flag = 1
+          break;
+      
+        default:
+          break;
+      }
+      var res_dt = await db_Insert(table_name, fields, values, where, flag);
+      resolve(res_dt);
+    });
+};
+
   const comp_list = (comp_id) => {
     return new Promise(async (resolve, reject) => {
       var select = "*",
@@ -61,4 +110,4 @@ const save_edit_settings = (data) => {
     });
   };
 
-module.exports = { settings_details, save_edit_settings, comp_list, save_add_settings }
+module.exports = { settings_details, save_edit_settings, comp_list, save_add_settings, save_settings }

@@ -102,6 +102,12 @@ const gst_type_master = {
   E: 'Exclusive'
 }
 
+const user_type_master = {
+  A: 'Admin',
+  U: 'User',
+  M: 'Master',
+}
+
 module.exports = {
   db_Select,
   db_Insert,
@@ -109,5 +115,6 @@ module.exports = {
   db_Check,
   EncryptDataToSend,
   pay_mode,
-  gst_type_master
+  gst_type_master,
+  user_type_master
 };
