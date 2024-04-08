@@ -43,7 +43,9 @@ ApiRouter.post('/bill_sms', async (req, res) => {
         var template_dt = await db_Select(select, table_name, whr, order);
     
         var short_url = await ShortUrl(`https://admin.bill365.app/bill/receipt?receipt_no=${data.receipt_no}`)
-        var srt_url = short_url.suc > 0 ? short_url.msg.shorturl : ''
+        var srt_url = short_url.suc > 0 ? JSON.parse(short_url.msg).shorturl : ''
+
+        console.log(srt_url);
     
         var default_text = `https://bulksms.sssplsales.in/api/api_http.php?username=SYNERGIC&password=SYN@526RGC&senderid=SYNGIC&to=${data.phone}&text=Dear customer, thank you for shopping with us. For eBill please click ${srt_url} -Synergic softek solutions pvt ltd.&route=Informative&type=text`
         var temp = template_dt.msg[0].bill_template
@@ -81,6 +83,7 @@ const ShortUrl = (url) => {
         request(options, function (error, response) {
             var res_dt = ''
             if (error) {
+                console.log(error);
                 res_dt = {suc: 0, msg: error}
             }else{
                 res_dt = {suc: 1, msg: response.body}
