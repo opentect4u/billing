@@ -12,6 +12,7 @@ const { SettingsRouter } = require("./routes/SettingsRouter");
 const { UnitRouter } = require("./routes/UnitRouter");
 const { ReceiptRouter } = require("./routes/ReceiptRouter");
 const { UserRouter } = require("./routes/UserRoter");
+const { ApiRouter } = require("./routes/ApiRouter");
 
 var app = express(),
   expressLayouts = require("express-ejs-layouts"),
@@ -98,10 +99,8 @@ app.use("/gst",GstRouter);
 app.use("/settings",SettingsRouter)
 app.use(UnitRouter)
 app.use('/user', UserRouter)
-app.use('/bill', (req, res, next) => {
-  console.log('HERE');
-  next()
-}, ReceiptRouter)
+app.use('/bill', ReceiptRouter)
+app.use('/api', ApiRouter)
 
 app.listen(port, (err) => {
   if (err) throw new Error(err);
