@@ -43,7 +43,7 @@ ReceiptRouter.get('/receipt', async (req, res) => {
 
         // Set response headers for PDF download
         res.setHeader("Content-Type", "application/pdf");
-        res.setHeader("Content-Disposition", "attachment; filename=sample.pdf");
+        res.setHeader("Content-Disposition", `attachment; filename=${receipt_no}.pdf`);
 
         // Send the PDF as response
         res.send(pdfBuffer);
