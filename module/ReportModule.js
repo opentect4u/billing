@@ -116,11 +116,11 @@ const comp_header = (comp_id) => {
   });
 };
 
-const receipt_list = (data) => {
+const receipt_list = (data, comp_id = 0) => {
   return new Promise(async (resolve, reject) => {
     var select = "receipt_no,trn_date,created_by,net_amt,pay_mode",
       table_name = "td_receipt",
-      where = `trn_date BETWEEN '${data.dt_frm}' AND '${data.dt_to}'`;
+      where = `comp_id = ${comp_id} AND trn_date BETWEEN '${data.dt_frm}' AND '${data.dt_to}'`;
     var rec_dt = await db_Select(select, table_name, where, null);
     resolve(rec_dt);
   });

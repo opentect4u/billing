@@ -151,9 +151,10 @@ ReportRouter.get("/receiptwise_report", async (req, res) => {
 });
 
 ReportRouter.post("/receipt_list", async (req, res) => {
-  var data = req.body;
+  var data = req.body,
+  comp_id = req.session.user.comp_id;
   // console.log(data,"1234");
-  var res_dt = await receipt_list(data);
+  var res_dt = await receipt_list(data, comp_id);
   res.send(res_dt);
   // console.log(res_dt);
 });

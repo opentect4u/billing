@@ -6,7 +6,6 @@ bcrypt = require("bcrypt");
 AdminRouter.post("/admin_login", async (req, res) => {
   var data = req.body,
     result;
-  console.log(data);
   var select = "a.*,b.*",
     table_name = "md_user a , md_company b",
     whr = `a.comp_id=b.id AND a.email_id='${data.email_id}' AND a.user_type='A'`,

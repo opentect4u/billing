@@ -1,0 +1,59 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card ml-5 mr-5">
+                <div class="card-body">
+                    <div class="titleSec">
+                        <h2>
+                            <b><span class="badge badge-light"
+                                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i class="fa fa-edit"></i>&nbsp;Edit Customer Details</span></b></h2>
+                                    <ul class="breadcrumb">
+                                        <li><a href="/customer/list">Customer Details</a></li>&nbsp; / &nbsp;
+                                        <li>Edit Customer Details</li>
+                                      </ul>
+                         <form method="POST" action="/customer/save" class="">
+                            <div class="row mt-4">
+                                <div class="form-group col-md-6">
+                                    <label for="cust_name"><b style="color: black;">Customer Name:</b></label>
+                                    <input type="text" name="cust_name" id="cust_name" class="form-control" value="<%= data.length > 0 ? data[0].cust_name : '' %>"
+                                       />
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="phone_no"><b style="color: black;">Phone:</b></label>
+                                    <input type="phone" name="phone_no" id="phone_no" class="form-control" value="<%= data.length > 0 ? data[0].phone_no : '' %>" />   
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="email_id"><b style="color: black;">Email:</b></label>
+                                    <input type="email" name="email_id" id="email_id" class="form-control" value="<%= data.length > 0 ? data[0].email_id : '' %>" />   
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="date_of_birth"><b style="color: black;">DOB:</b></label>
+                                    <input type="date" name="date_of_birth" id="date_of_birth" class="form-control" value="<%= data.length > 0 ? data[0].date_of_birth : '' %>" />   
+                                </div>
+                                
+                                <div class="form-group col-md-12">
+                                    <label for="bill_address"><b style="color: black;">Bill Address:</b></label>
+                                    <textarea class="form-control" name="bill_address" id="bill_address" rows="3" placeholder="Bill address"><%= data.length > 0 ? data[0].bill_address : '' %></textarea>
+                                </div>
+                                
+                                <div class="form-group col-md-12">
+                                    <label for="delivery_address"><b style="color: black;">Delivery Address:</b></label>
+                                    <textarea class="form-control" name="delivery_address" id="delivery_address" rows="3" placeholder="Bill address"><%= data.length > 0 ? data[0].delivery_address : '' %></textarea>
+                                </div>
+
+
+                                <input type="hidden" name="id" id="id" value="<%= id %>">    
+                                <div class="form-group col-md-8 mt-3" style="margin-left: 29vw;">
+                                    <button class="btn btn-warning" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
