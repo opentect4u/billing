@@ -13,11 +13,12 @@ const { UnitRouter } = require("./routes/UnitRouter");
 const { ReceiptRouter } = require("./routes/ReceiptRouter");
 const { UserRouter } = require("./routes/UserRoter");
 const { ApiRouter } = require("./routes/ApiRouter");
+const { LocationRouter } = require("./routes/LocationRouter");
 
 var app = express(),
   expressLayouts = require("express-ejs-layouts"),
   path = require("path"),
-  port = process.env.PORT || 3000;
+  port = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
 // parse requests of content-type - application/json
@@ -101,6 +102,7 @@ app.use(UnitRouter)
 app.use('/user', UserRouter)
 app.use('/bill', ReceiptRouter)
 app.use('/api', ApiRouter)
+app.use('/location', LocationRouter)
 
 app.listen(port, (err) => {
   if (err) throw new Error(err);

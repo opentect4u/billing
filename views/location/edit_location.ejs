@@ -1,0 +1,68 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card ml-5 mr-5">
+                <div class="card-body">
+                    <div class="titleSec">
+                        <h2>
+                            <b><span class="badge badge-light"
+                                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i class="fa fa-edit"></i>&nbsp;Edit Location</span></b></h2>
+                                    <ul class="breadcrumb">
+                                        <li><a href="/location/location_dtls">Manage Location</a></li>&nbsp; / &nbsp;
+                                        <li>Edit Location</li>
+                                      </ul>
+                         <form method="POST" action="/location/edit_new_location" class="">
+                            <div class="row mt-4">
+                                <div class="form-group col-md-6">
+                                    <label for="loc_name"><b style="color: black;">Location:</b></label>
+                                    <input type="text" name="loc_name" id="loc_name" class="form-control" value="<%= data[0].location_name %>" />
+                                </div>
+
+                                 <!-- <div class="form-group col-md-6">
+                                    <label for="unit_id"><b style="color: black;">Unit:</b></label>
+                                    <select name="unit_id" class="form-control s2id" id="unit_id">
+                                        <option value="">Select Unit</option>
+                                        
+                                    </select>   
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="item_name"><b style="color: black;">Item Name:</b></label>
+                                    <input type="text" name="item_name" id="item_name" class="form-control" value=">" />   
+                                </div>
+                                
+                                <div class="form-group col-md-6">
+                                    <label for="price"><b style="color: black;">Price:</b></label>
+                                    <input type="text" name="price" id="price" class="form-control" value=""
+                                    />
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="discount"><b style="color: black;">Discount:</b></label>
+                                    <input type="text" name="discount" id="discount" class="form-control" value=""
+                                    />
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="cgst"><b style="color: black;">Cgst:</b></label>
+                                    <input type="text" name="cgst" id="cgst" class="form-control" value=""
+                                    />
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="sgst"><b style="color: black;">Sgst:</b></label>
+                                    <input type="text" name="sgst" id="sgst" class="form-control" value=""
+                                    />
+                                </div> -->
+                                <input type="hidden" name="sl_no" id="sl_no" value="<%= sl_no %>"> 
+                                <div class="form-group col-md-8 mt-3" style="margin-left: 29vw;">
+                                    <button class="btn btn-warning" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -43,32 +43,32 @@
                           <label for="cust_info" style="color: black;"><b>Customer Info</b></label><br>
                           <input type="checkbox" value="Y" id="cust_info" data-toggle="toggle"
                               data-onstyle="success" data-offstyle="danger" data-on="Active"
-                              data-off="Deactive" name="cust_info" <%=(settings_dt[0].cust_inf=='Y'
-                              )?'checked':''%>>
+                              data-off="Deactive" name="cust_info" <%= settings_dt.length > 0 ? (settings_dt[0].cust_info=='Y'
+                              )?'checked':'' : ''%>>
                       </div>
 
                       <div class="col-md-3 cust-toggle1">
                           <label for="pay_mode" style="color: black;"><b>Pay Mode</b></label><br>
                           <input type="checkbox" value="Y" id="pay_mode" data-toggle="toggle"
                               data-onstyle="success" data-offstyle="danger" data-on="Active"
-                              data-off="Deactive" name="pay_mode" <%=(settings_dt[0].pay_mode=='Y'
-                              )?'checked':''%>>
+                              data-off="Deactive" name="pay_mode" <%= settings_dt.length > 0 ? (settings_dt[0].pay_mode=='Y'
+                              )?'checked':'' : ''%>>
                       </div>
 
                       <div class="col-md-3 cust-toggle1">
                           <label for="unit" style="color: black;"><b>Unit</b></label><br>
                           <input type="checkbox" value="Y" id="unit" data-toggle="toggle"
                               data-onstyle="success" data-offstyle="danger" data-on="Active"
-                              data-off="Deactive" name="unit" <%=(settings_dt[0].unit_flag=='Y'
-                              )?'checked':''%>>
+                              data-off="Deactive" name="unit" <%= settings_dt.length > 0 ? (settings_dt[0].unit_flag=='Y'
+                              )?'checked':'' : ''%>>
                       </div>
 
                       <div class="col-md-3 cust-toggle1">
                           <label for="inventory" style="color: black;"><b>Inventory</b></label><br>
                           <input type="checkbox" value="Y" id="inventory" data-toggle="toggle"
                               data-onstyle="success" data-offstyle="danger" data-on="Active"
-                              data-off="Deactive" name="inventory" <%=(settings_dt[0].stock_flag=='Y'
-                              )?'checked':''%>>
+                              data-off="Deactive" name="inventory" <%= settings_dt.length > 0 ? (settings_dt[0].stock_flag=='Y'
+                              )?'checked':'' : ''%>>
                       </div>
                     </div>
                     <div class="row mt-3">
@@ -79,11 +79,11 @@
                           <label for="receipt_type" style="color: black;"><b>Receipt Type</b></label><br>
                           <div class="form-group mb-3">
                               <!-- <label for="exampleFormControlSelect1">Select No</label> -->
-                              <select class="form-control" name="receipt_type" id="receipt_type">
+                              <select class="form-control" name="receipt_type" id="receipt_type" disabled>
                                   <option value="">Select Receipt Type</option>
                                   <% receipt_type.forEach(dt=> {
                                       _selected=''
-                                      if(dt.id == settings_dt[0].rcpt_type) _selected = 'selected'
+                                      if(settings_dt.length>0) if(dt.id == settings_dt[0].rcpt_type) _selected = 'selected'
                                        %>
                                       <option value="<%= dt.id %>" <%= _selected %>>
                                           <%= dt.name %>
@@ -101,7 +101,7 @@
                           <label for="refund_days" style="color: black;"><b>Refund within (In Days)</b></label><br>
                           <div class="form-group mb-3">
                               <!-- <label for="exampleFormControlSelect1">Select No</label> -->
-                              <input type="text" name="refund_days" id="refund_days" class="form-control" value="<%= settings_dt[0].refund_days > 0 ? settings_dt[0].refund_days : 0 %>"
+                              <input type="text" name="refund_days" id="refund_days" class="form-control" value="<%= (settings_dt.length>0) ? settings_dt[0].refund_days > 0 ? settings_dt[0].refund_days : 0 : '' %>"
                              required  />
                           </div>
                           <!-- </div>
@@ -124,10 +124,10 @@
                           <label for="discount" style="color: black;"><b>Discount</b></label><br>
                           <input type="checkbox" value="Y" id="discount" data-toggle="toggle"
                               data-onstyle="success" data-offstyle="danger" data-on="Active"
-                              data-off="Deactive" name="discount" <%=(settings_dt[0].discount_flag=='Y'
-                              )?'checked':''%>>
+                              data-off="Deactive" name="discount" <%= (settings_dt.length>0) ?(settings_dt[0].discount_flag=='Y'
+                              )?'checked':'' : ''%>>
                       </div>
-                      <div class="col-md-9" id="dis_hide" style="display: <%= settings_dt[0].discount_flag=='Y' ? 'block' : 'none' %>;">
+                      <div class="col-md-9" id="dis_hide" style="display: <%= (settings_dt.length>0) ? settings_dt[0].discount_flag=='Y' ? 'block' : 'none' : '' %>;">
                         <div class="row">
                           <div class="col-md-6 col-lg-6">
                               <label for="discount_type" style="color: black"><b>Discount Type</b></label><br>
@@ -136,7 +136,7 @@
                                   <option value="">Select Discount Type</option>
                                     <% discount_type.forEach(dt=> {
                                         _selected=''
-                                        if(dt.id == settings_dt[0].discount_type) _selected = 'selected'
+                                        if(settings_dt.length>0) if(dt.id == settings_dt[0].discount_type) _selected = 'selected'
                                           %>
                                         <option value="<%= dt.id %>" <%= _selected %>>
                                             <%= dt.name %>
@@ -149,8 +149,8 @@
                             <label for="discount_pos" style="color: black;"><b>Discount Position</b></label><br>
                             <input type="checkbox" value="Y" id="discount_pos" data-toggle="toggle"
                                 data-onstyle="success" data-offstyle="danger" data-on="Item wise"
-                                data-off="Bill wise" name="discount_pos" <%=(settings_dt[0].discount_position=='I'
-                                )?'checked':''%>>
+                                data-off="Bill wise" name="discount_pos" <%= (settings_dt.length>0) ? (settings_dt[0].discount_position=='I'
+                                )?'checked':'' : ''%>>
                           </div>
                         </div>
                       </div>
@@ -174,18 +174,18 @@
                           <label for="gst_flag" style="color: black;"><b>GST Flag</b></label><br>
                           <input type="checkbox" value="Y" id="gst_flag" data-toggle="toggle"
                               data-onstyle="success" data-offstyle="danger" data-on="Exclusive"
-                              data-off="Inclusive" name="gst_flag" <%= (settings_dt[0].gst_flag=='Y'
-                              )?'checked':'' %>>
+                              data-off="Inclusive" name="gst_flag" <%= (settings_dt.length>0) ? (settings_dt[0].gst_flag=='Y'
+                              )?'checked':'' : '' %>>
                       </div>
 
-                      <div class="col-md-3" id="gst_type_div" style="display: <%= settings_dt[0].gst_flag=='Y' ? 'block' : 'none' %>;">
+                      <div class="col-md-3" id="gst_type_div" style="display: <%= (settings_dt.length>0) ? settings_dt[0].gst_flag=='Y' ? 'block' : 'none' : '' %>;">
                           <label for="gst_type" style="color: black"><b>GST Type</b></label><br>
                           <div class="form-group mb-3">
                               <select class="form-control" name="gst_type" id="gst_type">
                                   <% Object.entries(gst_type).forEach(dt => {
                                       const [id, name] = dt;
                                       var _selected = ''
-                                      if(id == settings_dt[0].gst_type) _selected = 'selected' %>
+                                      if(settings_dt.length>0) if(id == settings_dt[0].gst_type) _selected = 'selected' %>
                                       <option value="<%= id %>" <%= _selected %>><%= name %></option>
                                   <% }); %>
                               </select>
@@ -194,6 +194,7 @@
                     </div>
                     <div class="row">
                       <input type="hidden" name="com_id" value="<%= com_id %>">
+                      <input type="hidden" name="id" value="<%= settings_dt.length>0 ? 1 : 0 %>">
                       <div class="form-group col-md-8 mt-4" style="margin-left: 23vw;">
                           <button class="btn btn-warning" type="submit" value="SUBMIT"
                               style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>

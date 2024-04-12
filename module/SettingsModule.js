@@ -43,7 +43,7 @@ const save_edit_settings = (data) => {
       switch (type) {
         case 'G':
           table_name = "md_receipt_settings"
-          fields = `cust_inf = '${
+          fields = data.id > 0 ? `cust_inf = '${
             data.cust_info == "Y" ? "Y" : "N"
           }', pay_mode = '${
             data.pay_mode == "Y" ? "Y" : "N"
@@ -51,30 +51,30 @@ const save_edit_settings = (data) => {
             data.unit == "Y" ? "Y" : "N"
           }',stock_flag = '${
             data.inventory == "Y" ? "Y" : "N"
-          }',rcpt_type='${data.receipt_type}', refund_days = ${data.refund_days > 0 ? data.refund_days : 0}, modified_by = '${user_name}', modified_at = '${datetime}'`
-          values = null
+          }',rcpt_type='${data.receipt_type}', refund_days = ${data.refund_days > 0 ? data.refund_days : 0}, modified_by = '${user_name}', modified_at = '${datetime}'` : '(comp_id, cust_inf, pay_mode, unit_flag, stock_flag, rcpt_type, refund_days, created_by, created_at)'
+          values = `(${comp_id}, '${ data.cust_info == "Y" ? "Y" : "N" }', '${ data.pay_mode == "Y" ? "Y" : "N" }', '${ data.unit == "Y" ? "Y" : "N" }', '${ data.inventory == "Y" ? "Y" : "N" }', '${data.receipt_type}', ${data.refund_days > 0 ? data.refund_days : 0}, '${user_name}', '${datetime}')`
           where = `comp_id = ${comp_id}`
-          flag = 1
+          flag = data.id > 0 ? 1 : 0
           break;
         case 'S':
           table_name = "md_receipt_settings"
-          fields = `gst_flag = '${
+          fields = data.id > 0 ? `gst_flag = '${
             data.gst_flag == "Y" ? "Y" : "N"
-          }', gst_type = ${data.gst_flag == 'Y' ? `'${data.gst_type}'` : null}, modified_by = '${user_name}', modified_at = '${datetime}'`
-          values = null
+          }', gst_type = ${data.gst_flag == 'Y' ? `'${data.gst_type}'` : null}, modified_by = '${user_name}', modified_at = '${datetime}'` : '(comp_id, gst_flag, gst_type, created_by, created_at)'
+          values = `(${comp_id},'${ data.gst_flag == "Y" ? "Y" : "N" }',${data.gst_flag == 'Y' ? `'${data.gst_type}'` : null},'${user_name}', '${datetime}')`
           where = `comp_id = ${comp_id}`
-          flag = 1
+          flag = data.id > 0 ? 1 : 0
           break;
         case 'D':
           table_name = "md_receipt_settings"
-          fields = `discount_flag = '${
+          fields = data.id > 0 ? `discount_flag = '${
             data.discount == "Y" ? "Y" : "N"
           }', discount_position = '${
             data.discount_pos == "Y" ? "I" : "B"
-          }', discount_type='${data.discount_type}', modified_by = '${user_name}', modified_at = '${datetime}'`
-          values = null
+          }', discount_type='${data.discount_type}', modified_by = '${user_name}', modified_at = '${datetime}'` : '(comp_id, discount_flag, discount_position, discount_type, created_by, created_at)'
+          values = `(${comp_id},'${ data.discount == "Y" ? "Y" : "N" }','${ data.discount_pos == "Y" ? "I" : "B" }','${data.discount_type}','${user_name}', '${datetime}')`
           where = `comp_id = ${comp_id}`
-          flag = 1
+          flag = data.id > 0 ? 1 : 0
           break;
       
         default:
