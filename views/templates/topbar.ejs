@@ -50,7 +50,7 @@
             <!-- ============================================================== -->
             <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
                 <li>
-                <h2><span class="badge" style="color: black; border-radius: 8px;height: 3vw; width: 10vw;padding: 10px; background-color: #e5a95d;">Admin</span></h2></li>
+                <h2><span class="badge" style="color: black; border-radius: 8px;height: 3vw; width: 100%;padding: 10px; background-color: #e5a95d;"><%= user.company_name %></span></h2></li>
                 <!-- Notification -->
                 <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle pl-md-3 position-relative" href="javascript:void(0)" id="bell"
@@ -177,10 +177,10 @@
                     <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <!-- <img src="images/users/profile-pic.jpg" alt="user" class="rounded-circle" width="40"> -->
-                        <span class="ml-2 d-none d-lg-inline-block header" style=" width: 90px;
+                        <span class="ml-2 d-none d-lg-inline-block header" style=" width: 100%;
                         height: 43px; border-radius: 10px; font-size: 19px;  background: #e5a95d;
                         margin-right: 27px;padding: 1px;display: inline-block;position: relative;
-                        color: #0a0909;line-height: 42px;align-items: center;text-align: center;"><span class="text-dark">User</span> <i
+                        color: #0a0909;line-height: 42px;align-items: center;text-align: center;"><span class="text-dark"><%= user.user_name %></span> <i
                                 data-feather="chevron-down" class="svg-icon"></i></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
