@@ -36,7 +36,6 @@
                                     <label for="user_id"><b style="color: black;">User list:</b></label>
                                     <select name="user_id" class="form-control s2id" id="user_id" required>
                                         <option value="">Select User</option>
-                                       
                                     </select>
                                 </div>
 
@@ -75,7 +74,7 @@
           if (response.suc > 0 && response.msg.length > 0)
             response.msg.forEach (function (item, index) {
               $("#user_id").append(
-                $("<option>", { value: item.id, text: item.user_name })
+                $("<option>", { value: item.user_id, text: item.user_name })
               );
             });
         },
