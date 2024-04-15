@@ -21,20 +21,46 @@ const user_list = (brn_id) => {
   });
 };
 
+// const getSaleReport = (data, comp_id) => {
+//   return new Promise(async (resolve, reject) => {
+//     if (data.brn_id > 0) {
+//       var select =
+//           "a.cust_name,a.phone_no,a.receipt_no,a.trn_date,count(b.receipt_no)no_of_items,sum(a.price)price,sum(a.discount_amt)discount_amt,sum(a.cgst_amt)cgst_amt,sum(a.sgst_amt)sgst_amt,sum(a.round_off)rount_off,sum(a.amount)net_amt,a.created_by",
+//         table_name = "td_receipt a,td_item_sale b",
+//         where = `a.receipt_no = b.receipt_no AND a.trn_date BETWEEN '${data.from_date}' AND '${data.to_date}' AND b.comp_id = ${comp_id} AND b.br_id = ${data.brn_id}`;
+//       order =
+//         "Group BY a.cust_name,a.phone_no,a.receipt_no,a.trn_date,a.created_by";
+//       var res_dt = await db_Select(select, table_name, where, order);
+//       resolve(res_dt);
+//     } else {
+//       var select =
+//           "a.cust_name,a.phone_no,a.receipt_no,a.trn_date,count(b.receipt_no)no_of_items,sum(a.price)price,sum(a.discount_amt)discount_amt,sum(a.cgst_amt)cgst_amt,sum(a.sgst_amt)sgst_amt,sum(a.round_off)round_off,sum(a.amount)net_amt,a.created_by",
+//         table_name = "td_receipt a,td_item_sale b",
+//         where = `a.receipt_no = b.receipt_no AND a.trn_date BETWEEN '${data.from_date}' AND '${data.to_date}'AND b.comp_id = ${comp_id}`;
+//       order =
+//         "Group BY a.cust_name,a.phone_no,a.receipt_no,a.trn_date,a.created_by";
+//       var res_dt_2 = await db_Select(select, table_name, where, order);
+//       resolve(res_dt_2);
+//     }
+//   });
+// };
+
 const getSaleReport = (data, comp_id) => {
   return new Promise(async (resolve, reject) => {
     if (data.brn_id > 0) {
-      var select =
-          "a.cust_name,a.phone_no,a.receipt_no,a.trn_date,count(b.receipt_no)no_of_items,sum(a.price)price,sum(a.discount_amt)discount_amt,sum(a.cgst_amt)cgst_amt,sum(a.sgst_amt)sgst_amt,sum(a.round_off)rount_off,sum(a.amount)net_amt,a.created_by",
-        table_name = "td_receipt a,td_item_sale b",
-        where = `a.receipt_no = b.receipt_no AND a.trn_date BETWEEN '${data.from_date}' AND '${data.to_date}' AND b.comp_id = ${comp_id} AND b.br_id = ${data.brn_id}`;
-      order =
-        "Group BY a.cust_name,a.phone_no,a.receipt_no,a.trn_date,a.created_by";
+
+        var select =
+        "a.cust_name,a.phone_no,a.receipt_no,a.trn_date,count(b.receipt_no)no_of_items, SUM(b.qty) qty,a.price price,a.discount_amt discount_amt,a.cgst_amt cgst_amt,a.sgst_amt sgst_amt,a.round_off rount_off,a.amount net_amt,a.created_by",
+      table_name = "td_receipt a,td_item_sale b",
+      where = `a.receipt_no = b.receipt_no AND a.trn_date BETWEEN '${data.from_date}' AND '${data.to_date}' AND b.comp_id = ${comp_id} AND b.br_id = ${data.brn_id}`;
+    order =
+      "Group BY a.cust_name,a.phone_no,a.receipt_no,a.trn_date,a.created_by";
       var res_dt = await db_Select(select, table_name, where, order);
       resolve(res_dt);
     } else {
+      
       var select =
-          "a.cust_name,a.phone_no,a.receipt_no,a.trn_date,count(b.receipt_no)no_of_items,sum(a.price)price,sum(a.discount_amt)discount_amt,sum(a.cgst_amt)cgst_amt,sum(a.sgst_amt)sgst_amt,sum(a.round_off)round_off,sum(a.amount)net_amt,a.created_by",
+          "a.cust_name,a.phone_no,a.receipt_no,a.trn_date,count(b.receipt_no)no_of_items, SUM(b.qty) qty,a.price price,a.discount_amt discount_amt,a.cgst_amt cgst_amt,a.sgst_amt sgst_amt,a.round_off rount_off,a.amount net_amt,a.created_by",
         table_name = "td_receipt a,td_item_sale b",
         where = `a.receipt_no = b.receipt_no AND a.trn_date BETWEEN '${data.from_date}' AND '${data.to_date}'AND b.comp_id = ${comp_id}`;
       order =
