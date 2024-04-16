@@ -21,6 +21,17 @@ const user_list = (brn_id) => {
   });
 };
 
+const pay_list = (brn_id,comp_id) => {
+  return new Promise(async (resolve, reject) => {
+    var select = "pay_mode",
+      table_name = "td_receipt",
+      where = `br_id =${brn_id} AND comp_id = ${comp_id}`,
+      order = null;
+    var ul_dt = await db_Select(select, table_name, where, order);
+    resolve(ul_dt);
+  });
+};
+
 // const getSaleReport = (data, comp_id) => {
 //   return new Promise(async (resolve, reject) => {
 //     if (data.brn_id > 0) {
@@ -197,13 +208,13 @@ const user_wise_list = (data,comp_id) =>{
         from   td_receipt a, td_item_sale b, md_user c
         where  a.created_by=c.user_id
         and    a.receipt_no = b.receipt_no 
-        and    a.trn_date BETWEEN '${data.dt_frm}' AND '${data.dt_to}'
+        and    a.trn_date BETWEEN '${data.date_from}' AND '${data.date_to}'
         and    b.comp_id =  '${comp_id}'
         AND    b.br_id   = '${data.brn_id}'
       )a`;
       (where = null), (order = "GROUP BY a.created_by");
     var rec_dt = await db_Select(select, table_name, where, order);
-    console.log(rec_dt);
+    // console.log(rec_dt);
     resolve(rec_dt);
   });
 }
@@ -230,6 +241,27 @@ const cancelbill_list = (data, comp_id, br_id) =>{
   });
 }
 
+const PayModeReport = (data, comp_id) => {
+  return new Promise(async (resolve, reject) => {
+    var select = "a.created_by,a.pay_mode,SUM(a.net_amt)net_amt,user_name, count(a.receipt_no)no_of_bills",
+      table_name = `(
+      Select Distinct a.created_by created_by,a.pay_mode pay_mode,a.net_amt net_amt,c.user_name user_name, a.receipt_no receipt_no
+      from   td_receipt a, td_item_sale b, md_user c
+      where  a.created_by=c.user_id
+      and    a.receipt_no = b.receipt_no 
+      and    a.trn_date BETWEEN '${data.date_from}' AND '${data.date_to}'
+      and    b.comp_id =  '${comp_id}'
+      AND    b.br_id   = '${data.brn_id}'
+      AND    a.pay_mode ='${data.pay_mode}'
+    )a`;
+    (where = null), (order = "GROUP BY a.created_by,a.pay_mode");
+    var res_dt = await db_Select(select, table_name, where, order);
+    // console.log(data.pay_mode)
+    console.log(res_dt);
+    resolve(res_dt);
+  });
+};
+
 module.exports = {
   branch_list,
   getSaleReport,
@@ -244,5 +276,7 @@ module.exports = {
   rec_bill_item_dtls,
   user_wise_list,
   stock_list,
-  cancelbill_list
+  cancelbill_list,
+  PayModeReport,
+  pay_list
 };

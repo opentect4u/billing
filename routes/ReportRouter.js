@@ -15,6 +15,8 @@ const {
   user_wise_list,
   stock_list,
   cancelbill_list,
+  PayModeReport,
+  pay_list,
 } = require("../module/ReportModule");
 const { pay_mode, db_Select } = require("../module/MasterModule");
 const ReportRouter = express.Router(),
@@ -84,6 +86,13 @@ ReportRouter.get("/getuserlist", async (req, res) => {
   var data = req.query;
   var user_dt = await user_list(data.brn_id);
   res.send(user_dt);
+});
+
+ReportRouter.get("/getpaylist", async (req, res) => {
+  var data = req.query;
+  console.log(data);
+  var pay_dt = await pay_list(data.brn_id,data.comp_id);
+  res.send(pay_dt);
 });
 
 ReportRouter.post("/collection_report_final", async (req, res) => {
@@ -206,12 +215,23 @@ ReportRouter.get('/user_sale', async (req, res) =>{
 
 ReportRouter.post('/user_list', async (req, res) =>{
   var data = req.body;
+  // console.log(data,'p');
   var comp_id = req.session.user.comp_id;
   var res_dt = await user_wise_list(data,comp_id);
+  var comp_dtls = await comp_header(comp_id);
+  // console.log(comp_dtls,"collection");
   var viewData = {
-        data: res_dt.suc > 0 ? res_dt.msg : [],
-      }
-  res.send(res_dt)
+    frm_dt: data.date_from,
+    to_dt: data.date_to,
+    data: res_dt.suc > 0 ? res_dt.msg : [],
+    user_id: data.user_name,
+    brn_name: data.brn_name,
+    dateFormat,
+    pay_mode: pay_mode,
+    comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [],
+  };
+  // console.log(viewData,'99');
+  res.render('report/user_sale_final',viewData)
 })
 
 
@@ -262,6 +282,36 @@ ReportRouter.post("/cancelbill_report", async (req, res) => {
     data: all_cancelbill_list.suc > 0 ? all_cancelbill_list.msg : [],
   };
   res.render("report/cancel_bill_report_final",res_dt);
+});
+
+ReportRouter.get("/paymode_report", async (req, res) => {
+  comp_id = req.session.user.comp_id
+  var brn_list = await branch_list(comp_id);
+  var res_dt = {
+    brn_data: brn_list.suc > 0 ? brn_list.msg : [],
+  };
+  res.render("report/paymode_report", res_dt);
+  // console.log(data);
+});
+
+ReportRouter.post("/paymode_report_final", async (req, res) => {
+  var data = req.body;
+  console.log(data);
+  var comp_id = req.session.user.comp_id;
+  var res_dt = await PayModeReport(data, comp_id);
+  var comp_dtls = await comp_header(comp_id);
+  // console.log(comp_dtls,"collection");
+  var viewData = {
+    frm_dt: data.date_from,
+    to_dt: data.date_to,
+    data: res_dt.suc > 0 ? res_dt.msg : [],
+    user_id: data.user_id,
+    brn_name: data.brn_name,
+    dateFormat,
+    pay_mode: data.pay_mode,
+    comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [],
+  };
+  res.render("report/paymode_report_final", viewData);
 });
 
 module.exports = { ReportRouter };
