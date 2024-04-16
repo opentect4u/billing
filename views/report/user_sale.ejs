@@ -6,6 +6,7 @@
                     <div class="titleSec">
                         <h2><b><span class="badge badge-light"
                                     style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i class="fa fa-users"></i>&nbsp;Userwise Sale Report</span></b></h2>
+                          <form method="POST" action="/report/user_list" class="">
                             <div class="row mt-4">
                                 <div class="form-group col-md-5">
                                     <label for="dt_frm"><b style="color: black;">From Date:</b></label>
@@ -17,17 +18,31 @@
                                     <label for="dt_to"><b style="color: black;">To Date:</b></label>
                                     <input type="date" name="dt_to" id="dt_to" class="form-control" value="" required />
                                 </div>
+
+                                <div class="form-group col-md-6">
+                                  <label for="brn_id"><b style="color: black;">Outlet list:</b></label>
+                                  <select name="brn_id" class="form-control s2id" id="brn_id" required>
+                                      <option value="">Select Outlet</option>
+                                      <% brn_data.forEach(dt=> { %>
+                                          <option value="<%= dt.id %>">
+                                              <%= dt.branch_name %>
+                                          </option>
+                                          <% }) %>
+                                  </select>
+                                </div>
                                 
                                 <div class="form-group col-2" style="margin-top: 29px;">
-                                    <button class="btn btn-warning" type="submit" value="SUBMIT" id="submitbtn" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
-                                  </div>
+                                    <button class="btn btn-warning" type="button" value="SUBMIT" id="submitbtn" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                                </div>
                                 
                             </div>
+                          
+                          
                             <table class="table table-striped table-bordered no-wrap mt-3" id="showuserdtls" style="width:100%">
                                 <thead>
                                   <tr>
                                     <th style="color: black;">Sl. No.</th>
-                                    <th style="color: black;">Outlet</th>
+                                    
                                     <th style="color: black;">User</th>
                                     <th style="color: black;">Amount</th>
                                   </tr>
@@ -47,16 +62,17 @@
         $('#submitbtn').click(function () {
             var dt_frm = $('#dt_frm').val();
             var dt_to = $('#dt_to').val();
+            var brn_id = $('#brn_id').val();
             console.log(dt_frm,dt_to);
       $('#showuserdtls').show()
-      get_user_dtls(dt_frm,dt_to);
+      get_user_dtls(dt_frm,dt_to,brn_id);
     });
     
-    function get_user_dtls(dt_frm, dt_to) {
+    function get_user_dtls(dt_frm, dt_to,brn_id) {
   $.ajax({
     type: "POST",
     url: "/report/user_list",
-    data: { dt_frm: dt_frm, dt_to: dt_to },
+    data: { dt_frm: dt_frm, dt_to: dt_to,brn_id },
     success: function(response) {
       $('#showuserdtls tbody').empty();
       let i = 1;
@@ -67,7 +83,7 @@
           $('#showuserdtls tbody').append(`
             <tr>
               <td>${i}</td>
-              <td>${resData.branch_name}</td>
+              
               <td>${resData.user_name}</td>
               <td>${resData.net_amt}</td>
             </tr>
@@ -78,7 +94,7 @@
         
         $('#showuserdtls tbody').append(`
           <tr>
-            <th colspan="3" style="color: black;">Total</th>
+            <th colspan="2" style="color: black;">Total</th>
             <th style="color: black;">${tot_amt}</th>
           </tr>
         `);
@@ -96,3 +112,34 @@
   });
 }
 </script>
+
+<!-- <script>
+  $("#brn_id").change( function() {
+      $('#brn_name').val($('#brn_id :selected').text().trim());
+  });
+</script> -->
+
+<!-- <script>
+  $("#brn_id").on("change", function () {
+      var brn_id = $(this).val()
+
+    $.ajax({
+      method: "GET",
+      url: "/report/getuserlist",
+      data: { brn_id: brn_id },
+      success: function (response) {
+          console.log(response);
+      
+        if (response.suc > 0 && response.msg.length > 0)
+          response.msg.forEach (function (item, index) {
+            $("#user_id").append(
+              $("<option>", { value: item.user_id, text: item.user_name })
+            );
+          });
+      },
+      error: function (error) {
+      console.log(error);
+    },
+    });
+  });
+</script> -->

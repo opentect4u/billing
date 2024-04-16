@@ -20,10 +20,10 @@
                                 </div>
     
                                 <div class="form-group col-md-6">
-                                    <label for="brn_id"><b style="color: black;">Branch list:</b></label>
+                                    <label for="brn_id"><b style="color: black;">Outlet list:</b></label>
                                     <select name="brn_id" class="form-control s2id" id="brn_id" required>
-                                        <option value="">Select branch</option>
-                                        <option value="0">All branch</option>
+                                        <option value="">Select Outlet</option>
+                                        <option value="0">All Outlets</option>
                                         <% data.forEach(dt => { %>
                                             <option value="<%= dt.id %>">
                                                 <%= dt.branch_name %>

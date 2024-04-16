@@ -22,10 +22,10 @@
     
     
                                 <div class="form-group col-md-12">
-                                    <label for="brn_id"><b style="color: black;">Location list:</b></label>
+                                    <label for="brn_id"><b style="color: black;">Outlet list:</b></label>
                                     <select name="brn_id" class="form-control s2id" id="brn_id" required>
-                                        <option value="">Select location</option>
-                                        <option value="0">All location</option>
+                                        <option value="">Select Outlet</option>
+                                        <option value="0">All Outlets</option>
                                         <% data.forEach(dt=> { %>
                                             <option value="<%= dt.id %>">
                                                 <%= dt.branch_name %>

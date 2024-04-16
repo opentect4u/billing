@@ -179,19 +179,41 @@ ReportRouter.get("/receiptwise_report_final", async (req, res) => {
   res.render("report/receipt_report_final", res_dt);
 });
 
+// ReportRouter.get('/user_sale', async (req, res) =>{
+//   res.render('report/user_sale');
+// });
+
 ReportRouter.get('/user_sale', async (req, res) =>{
-  res.render('report/user_sale');
+  comp_id = req.session.user.comp_id
+  var brn_list = await branch_list(comp_id);
+  var res_dt = {
+    brn_data: brn_list.suc > 0 ? brn_list.msg : [],
+  };
+  console.log(res_dt);
+  res.render('report/user_sale',res_dt);
 });
+
+
+// ReportRouter.post('/user_list', async (req, res) =>{
+//   var data = req.body;
+//   var comp_id = req.session.user.comp_id;
+//   var res_dt = await user_wise_list(data,comp_id);
+//   // var viewData = {
+//   //   data: res_dt.suc > 0 ? res_dt.msg : [],
+//   // }
+//   res.send(res_dt)
+// })
 
 ReportRouter.post('/user_list', async (req, res) =>{
   var data = req.body;
   var comp_id = req.session.user.comp_id;
   var res_dt = await user_wise_list(data,comp_id);
-  // var viewData = {
-  //   data: res_dt.suc > 0 ? res_dt.msg : [],
-  // }
+  var viewData = {
+        data: res_dt.suc > 0 ? res_dt.msg : [],
+      }
   res.send(res_dt)
 })
+
 
 ReportRouter.get("/stock_report", async (req, res) => {
   var comp_id = req.session.user.comp_id

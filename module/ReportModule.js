@@ -175,16 +175,35 @@ const rec_bill_item_dtls = (receipt_no, user,comp_id) => {
   });
 };
 
+// const user_wise_list = (data,comp_id) =>{
+//   return new Promise(async (resolve, reject) => {
+//     var select = "SUM(a.net_amt)net_amt,d.user_name,c.branch_name",
+//       table_name = "td_receipt a, td_item_sale b, md_branch c, md_user d",
+//       where = `a.receipt_no = b.receipt_no AND a.trn_date = b.trn_date
+//       AND b.br_id = c.id AND b.br_id = d.br_id AND a.created_by = b.created_by
+//       AND a.created_by = d.user_id AND b.comp_id = '${comp_id}'
+//       and a.trn_date BETWEEN  '${data.dt_frm}' AND '${data.dt_to}'`
+//       order = `GROUP BY a.created_by`;
+//     var rec_dt = await db_Select(select, table_name, where, order);
+//     resolve(rec_dt);
+//   });
+// }
+
 const user_wise_list = (data,comp_id) =>{
   return new Promise(async (resolve, reject) => {
-    var select = "SUM(a.net_amt)net_amt,d.user_name,c.branch_name",
-      table_name = "td_receipt a, td_item_sale b, md_branch c, md_user d",
-      where = `a.receipt_no = b.receipt_no AND a.trn_date = b.trn_date
-      AND b.br_id = c.id AND b.br_id = d.br_id AND a.created_by = b.created_by
-      AND a.created_by = d.user_id AND b.comp_id = '${comp_id}'
-      and a.trn_date BETWEEN  '${data.dt_frm}' AND '${data.dt_to}'`
-      order = `GROUP BY a.created_by`;
+    var select = "a.created_by,SUM(a.net_amt)net_amt,user_name, count(a.receipt_no)no_of_bills",
+      table_name = `(
+        Select Distinct a.created_by created_by,a.pay_mode pay_mode,a.net_amt net_amt,c.user_name user_name, a.receipt_no receipt_no
+        from   td_receipt a, td_item_sale b, md_user c
+        where  a.created_by=c.user_id
+        and    a.receipt_no = b.receipt_no 
+        and    a.trn_date BETWEEN '${data.dt_frm}' AND '${data.dt_to}'
+        and    b.comp_id =  '${comp_id}'
+        AND    b.br_id   = '${data.brn_id}'
+      )a`;
+      (where = null), (order = "GROUP BY a.created_by");
     var rec_dt = await db_Select(select, table_name, where, order);
+    console.log(rec_dt);
     resolve(rec_dt);
   });
 }
