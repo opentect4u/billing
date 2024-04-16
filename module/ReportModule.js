@@ -62,7 +62,7 @@ const getSaleReport = (data, comp_id) => {
       var select =
           "a.cust_name,a.phone_no,a.receipt_no,a.trn_date,count(b.receipt_no)no_of_items, SUM(b.qty) qty,a.price price,a.discount_amt discount_amt,a.cgst_amt cgst_amt,a.sgst_amt sgst_amt,a.round_off rount_off,a.net_amt,c.user_name created_by",
         table_name = "td_receipt a,td_item_sale b,md_user c",
-        where = `a.receipt_no = b.receipt_no AND a.trn_date BETWEEN '${data.from_date}' AND '${data.to_date}'AND b.comp_id = ${comp_id} AND a.created_by=c.user_id`;
+        where = `a.receipt_no = b.receipt_no AND a.trn_date BETWEEN '${data.from_date}' AND '${data.to_date}'AND b.comp_id = ${comp_id} AND a.created_by=c.user_id    `;
       order =
         "Group BY a.cust_name,a.phone_no,a.receipt_no,a.trn_date,a.created_by";
       var res_dt_2 = await db_Select(select, table_name, where, order);
@@ -84,11 +84,12 @@ const getRecptSet = (comp_id) => {
 
 const getPayReport = (data, comp_id) => {
   return new Promise(async (resolve, reject) => {
-    var select = "a.created_by,a.pay_mode,SUM(a.net_amt)net_amt",
+    var select = "a.created_by,a.pay_mode,SUM(a.net_amt)net_amt,user_name, count(a.receipt_no)no_of_bills",
       table_name = `(
-      Select Distinct a.created_by created_by,a.pay_mode pay_mode,a.net_amt net_amt
-      from   td_receipt a, td_item_sale b
-      where  a.receipt_no = b.receipt_no 
+      Select Distinct a.created_by created_by,a.pay_mode pay_mode,a.net_amt net_amt,c.user_name user_name, a.receipt_no receipt_no
+      from   td_receipt a, td_item_sale b, md_user c
+      where  a.created_by=c.user_id
+      and    a.receipt_no = b.receipt_no 
       and    a.trn_date BETWEEN '${data.date_from}' AND '${data.date_to}'
       and    b.comp_id =  '${comp_id}'
       AND    b.br_id   = '${data.brn_id}'

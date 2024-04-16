@@ -29,6 +29,7 @@
                                 <tr>
                                     <th><b style="color: black;">Sl No.</b></th>
                                     <th><b style="color: black;">Mode</b></th>
+                                    <th><b style="color: black;">No. of Bills</b></th>
                                     <th><b style="color: black;">Amount</b></th>
                                 </tr>
                             </thead>
@@ -40,6 +41,9 @@
                                         <td><%= index+1 %></td>
                                         <td>
                                             <%= pay_mode[item.pay_mode] %>
+                                        </td>
+                                        <td>
+                                            <%= item.no_of_bills %>
                                         </td>
                                         <td>
                                             <%= item.net_amt %>
