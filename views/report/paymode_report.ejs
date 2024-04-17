@@ -61,12 +61,12 @@
 <script>
     $("#brn_id").on("change", function () {
         var brn_id = $(this).val()
-        var comp_id = $(this).val()
+        // var comp_id = $(this).val()
 
       $.ajax({
         method: "GET",
         url: "/report/getpaylist",
-        data: { brn_id: brn_id, comp_id: comp_id},
+        data: { brn_id: brn_id},
         success: function (response) {
             console.log(response);
         //   $("#user_id").append(
@@ -76,7 +76,7 @@
             response.msg.forEach (function (item, index) {
         console.log(item,'i');
               $("#pay_mode").append(
-                $("<option>", { value: item.pay_mode, text: item.pay_mode})
+                $("<option>", { value: item.pay_mode, text: item.pay_mode =='C' ? 'Cash' : item.pay_mode =='U' ? 'UPI' : 'Card'})
               );
             });
         },

@@ -74,6 +74,7 @@ ReportRouter.post("/location_report", async (req, res) => {
 
 ReportRouter.get("/collection_report", async (req, res) => {
   comp_id = req.session.user.comp_id
+  user_name = req.session.user.user_name
   var brn_list = await branch_list(comp_id);
   var res_dt = {
     brn_data: brn_list.suc > 0 ? brn_list.msg : [],
@@ -90,8 +91,9 @@ ReportRouter.get("/getuserlist", async (req, res) => {
 
 ReportRouter.get("/getpaylist", async (req, res) => {
   var data = req.query;
-  console.log(data);
-  var pay_dt = await pay_list(data.brn_id,data.comp_id);
+  var comp_id = req.session.user.comp_id;
+  console.log(data,comp_id);
+  var pay_dt = await pay_list(data.brn_id,comp_id);
   res.send(pay_dt);
 });
 

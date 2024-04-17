@@ -17,13 +17,14 @@ const user_list = (brn_id) => {
       where = `br_id =${brn_id} AND user_type = 'U'`,
       order = null;
     var ul_dt = await db_Select(select, table_name, where, order);
+    // console.log(ul_dt);
     resolve(ul_dt);
   });
 };
 
 const pay_list = (brn_id,comp_id) => {
   return new Promise(async (resolve, reject) => {
-    var select = "pay_mode",
+    var select = "DISTINCT pay_mode",
       table_name = "td_receipt",
       where = `br_id =${brn_id} AND comp_id = ${comp_id}`,
       order = null;
