@@ -63,4 +63,84 @@
                                     <% } %>
                     </body>
 
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myAccount">
+    <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+    <!-- Modal Header -->
+    <div class="modal-header" style="background-color: aliceblue;">
+    <h3 class="modal-title"><i data-feather="user"
+    class="svg-icon mr-2 ml-1" style="color: black;"></i><b style="color: black;">Store Profile&nbsp; </b></h3>
+    <button type="button" class="close" data-dismiss="modal">
+    &times;
+    </button>
+    </div>
+    <!-- Modal body -->
+    <div class="modal-body" style="background-color: antiquewhite;">
+   
+    <form action="/save_my_profile" method="post">
+    <div class="row" style="align-items: center;margin-left: 5vw;">
+    <div class="col-md-10">
+    <h4 class="badge badge-success" style="font-size: 21px;margin-left: 25vw;"></h4>
+    <div class="row mt-4 ml-5">
+    <div class="form-group col-md-4">
+    <label for="loc_id"><b style="color: black;">Location Name:</b></label>
+    <select name="loc_id" class="form-control" id="loc_id" required>
+    <option value="">Select Location Name</option>
+    </select>
+    </div>
+    <div class="form-group col-md-4">
+    <label for="phone"><b style="color: black;">Phone No:</b></label>
+    <input type="text" id="phone" name="phone" class="form-control" value="" />
+    </div>
+    <div class="form-group col-md-4">
+    <label for="email_id"><b style="color: black;">Email:</b></label>
+    <input type="text" id="email_id" name="email_id" class="form-control" value="" />
+    </div>
+    </div>
+    <div class="row ml-5">
+    <div class="form-group col-md-4">
+    <label for="mode"><b style="color: black;">Mode:</b></label>
+    <input type="text" id="mode" name="mode" class="form-control" value="" readonly style="background-color: #b0cfec;"/>
+    </div>
+    <div class="form-group col-md-4">
+    <label for="device"><b style="color: black;">No. of Device:</b></label>
+    <input type="text" id="device" name="device" class="form-control" value="" readonly style="background-color: #b0cfec;"/>
+    </div>
+    <div class="form-group col-md-4">
+    <label for="dev_type"><b style="color: black;">Device Type:</b></label>
+    <input type="text" id="dev_type" name="dev_type" class="form-control" value="" readonly style="background-color: #b0cfec;"/>
+    </div>
+    </div>
+    <div class="row ml-5">
+    <div class="form-group col-md-12">
+    <label for="cust_add"><b style="color: black;">Customer Address:</b></label>
+    <textarea id="cust_add" name="cust_add" class="form-control" rows="4"></textarea>
+    </div>
+    </div>
+    </div>
+    <div class="row mt-3">
+    <button type="submit" class="btn btn-primary" style="border-radius: 5px;margin-left: 31vw;">Submit</button>
+    </div>
+    </div>
+    </div>
+    </form>
+    
+    </div>
+    <!-- Modal footer -->
+    <div class="modal-footer" style="background-color: aliceblue;">
+    <!-- <button
+    type="button"
+    class="btn btn-secondary"
+    data-dismiss="modal"
+    >
+    Close
+    </button> -->
+    </div>
+    </div>
+    </div>
+    </div>                    
+
 </html>

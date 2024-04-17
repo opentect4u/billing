@@ -191,7 +191,8 @@
                             data-feather="chevron-down" class="svg-icon"></i>
                             </a>
                              <ul class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="javascript:void(0)" aria-haspopup="true" aria-expanded="false"><i data-feather="user"
+                                <a class="dropdown-item" href="javascript:void(0)" aria-haspopup="true" aria-expanded="false" data-toggle="modal"
+                                data-target="#myAccount" id="myprofile"><i data-feather="user"
                                     class="svg-icon mr-2 ml-1"></i>
                                 Store Profile</a>
                                 <a class="dropdown-item" href="javascript:void(0)" aria-haspopup="true" aria-expanded="false"><i data-feather="user"
@@ -223,6 +224,7 @@
             </ul>
         </div>
     </nav>
+    
     <script>
         $(document).ready(function(){
           $('.dropdown-submenu a.test').on("click", function(e){
@@ -233,6 +235,9 @@
         });
         </script>
 </header>
+
+
+
 <!-- ============================================================== -->
 <!-- End Topbar header -->
 <!-- ============================================================== -->

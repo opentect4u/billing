@@ -105,7 +105,6 @@ const getPayReport = (data, comp_id) => {
       and    a.trn_date BETWEEN '${data.date_from}' AND '${data.date_to}'
       and    b.comp_id =  '${comp_id}'
       AND    b.br_id   = '${data.brn_id}'
-      AND    a.created_by ='${data.user_id}'
     )a`;
     (where = null), (order = "GROUP BY a.created_by,a.pay_mode");
     var res_dt = await db_Select(select, table_name, where, order);
