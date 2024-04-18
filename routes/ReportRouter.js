@@ -17,6 +17,9 @@ const {
   cancelbill_list,
   PayModeReport,
   pay_list,
+  receipt_list_by_phone,
+  receipt_list_by_item,
+  item_list_section,
 } = require("../module/ReportModule");
 const { pay_mode, db_Select } = require("../module/MasterModule");
 const ReportRouter = express.Router(),
@@ -314,6 +317,77 @@ ReportRouter.post("/paymode_report_final", async (req, res) => {
     comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [],
   };
   res.render("report/paymode_report_final", viewData);
+});
+
+ReportRouter.get("/srch_by_phone", async (req, res) => {
+  res.render("search/search_by_phone");
+});
+
+ReportRouter.post("/receipt_list_by_phn", async (req, res) => {
+  var data = req.body,
+  comp_id = req.session.user.comp_id;
+  // console.log(data,"1234");
+  var res_dt = await receipt_list_by_phone(data, comp_id);
+  res.send(res_dt);
+  // console.log(res_dt);
+});
+
+ReportRouter.get("/srch_by_phone_final", async (req, res) => {
+  var data = req.query;
+  var comp_id = req.session.user.comp_id;
+  // console.log(data, "lalal");
+  var comp_dtls = await comp_header(comp_id);
+  var brn_dtls = await branch_list(comp_id);
+  var bill_dtls = await rec_bill_dtls(data.receipt_no);
+  var bill_item_dtls = await rec_bill_item_dtls(data.receipt_no,data.user,comp_id);
+  // console.log(bill_dtls);
+  // console.log(brn_dtls);
+  // console.log(bill_item_dtls);
+  var res_dt = {
+    comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [],
+    brn_dt: brn_dtls.suc > 0 ? brn_dtls.msg : [],
+    bill_dt: bill_dtls.suc > 0 ? bill_dtls.msg : [],
+    bill_item_dt: bill_item_dtls.suc > 0 ? bill_item_dtls.msg : [],
+  };
+  res.render("search/search_by_phone_final", res_dt);
+});
+
+ReportRouter.get("/srch_by_item", async (req, res) => {
+  comp_id = req.session.user.comp_id;
+  var res_dt = await item_list_section(comp_id)
+  var viewData = {
+    data: res_dt.suc > 0 ? res_dt.msg : [],
+  };
+  res.render("search/search_by_item",viewData);
+});
+
+ReportRouter.post("/receipt_list_by_itm", async (req, res) => {
+  var data = req.body,
+  comp_id = req.session.user.comp_id;
+  // console.log(data,"1234");
+  var res_dt = await receipt_list_by_item(data, comp_id);
+  res.send(res_dt);
+  // console.log(res_dt);
+});
+
+ReportRouter.get("/srch_by_item_final", async (req, res) => {
+  var data = req.query;
+  var comp_id = req.session.user.comp_id;
+  // console.log(data, "lalal");
+  var comp_dtls = await comp_header(comp_id);
+  var brn_dtls = await branch_list(comp_id);
+  var bill_dtls = await rec_bill_dtls(data.receipt_no);
+  var bill_item_dtls = await rec_bill_item_dtls(data.receipt_no,null,comp_id);
+  // console.log(bill_dtls);
+  // console.log(brn_dtls);
+  // console.log(bill_item_dtls);
+  var res_dt = {
+    comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [],
+    brn_dt: brn_dtls.suc > 0 ? brn_dtls.msg : [],
+    bill_dt: bill_dtls.suc > 0 ? bill_dtls.msg : [],
+    bill_item_dt: bill_item_dtls.suc > 0 ? bill_item_dtls.msg : [],
+  };
+  res.render("search/search_by_item_final", res_dt);
 });
 
 module.exports = { ReportRouter };

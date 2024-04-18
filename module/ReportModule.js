@@ -105,6 +105,7 @@ const getPayReport = (data, comp_id) => {
       and    a.trn_date BETWEEN '${data.date_from}' AND '${data.date_to}'
       and    b.comp_id =  '${comp_id}'
       AND    b.br_id   = '${data.brn_id}'
+      AND    a.created_by   = '${data.user_id}'
     )a`;
     (where = null), (order = "GROUP BY a.created_by,a.pay_mode");
     var res_dt = await db_Select(select, table_name, where, order);
@@ -180,7 +181,7 @@ const rec_bill_item_dtls = (receipt_no, user,comp_id) => {
     var select =
         "a.price,a.discount_amt,a.amount,a.round_off,a.net_amt,b.qty,c.item_name",
       table_name = "td_receipt a, td_item_sale b, md_items c",
-      where = `a.receipt_no = b.receipt_no AND a.trn_date = b.trn_date AND b.item_id = c.id AND b.comp_id = c.comp_id AND a.receipt_no = ${receipt_no} AND a.created_by = '${user}' AND b.comp_id = '${comp_id}';`;
+      where = `a.receipt_no = b.receipt_no AND a.trn_date = b.trn_date AND b.item_id = c.id AND b.comp_id = c.comp_id AND a.receipt_no = ${receipt_no} ${user ? `AND a.created_by = '${user}'` : ''} AND b.comp_id = '${comp_id}';`;
     var res_dt = await db_Select(select, table_name, where, null);
     resolve(res_dt);
   });
@@ -262,6 +263,39 @@ const PayModeReport = (data, comp_id) => {
   });
 };
 
+const receipt_list_by_phone = (data, comp_id = 0) => {
+  return new Promise(async (resolve, reject) => {
+    var select = "receipt_no,trn_date,created_by,net_amt,pay_mode",
+      table_name = "td_receipt",
+      where = `comp_id = ${comp_id} AND phone_no = ${data.dt_phone} AND trn_date BETWEEN '${data.dt_frm}' AND '${data.dt_to}'`;
+    var rec_dt = await db_Select(select, table_name, where, null);
+    // console.log(rec_dt);
+    resolve(rec_dt);
+  });
+};
+
+const receipt_list_by_item = (data, comp_id = 0) => {
+  return new Promise(async (resolve, reject) => {
+    var select = "a.receipt_no,c.trn_date,a.item_id,b.item_name,a.qty,a.price,c.pay_mode",
+      table_name = "td_item_sale a, md_items b, td_receipt c",
+      where = `a.receipt_no=c.receipt_no AND a.item_id=b.id AND a.comp_id=b.comp_id AND a.comp_id = ${comp_id} AND b.id = ${data.dt_item} AND a.trn_date BETWEEN '${data.dt_frm}' AND '${data.dt_to}'`;
+    var rec_dt = await db_Select(select, table_name, where, null);
+    // console.log(rec_dt);
+    resolve(rec_dt);
+  });
+};
+
+const item_list_section = (comp_id = 0) => {
+  return new Promise(async (resolve, reject) => {
+    var select = "id,comp_id,item_name",
+      table_name = "md_items",
+      where = `comp_id = ${comp_id}`;
+    var rec_dt = await db_Select(select, table_name, where, null);
+    console.log(rec_dt);
+    resolve(rec_dt);
+  });
+};
+
 module.exports = {
   branch_list,
   getSaleReport,
@@ -278,5 +312,8 @@ module.exports = {
   stock_list,
   cancelbill_list,
   PayModeReport,
-  pay_list
+  pay_list,
+  receipt_list_by_phone,
+  receipt_list_by_item,
+  item_list_section
 };

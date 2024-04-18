@@ -1,0 +1,129 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card ml-5 mr-5">
+                <div class="card-body">
+                    <div class="titleSec">
+                        <h2><b><span class="badge badge-light"
+                                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i class="fas fa-calendar-alt"></i>&nbsp;Search Bill By Product</span></b></h2>
+                            <div class="row mt-4">
+                              <div class="form-group col-md-4">
+                                <label for="dt_frm"><b style="color: black;">From Date:</b></label>
+                                <input type="date" name="dt_frm" id="dt_frm" class="form-control" value=""
+                                    required />
+                            </div>
+  
+                            <div class="form-group col-md-4">
+                                <label for="dt_to"><b style="color: black;">To Date:</b></label>
+                                <input type="date" name="dt_to" id="dt_to" class="form-control" value="" required />
+                            </div>
+  
+                                <div class="form-group col-md-4">
+                                    <label for="dt_item"><b style="color: black;">Product Name:</b></label>
+                                    <select name="dt_item" class="form-control s2id" id="dt_item" required>
+                                      <option value="">Select Item</option>
+                                      <% data.forEach(dt => { %>
+                                          <option value="<%= dt.id %>">
+                                              <%= dt.item_name %>
+                                          </option>
+                                      <% }) %>
+                                  </select>
+                                </div>
+                                 
+                                <div class="form-group col-5"></div>
+                                <div class="form-group col-7" style="margin-top: 29px;">
+                                    <button class="btn btn-warning" type="submit" value="SUBMIT" id="submitbtn" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                                  </div>
+                                
+                            </div>
+                            <table class="table table-striped table-bordered no-wrap mt-3" id="showreceiptdtls" style="width:100%">
+                                <thead>
+                                  <tr>
+                                    <th style="color: black;">Sl. No.</th>
+                                    <th style="color: black;">Receipt No.</th>
+                                    <th style="color: black;">Date</th>
+                                    <th style="color: black;">Item Id</th>
+                                    <th style="color: black;">Quantity</th>
+                                    <th style="color: black;">Unit Price</th>
+                                    <th style="color: black;">Mode</th>
+                                    <th style="color: black;">Show</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                              </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- <script>
+      $("#item_id").change( function() {
+          $('#itm_name').val($('#item_id :selected').text().trim());
+      });
+    </script> -->
+
+    <script>
+        $('#showreceiptdtls').hide()
+        $('#submitbtn').click(function () {
+            var dt_frm = $('#dt_frm').val();
+            var dt_to = $('#dt_to').val();
+            var dt_item = $('#dt_item').val();
+            
+            // console.log(dt_frm,dt_to,dt_phone);
+      $('#showreceiptdtls').show()
+      get_receipt_dtls(dt_frm,dt_to,dt_item);
+    });
+    
+    function get_receipt_dtls(dt_frm,dt_to,dt_item){
+      $.ajax({
+          type: "POST",
+          url: "/report/receipt_list_by_itm",
+          data: { dt_frm: dt_frm, dt_to: dt_to, dt_item: dt_item},
+          success: function(response) {
+            // console.log(response);
+            $('#showreceiptdtls tbody').empty()
+            let i = 1;
+            
+            if(response.suc > 0 && response.msg.length > 0)
+              response.msg.forEach(function(resData) {
+            // console.log(resData);
+           
+            function formatDate(inputDate) {
+                        const date = new Date(inputDate);
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        return `${day}/${month}/${year}`;
+                     } 
+                        
+                  $('#showreceiptdtls tbody').append(`
+                  <tr>
+                    <td>${i}</td>
+                    <td>${resData.receipt_no}</td>
+                    <td>${formatDate(resData.trn_date)}</td>
+                    <td>${resData.item_id}</td>
+                    <td>${resData.qty}</td>
+                    <td>${resData.price}</td>
+                    <td>${resData.pay_mode=='C' ? 'Cash' : resData.pay_mode=='U' ? 'UPI' : resData.pay_mode=='D' ? 'Card' : ''}</td>
+                    <td><a href="/report/srch_by_item_final?receipt_no=${resData.receipt_no}&&user=${resData.created_by}" class='btn btn-info' style="border-radius:6px"><i class="fa fa-eye"></i></a></td> 
+                  </tr>
+                  `)
+                  i++;
+              });
+            else{
+              $('#showreceiptdtls tbody').append(`
+                <tr>
+                  <td colspan="7" class="text-danger text-center">No data found</td>
+                </tr>
+              `)
+            }
+          },
+        error: function (error) {
+          // console.log(error);
+        },
+      });
+    }
+    </script>
