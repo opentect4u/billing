@@ -19,7 +19,7 @@ const { CustRouter } = require("./routes/CustomerRouter");
 var app = express(),
   expressLayouts = require("express-ejs-layouts"),
   path = require("path"),
-  port = process.env.PORT || 3003;
+  port = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
 // parse requests of content-type - application/json
