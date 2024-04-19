@@ -181,7 +181,7 @@
                               <%= tot_qty %>
                             </span></label>
                           <label class="text-color">AMT: <span class="text-color">
-                              <%= tot_amt %>
+                              <%= tot_amt.toFixed(2) %>
                             </span></label>
                         </div>
                       </td>
@@ -228,7 +228,7 @@
                     <tr>
                       <td colspan="2" class="texAlignLeft text-color">RETURNED AMT:</td>
                       <td colspan="3" class="texAlignRight text-color">
-                        <%= bill_dt[0].received_amt - bill_dt[0].net_amt %>
+                        <%= bill_dt[0].received_amt >= bill_dt[0].net_amt ? bill_dt[0].received_amt - bill_dt[0].net_amt : 0 %>
                       </td>
                     </tr>
                     <tr>
