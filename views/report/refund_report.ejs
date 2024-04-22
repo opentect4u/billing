@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card ml-5 mr-5">
+                <div class="card-body">
+                    <div class="titleSec">
+                        <h2><b><span class="badge badge-light"
+                                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i class="fas fa-clipboard-check"></i>&nbsp;Refund
+                                    Report</span></b></h2>
+                        <form method="POST" action="/report/refund_report_final" class="">
+                            <div class="row mt-4">
+                                <div class="form-group col-md-6">
+                                    <label for="from_date"><b style="color: black;">From Date:</b></label>
+                                    <input type="date" name="from_date" id="from_date" class="form-control" value=""
+                                        required />
+                                </div>
+    
+                                <div class="form-group col-md-6">
+                                    <label for="to_date"><b style="color: black;">To Date:</b></label>
+                                    <input type="date" name="to_date" id="to_date" class="form-control" value="" required />
+                                </div>
+    
+    
+                                <div class="form-group col-md-12">
+                                    <label for="brn_id"><b style="color: black;">Outlet list:</b></label>
+                                    <select name="brn_id" class="form-control s2id" id="brn_id" required>
+                                        <option value="">Select Outlet</option>
+                                        <option value="0">All Outlets</option>
+                                        <% data.forEach(dt=> { %>
+                                            <option value="<%= dt.id %>">
+                                                <%= dt.branch_name %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+                                <input type="hidden" name="brn_name" id="brn_name" value="">
+                                <div class="form-group col-8 mt-3" style="margin-left: 30vw;">
+                                    <button class="btn btn-warning" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        $("#brn_id").change( function() {
+            $('#brn_name').val($('#brn_id :selected').text().trim());
+        });
+    </script>

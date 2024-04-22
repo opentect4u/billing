@@ -296,6 +296,33 @@ const item_list_section = (comp_id = 0) => {
   });
 };
 
+const Refund_bill_report = (data, comp_id) => {
+  return new Promise(async (resolve, reject) => {
+    if (data.brn_id > 0) {
+
+        var select =
+        "a.cust_name, a.phone_no, a.refund_rcpt_no, a.refund_dt,  count(b.refund_rcpt_no)no_of_items, SUM(b.qty) qty, a.price, a.discount_amt, a.cgst_amt, a.sgst_amt,a.round_off, a.net_amt, a.refund_by",
+      table_name = "td_refund_bill a, td_refund_item b",
+      where = `a.refund_rcpt_no = b.refund_rcpt_no AND a.refund_dt BETWEEN '${data.from_date}' AND '${data.to_date}' AND b.comp_id = ${comp_id} AND b.br_id = ${data.brn_id}`;
+    order =
+      "group by a.cust_name, a.phone_no, a.refund_rcpt_no, a.refund_dt, a.refund_by";
+      var res_dt = await db_Select(select, table_name, where, order);
+      // console.log(res_dt);
+      resolve(res_dt);
+    } else {
+      
+      var select =
+          "select a.cust_name, a.phone_no, a.refund_rcpt_no, a.refund_dt,  count(b.refund_rcpt_no)no_of_items, SUM(b.qty) qty, a.price, a.discount_amt, a.cgst_amt, a.sgst_amt,a.round_off, a.net_amt, a.refund_by",
+        table_name = "td_refund_bill a, td_refund_item b",
+        where = `a.refund_rcpt_no = b.refund_rcpt_no AND a.refund_dt BETWEEN '${data.from_date}' AND '${data.to_date}' AND b.comp_id = ${comp_id}`;
+      order =
+        "group by a.cust_name, a.phone_no, a.refund_rcpt_no, a.refund_dt, a.refund_by";
+      var res_dt_2 = await db_Select(select, table_name, where, order);
+      resolve(res_dt_2);
+    }
+  });
+};
+
 module.exports = {
   branch_list,
   getSaleReport,
@@ -315,5 +342,6 @@ module.exports = {
   pay_list,
   receipt_list_by_phone,
   receipt_list_by_item,
-  item_list_section
+  item_list_section,
+  Refund_bill_report
 };

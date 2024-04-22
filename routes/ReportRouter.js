@@ -20,6 +20,7 @@ const {
   receipt_list_by_phone,
   receipt_list_by_item,
   item_list_section,
+  Refund_bill_report,
 } = require("../module/ReportModule");
 const { pay_mode, db_Select } = require("../module/MasterModule");
 const ReportRouter = express.Router(),
@@ -388,6 +389,47 @@ ReportRouter.get("/srch_by_item_final", async (req, res) => {
     bill_item_dt: bill_item_dtls.suc > 0 ? bill_item_dtls.msg : [],
   };
   res.render("search/search_by_item_final", res_dt);
+});
+
+ReportRouter.get("/refund_report", async (req, res) => {
+  comp_id = req.session.user.comp_id
+  var brn_list = await branch_list(comp_id);
+  var res_dt = {
+    data: brn_list.suc > 0 ? brn_list.msg : [],
+  };
+  res.render("report/refund_report", res_dt);
+});
+
+ReportRouter.post("/refund_report_final", async (req, res) => {
+  var data = req.body;
+  // console.log(data);
+  var comp_id = req.session.user.comp_id;
+  // console.log(comp_id);
+  // console.log(data, "123");
+  var res_dt = await Refund_bill_report(data, comp_id);
+  var comp_dtls = await comp_header(comp_id);
+  var sett = await getRecptSet(comp_id);
+  // console.log(res_dt);
+  // console.log(comp_dtls);
+  var viewData = {
+    frm_dt: data.from_date,
+    to_dt: data.to_date,
+    brn_name: data.brn_name,
+    data: res_dt.suc > 0 ? res_dt.msg : [],
+    dateFormat,
+    // br_narration:
+    //   data.brn_id > 0
+    //     ? res_dt.suc > 0
+    //       ? res_dt.msg.length > 0
+    //         ? `${res_dt.msg[0].branch_name}`
+    //         : ""
+    //       : ""
+    //     : "All Location",
+    pay_mode: pay_mode,
+    comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [],
+    sett: sett.suc > 0 && sett.msg.length > 0 ? sett.msg[0] : {},
+  };
+  res.render("report/refund_report_final", viewData);
 });
 
 module.exports = { ReportRouter };
