@@ -16,7 +16,7 @@ SettingsRouter.get('/settings_details', async (req, res) => {
   var comp_id = req.session.user.comp_id;
   // console.log(req.session.user.comp_id,"data");
   var set_dtls = await settings_details(comp_id);
-  // console.log(set_dtls);
+  console.log(set_dtls,'ll');
   var viewData = {
     settings_dt: set_dtls.suc > 0 ? set_dtls.msg : [],
     com_id: data.comp_id,
@@ -39,7 +39,7 @@ SettingsRouter.get('/edit_settings', async (req, res) => {
     receipt_type: [{ id: 'P', name: 'Print' }, { id: 'S', name: 'SMS' }, { id: 'B', name: 'Both' }],
     gst_type: gst_type_master
   };
-  // console.log(res_dt);
+  console.log(setting_dtls,'pp');
   res.render('settings/edit_settings', res_dt)
 });
 
@@ -59,7 +59,7 @@ SettingsRouter.post("/save_gen_edit_data", async (req, res) => {
   //    console.log(data,"lala");
   //    console.log(comp_id,'la');
   var setting_data = await save_settings(data, 'G', user_name, comp_id);
-  console.log(setting_data);
+  // console.log(setting_data);
   res.redirect("/settings/settings_details");
 });
 
@@ -70,7 +70,7 @@ SettingsRouter.post("/save_dis_edit_data", async (req, res) => {
   //    console.log(data,"lala");
   //    console.log(comp_id,'la');
   var setting_data = await save_settings(data, 'D', user_name, comp_id);
-  console.log(setting_data);
+  // console.log(setting_data,'ki');
   res.redirect("/settings/settings_details");
 });
 
@@ -81,7 +81,7 @@ SettingsRouter.post("/save_gst_edit_data", async (req, res) => {
   //    console.log(data,"lala");
   //    console.log(comp_id,'la');
   var setting_data = await save_settings(data, 'S', user_name, comp_id);
-  console.log(setting_data);
+  console.log(setting_data,'po');
   res.redirect("/settings/settings_details");
 });
 

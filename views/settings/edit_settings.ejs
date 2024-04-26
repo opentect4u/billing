@@ -88,8 +88,7 @@
                                     <label for="discount" style="color: black;"><b>Discount</b></label><br>
                                     <input type="checkbox" value="Y" id="discount" data-toggle="toggle"
                                         data-onstyle="success" data-offstyle="danger" data-on="Active"
-                                        data-off="Deactive" name="discount" <%=(settings_dt[0].discount_flag=='Y'
-                                        )?'checked':''%>>
+                                        data-off="Deactive" name="discount" <%=(settings_dt[0].discount_flag=='Y')?'checked':''%>>
                                 </div>
 
                                 <div class="col-md-3 col-lg-3" id="dis_hide" style="display: <%= settings_dt[0].discount_flag=='Y' ? 'block' : 'none' %>;">

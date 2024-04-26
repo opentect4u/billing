@@ -60,7 +60,7 @@ const save_edit_settings = (data) => {
           table_name = "md_receipt_settings"
           fields = data.id > 0 ? `gst_flag = '${
             data.gst_flag == "Y" ? "Y" : "N"
-          }', gst_type = ${data.gst_flag == 'Y' ? `'${data.gst_type}'` : null}, modified_by = '${user_name}', modified_at = '${datetime}'` : '(comp_id, gst_flag, gst_type, created_by, created_at)'
+          }' ${data.gst_flag == 'Y' ? `, gst_type = '${data.gst_type}'` : ''}, modified_by = '${user_name}', modified_at = '${datetime}'` : '(comp_id, gst_flag, gst_type, created_by, created_at)'
           values = `(${comp_id},'${ data.gst_flag == "Y" ? "Y" : "N" }',${data.gst_flag == 'Y' ? `'${data.gst_type}'` : null},'${user_name}', '${datetime}')`
           where = `comp_id = ${comp_id}`
           flag = data.id > 0 ? 1 : 0

@@ -43,7 +43,7 @@
                           <label for="cust_info" style="color: black;"><b>Customer Info</b></label><br>
                           <input type="checkbox" value="Y" id="cust_info" data-toggle="toggle"
                               data-onstyle="success" data-offstyle="danger" data-on="Active"
-                              data-off="Deactive" name="cust_info" <%= settings_dt.length > 0 ? (settings_dt[0].cust_info=='Y'
+                              data-off="Deactive" name="cust_info" <%= settings_dt.length > 0 ? (settings_dt[0].cust_inf=='Y'
                               )?'checked':'' : ''%>>
                       </div>
 
@@ -70,6 +70,8 @@
                               data-off="Deactive" name="inventory" <%= settings_dt.length > 0 ? (settings_dt[0].stock_flag=='Y'
                               )?'checked':'' : ''%>>
                       </div>
+
+
                     </div>
                     <div class="row mt-3">
                       <div class="col-md-3 col-lg-3">
@@ -79,7 +81,7 @@
                           <label for="receipt_type" style="color: black;"><b>Receipt Type</b></label><br>
                           <div class="form-group mb-3">
                               <!-- <label for="exampleFormControlSelect1">Select No</label> -->
-                              <select class="form-control" name="receipt_type" id="receipt_type" disabled>
+                              <select class="form-control"  id="receipt_type" disabled>
                                   <option value="">Select Receipt Type</option>
                                   <% receipt_type.forEach(dt=> {
                                       _selected=''
@@ -90,6 +92,7 @@
                                       </option>
                                       <% }) %>
                               </select>
+                              <input type="hidden" id="receipt" name="receipt_type" value="<%= settings_dt.length > 0 ? settings_dt[0].rcpt_type : '' %>">
                           </div>
                           <!-- </div>
                           </div> -->
@@ -110,6 +113,7 @@
                     </div>
                     <div class="row">
                       <input type="hidden" name="com_id" value="<%= com_id %>">
+                      <input type="hidden" name="id" value="<%= settings_dt.length>0 ? 1 : 0 %>">
                       <div class="form-group col-md-8 mt-4" style="margin-left: 23vw;">
                           <button class="btn btn-warning" type="submit" value="SUBMIT"
                               style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
@@ -160,6 +164,8 @@
                     </div>
                     <div class="row">
                       <input type="hidden" name="com_id" value="<%= com_id %>">
+                      <input type="hidden" name="id" value="<%= settings_dt.length>0 ? 1 : 0 %>">
+                      
                       <div class="form-group col-md-8 mt-4" style="margin-left: 23vw;">
                           <button class="btn btn-warning" type="submit" value="SUBMIT"
                               style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
@@ -173,8 +179,8 @@
                       <div class="col-md-3 cust-toggle1">
                           <label for="gst_flag" style="color: black;"><b>GST Flag</b></label><br>
                           <input type="checkbox" value="Y" id="gst_flag" data-toggle="toggle"
-                              data-onstyle="success" data-offstyle="danger" data-on="Exclusive"
-                              data-off="Inclusive" name="gst_flag" <%= (settings_dt.length>0) ? (settings_dt[0].gst_flag=='Y'
+                              data-onstyle="success" data-offstyle="danger" data-on="Active"
+                              data-off="Deactive" name="gst_flag" <%= (settings_dt.length>0) ? (settings_dt[0].gst_flag=='Y'
                               )?'checked':'' : '' %>>
                       </div>
 
