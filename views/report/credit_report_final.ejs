@@ -3,67 +3,110 @@
         <div class="col-12">
             <div class="card">
                 <div class="col-sm-6 mt-3">
-                    <i class='fas fa-file-invoice' style='font-size:20px;'>&nbsp;<span style="font-size: 25px;color: black;">Paymode Report Details</span style="font-size: 25px;"></i>&nbsp;
+                    <i class='fas fa-file-invoice' style='font-size:20px;'>&nbsp;<span style="font-size: 25px;color: black;">Credit Report Details</span style="font-size: 25px;"></i>&nbsp;
                       <ul class="breadcrumb">
-                        <li><a href="/report/paymode_report">Payment Mode
-                            Report</a></li>&nbsp; / &nbsp;
-                        <li>Paymode Report Details</li>
+                        <li><a href="/report/credit_report">Credit Report</a></li>&nbsp; / &nbsp;
+                        <li>Credit Report Details</li>
                       </ul>
                     </div>
                 <div class="card-body" id="tableData">
-                    <div class="table-responsive"  id="divToPrint">
+                    <div class="table-responsive" id="divToPrint">
                         <center>
                             <h5 class="" style="color: black;"><b><%= comp_dt[0].company_name %></h5></2>
                             <h5 class="" style="color: black;"><b><%= comp_dt[0].address %></h5></b>
                             <label style="color: black;"><b>Phone No:&nbsp;<span style="color: black;"><%= comp_dt[0].phone_no %></span></b></label>&nbsp;&nbsp;
                             <label style="color: black;"><b>Email Id:&nbsp;<span style="color: black;"><%= comp_dt[0].email_id %></span></b></label>
                         </center>
-                    <center>
-                        <h5 class="card-title">Paymode Report Between <%= dateFormat(frm_dt, "dd/mm/yyyy" ) %> to <%=
-                                    dateFormat(to_dt, "dd/mm/yyyy" ) %>
-                        </h5><br>
-                    </center>
-                    <label><b>Location:&nbsp;<span style="color: black;"><%= brn_name %></span></b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <label><b>PayMode:&nbsp;<span style="color: black;"><%= pay_mode =='C' ? 'Cash' : pay_mode =='U' ? 'UPI' : pay_mode == 'D' ? 'Card' : 'Credit' %></span></b></label>
-                        <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                        <center>
+                            <h5 class="card-title">Credit Report Between <%= dateFormat(frm_dt, "dd/mm/yyyy" ) %> to <%=
+                                        dateFormat(to_dt, "dd/mm/yyyy" ) %>
+                            </h5>
+                            
+                        </center>
+                        <label><b>Location:&nbsp;<span style="color: black;"><%= brn_name %></span></b></label>
+                            
+                        <table class="table table-striped table-bordered no-wrap">
                             <thead>
                                 <tr>
                                     <th><b style="color: black;">Sl No.</b></th>
-                                    <th><b style="color: black;">Mode</b></th>
-                                    <th><b style="color: black;">User</b></th>
-                                    <th><b style="color: black;">No. of Bills</b></th>
+                                    <th><b style="color: black;">Date</b></th>
+                                    <th><b style="color: black;">Receipt No.</b></th>
+                                    <% if(sett.cust_inf && sett.cust_inf != 'N'){ %>
+                                        <th><b style="color: black;">Customer Name</b></th>
+                                        <th><b style="color: black;">Phone No</b></th>
+                                    <% } %>
+                                    <!-- <th><b style="color: black;">No. of items</b></th>
+                                    <th><b style="color: black;">Qty</b></th>
+                                    <th><b style="color: black;">Price</b></th>
+                                    <th><b style="color: black;">Discount</b></th>
+                                    <% if(sett.gst_flag && sett.gst_flag != 'N'){ %>
+                                        <th><b style="color: black;">CGST</b></th>
+                                        <th><b style="color: black;">SGST</b></th>
+                                    <% } %>
+                                    <th><b style="color: black;">Round off</b></th> -->
                                     <th><b style="color: black;">Amount</b></th>
+                                    <th><b style="color: black;">Paid Amount</b></th>
+                                    <th><b style="color: black;">Due Amount</b></th>
+                                    <th><b style="color: black;">Created By</b></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% var tot_amt=0;
-                                    data.forEach(function(item,index) { tot_amt
-                                    +=item.net_amt;%>
+                                <% var tot_amt=0, tot_paid_amt=0, tot_due_amt=0;
+                                    data.forEach(function(item,index) { tot_amt +=item.net_amt; tot_paid_amt +=item.paid_amt; tot_due_amt
+                                    +=item.due_amt; %>
                                     <tr>
                                         <td><%= index+1 %></td>
                                         <td>
-                                            <%= item.pay_mode =='C' ? 'Cash' : item.pay_mode =='U' ? 'UPI' : item.pay_mode == 'D' ? 'Card' : 'Credit' %>
+                                            <%= dateFormat(item.trn_date, "dd/mm/yyyy" ) %>
                                         </td>
                                         <td>
-                                            <%= item.user_name %>
+                                            <%= item.receipt_no %>
+                                        </td>
+                                        
+                                        <% if(sett.cust_inf && sett.cust_inf != 'N'){ %>
+                                            <td>
+                                                <%= item.cust_name %>
+                                            </td>
+                                        <td>
+                                            <%= item.phone_no %>
+                                        </td>
+                                        <% } %>
+                                        <td>
+                                            <%= item.net_amt.toFixed(2) %>
                                         </td>
                                         <td>
-                                            <%= item.no_of_bills %>
+                                            <%= item.paid_amt.toFixed(2) %>
                                         </td>
                                         <td>
-                                            <%= item.net_amt %>
+                                            <%= item.due_amt.toFixed(2) %>
+                                        </td>
+                                        <td>
+                                            <%= item.created_by %>
                                         </td>
                                     </tr>
                                     <% }) %>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="4"><b style="color: black;">Total</b></th>
-                                        <th><b style="color: black;">
-                                            <%= tot_amt %>
-                                        </b></th>
-                                    </tr> 
-                                </tfoot>
+    
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3"><b style="color: black;">Total</b></th>
+                                    <% if(sett.cust_inf && sett.cust_inf != 'N'){ %>
+                                        <th></th>
+                                        <th></th>
+                                        <% } %>
+                                    </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_amt.toFixed(2) %>
+                                    </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_paid_amt.toFixed(2) %>
+                                    </b></th>
+                                    <th><b style="color: black;">
+                                        <%= tot_due_amt.toFixed(2) %>
+                                    </b></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                     <div class="mt-2" id="btnclass">
@@ -80,8 +123,8 @@
             </div>
         </div>
     </div>
+    
 </div>
-
 
 <script>
     function printDiv() {
@@ -132,7 +175,7 @@
       // Add a new row with the name "hello"
       XLSX.utils.sheet_add_aoa(ws, [
       
-      ['Sl. No.', 'Mode', 'User', 'No. of Bills', 'Amount']]);
+      ['Sl. No.', 'Date', 'Receipt No.', 'Customer Name', 'Phone No', 'Amount', 'Paid Amount', 'Due Amount', 'Created By']]);
 
       // Add the worksheet to the workbook
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
@@ -163,7 +206,7 @@
         const downloadBtn = document.getElementById('downloadBtn');
         downloadBtn.addEventListener('click', function() {
             // Call the exportTableToExcel function, passing the table ID and desired filename
-            exportTableToExcel('tableData', 'Collection_Report.xlsx');
+            exportTableToExcel('tableData', 'Sale_Report.xlsx');
         });
     });
 </script>

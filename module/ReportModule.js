@@ -14,7 +14,7 @@ const user_list = (brn_id) => {
   return new Promise(async (resolve, reject) => {
     var select = "user_name,user_id",
       table_name = "md_user",
-      where = `br_id =${brn_id} AND user_type = 'U'`,
+      where = `br_id =${brn_id} AND user_type='U'`,
       order = null;
     var ul_dt = await db_Select(select, table_name, where, order);
     // console.log(ul_dt);
@@ -109,7 +109,7 @@ const getPayReport = (data, comp_id) => {
     )a`;
     (where = null), (order = "GROUP BY a.created_by,a.pay_mode");
     var res_dt = await db_Select(select, table_name, where, order);
-    console.log(res_dt);
+    // console.log(res_dt);
     resolve(res_dt);
   });
 };
@@ -323,6 +323,33 @@ const Refund_bill_report = (data, comp_id) => {
   });
 };
 
+const credit_bill_report = (data, comp_id) => {
+  return new Promise(async (resolve, reject) => {
+    if (data.brn_id > 0) {
+
+        var select =
+        "trn_date, cust_name, phone_no, receipt_no, net_amt, received_amt as paid_amt, net_amt-received_amt as due_amt, created_by",
+      table_name = "td_receipt",
+      where = `pay_mode = 'R' and net_amt-received_amt > 0 AND trn_date BETWEEN '${data.from_date}' AND '${data.to_date}' AND comp_id = ${comp_id} AND br_id = ${data.brn_id}`;
+    order =
+      "group by phone_no,receipt_no,trn_date,created_by";
+      var res_dt = await db_Select(select, table_name, where, order);
+      // console.log(res_dt);
+      resolve(res_dt);
+    } else {
+      
+      var select =
+          "trn_date, cust_name, phone_no, receipt_no, net_amt, received_amt as paid_amt, net_amt-received_amt as due_amt, created_by",
+        table_name = "td_receipt",
+        where = `pay_mode = 'R' and net_amt-received_amt > 0 AND trn_date BETWEEN '${data.from_date}' AND '${data.to_date}' AND comp_id = ${comp_id}`;
+      order =
+        "group by phone_no,receipt_no,trn_date,created_by";
+      var res_dt_2 = await db_Select(select, table_name, where, order);
+      resolve(res_dt_2);
+    }
+  });
+};
+
 module.exports = {
   branch_list,
   getSaleReport,
@@ -343,5 +370,6 @@ module.exports = {
   receipt_list_by_phone,
   receipt_list_by_item,
   item_list_section,
-  Refund_bill_report
+  Refund_bill_report,
+  credit_bill_report
 };
