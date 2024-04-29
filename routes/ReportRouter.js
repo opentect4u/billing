@@ -114,12 +114,13 @@ ReportRouter.post("/collection_report_final", async (req, res) => {
     to_dt: data.date_to,
     data: res_dt.suc > 0 ? res_dt.msg : [],
     user_id: data.user_id,
+    user_name: data.user_name,
     brn_name: data.brn_name,
     dateFormat,
     pay_mode: pay_mode,
     comp_dt: comp_dtls.suc > 0 ? comp_dtls.msg : [],
   };
-  console.log(res_dt,"yyyyy")
+  console.log(viewData,"yyyyy")
   res.render("report/collection_report_final", viewData);
 });
 

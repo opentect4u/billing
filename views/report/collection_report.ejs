@@ -35,14 +35,16 @@
                                 <div class="form-group col-md-6">
                                     <label for="user_id"><b style="color: black;">User list:</b></label>
                                     <select name="user_id" class="form-control s2id" id="user_id" required>
-                                        <option value="">Select User</option>
+                                        <!-- <option value="">Select User</option> -->
                                     </select>
                                 </div>
 
                                 <input type="hidden" name="brn_name" id="brn_name" value="">
+                                <input type="hidden" name="user_name" id="user_name" value="">
                                 <div class="form-group col-8 mt-3" style="margin-left: 30vw;">
                                     <button class="btn btn-warning" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
                                 </div>
+
                             </div>
                         </form>
                     </div>
@@ -57,6 +59,12 @@
         $('#brn_name').val($('#brn_id :selected').text().trim());
     });
 </script>
+   
+<script>
+    $("#user_id").change( function() {
+            $('#user_name').val($('#user_id :selected').text().trim());
+    });
+</script>
 
 <script>
     $("#brn_id").on("change", function () {
@@ -68,9 +76,10 @@
         data: { brn_id: brn_id },
         success: function (response) {
             console.log(response);
-        //   $("#user_id").append(
-        //     $("<option>", { value: "", text: "Select User" })
-        //   );
+            $("#user_id").empty()
+          $("#user_id").append(
+            $("<option>", { value: "", text: "Select User" })
+          );
           if (response.suc > 0 && response.msg.length > 0)
             response.msg.forEach (function (item, index) {
               $("#user_id").append(
@@ -84,3 +93,4 @@
       });
     });
 </script>
+

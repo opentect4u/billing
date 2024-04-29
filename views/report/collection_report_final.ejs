@@ -40,7 +40,7 @@
                                     <tr>
                                         <td><%= index+1 %></td>
                                         <td>
-                                            <%= pay_mode[item.pay_mode] %>
+                                            <%= item.pay_mode =='C' ? 'Cash' : item.pay_mode =='U' ? 'UPI' : item.pay_mode == 'D' ? 'Card' : 'Credit' %>
                                         </td>
                                         <td>
                                             <%= item.no_of_bills %>

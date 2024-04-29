@@ -45,6 +45,7 @@
                                     <% } %>
                                     <th><b style="color: black;">Round off</b></th>
                                     <th><b style="color: black;">Amount</b></th>
+                                    <th><b style="color: black;">Pay Mode</b></th>
                                     <th><b style="color: black;">Created By</b></th>
                                 </tr>
                             </thead>
@@ -94,6 +95,9 @@
                                         </td>
                                         <td>
                                             <%= item.net_amt.toFixed(2) %>
+                                        </td>
+                                        <td>
+                                            <%= item.pay_mode =='C' ? 'Cash' : item.pay_mode =='U' ? 'UPI' : item.pay_mode == 'D' ? 'Card' : 'Credit' %>
                                         </td>
                                         <td>
                                             <%= item.created_by %>
