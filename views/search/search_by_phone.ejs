@@ -92,7 +92,7 @@
                   <td>${formatDate(resData.trn_date)}</td>
                   <td>${resData.created_by}</td>
                   <td>${resData.net_amt}</td>
-                  <td>${resData.pay_mode=='C' ? 'Cash' : resData.pay_mode=='U' ? 'UPI' : resData.pay_mode=='D' ? 'Card' : ''}</td>
+                  <td>${resData.pay_mode=='C' ? 'Cash' : resData.pay_mode=='U' ? 'UPI' : resData.pay_mode=='D' ? 'Card' : 'Credit'}</td>
                   <td><a href="/report/srch_by_phone_final?receipt_no=${resData.receipt_no}&&user=${resData.created_by}" class='btn btn-info' style="border-radius:6px"><i class="fa fa-eye"></i></a></td> 
                 </tr>
                 `)
