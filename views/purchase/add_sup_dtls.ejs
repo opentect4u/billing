@@ -1,0 +1,69 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card ml-5 mr-5">
+                <div class="card-body">
+                    <div class="titleSec">
+                        <h2><i class="fa fa-caret-square-o-left"></i>
+                            <b><span class="badge badge-light"
+                                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i class="fa fa-plus"></i>&nbsp;Add Supplier Details</span></b></h2>
+                                    <ul class="breadcrumb">
+                                        <li><a href="/purchase/supplier_details">Supplier Details</a></li>&nbsp; / &nbsp;
+                                        <li>Add Supplier Details</li>
+                                      </ul>
+                         <form method="POST" action="/purchase/save_data" class="">
+                            <div class="row mt-4">
+                                <div class="form-group col-md-6">
+                                    <label for="supplier_name"><b style="color: black;">Supplier Name:</b></label>
+                                    <input type="text" name="supplier_name" id="supplier_name" class="form-control" value=""
+                                       required  />
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="gstin"><b style="color: black;">GSTIN:</b></label>
+                                    <input type="text" name="gstin" class="form-control s2id" id="gstin" value=""
+                                    required  />
+                                       
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="address"><b style="color: black;">Address:</b></label>
+                                    <input type="text" name="address" id="address" class="form-control" value="" />   
+                                </div>
+                    
+                                <div class="form-group col-md-6">
+                                    <label for="created_by"><b style="color: black;">Created by:</b></label>
+                                    <input type="text" name="created_by" id="created_by" class="form-control" value=""
+                                    required/>
+                                </div>
+
+                                <!-- <div class="form-group col-md-6">
+                                    <label for="discount"><b style="color: black;">Discount:</b></label>
+                                    <input type="text" name="discount" id="discount" class="form-control" value=""
+                                    required/>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="cgst"><b style="color: black;">Cgst:</b></label>
+                                    <input type="text" name="cgst" id="cgst" class="form-control" value=""
+                                    required/>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="sgst"><b style="color: black;">Sgst:</b></label>
+                                    <input type="text" name="sgst" id="sgst" class="form-control" value=""
+                                    required/>
+                                </div> -->
+
+                                <div class="form-group col-8 mt-3" style="margin-left: 29vw;">
+                                    <button class="btn btn-warning" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                                </div>
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

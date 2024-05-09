@@ -15,6 +15,7 @@ const { UserRouter } = require("./routes/UserRoter");
 const { ApiRouter } = require("./routes/ApiRouter");
 const { LocationRouter } = require("./routes/LocationRouter");
 const { CustRouter } = require("./routes/CustomerRouter");
+const { PurchaseRouter } = require("./routes/PurchaseRouter");
 
 var app = express(),
   expressLayouts = require("express-ejs-layouts"),
@@ -105,6 +106,8 @@ app.use('/bill', ReceiptRouter)
 app.use('/api', ApiRouter)
 app.use('/location', LocationRouter)
 app.use('/customer', CustRouter)
+app.use('/purchase', PurchaseRouter)
+
 
 app.listen(port, (err) => {
   if (err) throw new Error(err);
