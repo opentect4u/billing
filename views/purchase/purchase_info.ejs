@@ -1,0 +1,60 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card ml-5 mr-5">
+                <div class="card-body">
+                    <div class="titleSec">
+                        <h2><i class="fa fa-caret-square-o-left"></i>
+                            <b><span class="badge badge-light"
+                                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i class="fa fa-plus"></i>&nbsp;Purchase Details</span></b></h2>
+                                    
+                         <form method="POST" action="/purchase/save_purchase_data" class="">
+                            <div class="row mt-4">
+                                <div class="form-group col-md-6">
+                                    <label for="purchase_id"><b style="color: black;">Purchase Id:</b></label>
+                                    <input type="text" name="purchase_id" id="purchase_id" class="form-control" value="<%= data.purchase_id %>"
+                                    disabled  />
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="unit_id"><b style="color: black;">Outlet:</b></label>
+                                    <select name="unit_id" class="form-control s2id" id="unit_id">
+                                        <option value="">Select Outlet</option>
+                                        <% unit_dt.forEach(dt => { %>
+                                                <option value="<%= data.id %>">
+                                                    <%= data.branch_name %>
+                                                </option>
+                                        <% }) %>
+                                    </select>   
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="supplier_id"><b style="color: black;">Supplier Id:</b></label>
+                                    <input type="text" name="supplier_id" id="supplier_id" class="form-control" value="" />   
+                                </div>
+                    
+                                <div class="form-group col-md-6">
+                                    <label for="invoice_no"><b style="color: black;">Invoice No:</b></label>
+                                    <input type="text" name="invoice_no" id="invoice_no" class="form-control" value=""
+                                    required/>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="pay_mode"><b style="color: black;">Pay Mode:</b></label>
+                                    <input type="text" name="pay_mode" id="pay_mode" class="form-control" value=""
+                                    required/>
+                                </div>
+
+                                
+                                <div class="form-group col-8 mt-3" style="margin-left: 29vw;">
+                                    <button class="btn btn-warning" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
+                                </div>
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
