@@ -6,55 +6,268 @@
                     <div class="titleSec">
                         <h2><i class="fa fa-caret-square-o-left"></i>
                             <b><span class="badge badge-light"
-                                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i class="fa fa-plus"></i>&nbsp;Purchase Details</span></b></h2>
-                                    
-                         <form method="POST" action="/purchase/save_purchase_data" class="">
+                                    style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i
+                                        class="fa fa-plus"></i>&nbsp;Purchase Details</span></b>
+                        </h2>
+
+                        <form method="POST" action="/purchase/save_purchase_data" class="">
                             <div class="row mt-4">
-                                <div class="form-group col-md-6">
-                                    <label for="purchase_id"><b style="color: black;">Purchase Id:</b></label>
-                                    <input type="text" name="purchase_id" id="purchase_id" class="form-control" value="<%= data.purchase_id %>"
-                                    disabled  />
-                                </div>
 
                                 <div class="form-group col-md-6">
-                                    <label for="unit_id"><b style="color: black;">Outlet:</b></label>
-                                    <select name="unit_id" class="form-control s2id" id="unit_id">
-                                        <option value="">Select Outlet</option>
-                                        <% unit_dt.forEach(dt => { %>
-                                                <option value="<%= data.id %>">
-                                                    <%= data.branch_name %>
-                                                </option>
-                                        <% }) %>
-                                    </select>   
+                                    <label for="brn_id"><b style="color: black;">Outlet:</b></label>
+                                    <select name="brn_id" class="form-control s2id" id="brn_id">
+                                        <% branch.forEach(dt=> { %>
+                                            <option value="<%= dt.id %>">
+                                                <%= dt.branch_name %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     <label for="supplier_id"><b style="color: black;">Supplier Id:</b></label>
-                                    <input type="text" name="supplier_id" id="supplier_id" class="form-control" value="" />   
+                                    <select name="id" class="form-control s2id" id="id">
+                                        <% sup_dtls.forEach(dt=> { %>
+                                            <option value="<%= dt.id %>">
+                                                <%= dt.supplier_name %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
                                 </div>
-                    
+
                                 <div class="form-group col-md-6">
                                     <label for="invoice_no"><b style="color: black;">Invoice No:</b></label>
                                     <input type="text" name="invoice_no" id="invoice_no" class="form-control" value=""
-                                    required/>
+                                        required />
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    <label for="pay_mode"><b style="color: black;">Pay Mode:</b></label>
-                                    <input type="text" name="pay_mode" id="pay_mode" class="form-control" value=""
-                                    required/>
+                                    <label for="pay_mode"><b style="color: black;">Payment Mode:</b></label>
+                                    <select name="pay_mode" class="form-control s2id" id="pay_mode" required>
+                                        <option value="">Select Mode</option>
+                                        <option value="">UPI</option>
+                                        <option value="">Cash</option>
+                                        <option value="">Card</option>
+                                        <option value="">Credit</option>
+                                        <option value="">Advance</option>
+                                    </select>
                                 </div>
+                            </div>
 
-                                
-                                <div class="form-group col-8 mt-3" style="margin-left: 29vw;">
-                                    <button class="btn btn-warning" type="submit" value="SUBMIT" style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
-                                </div>
-                                
+
+                            <h2><i class="fa fa-caret-square-o-left"></i>
+                                <b><span class="badge badge-light"
+                                        style="border-radius: 8px;color: rgb(15, 15, 15); font-weight: 500; padding: 8px 15px;"><i
+                                            class="fa fa-plus"></i>&nbsp;Add Item Details</span></b>
+                            </h2>
+
+
+                            <table class="table custom-table-user" id="table" width="50%">
+                                <thead>
+                                    <!-- <tr>
+                                    <th> <label class="form-label user_add"> 
+                                        <button type="button" class="btn btn_UR btn-outline-primary btn-air-primary" onclick="add_tb_row()">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </button></label> 
+                                    </th>
+                                  
+                                </tr> -->
+                                </thead>
+                                <tbody>
+
+                                    <tr id="tr_1" class="d-flex flex-wrap row">
+                                        <td class="tableTd_add_main col-md-4 " style="border-top: 0px !important"></td>
+                                        <td class="tableTd_add_main col-md-4 " style="border-top: 0px !important"></td>
+                                        <td class="tableTd_add_main col-md-4 d-flex justify-content-end my-3"
+                                            style="border-top: 0px !important">
+                                            <button type="button" id="add_btn"
+                                                class="btn btn_UR btn-success btn-air-primary rounded mx-2"
+                                                onclick="add_tb_row()">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </button>
+
+                                            <button type="button" id="del_btn" class="btn btn_UR btn-danger btn-air-primary rounded" disabled
+                                                onclick="del_row(1)">
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
+                                            <div class="form-group ">
+                                                <!-- <select class="form-control" id="item_id" name="user_id" required="">
+                                                    <option selected="" value="">Item</option>
+                                                </select> -->
+                                                <select name="item_name" class="form-control s2id" id="item_name">
+                                                    <option value="">Select Item</option>
+                                                    <% item.forEach(dt=> { %>
+                                                        <option value="<%= dt.id %>">
+                                                            <%= dt.item_name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                        </td>
+
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
+                                            <div class="form-group ">
+
+                                                <input type="text" class="form-control" placeholder="price"
+                                                    id="user_id_1" />
+                                            </div>
+                                        </td>
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
+                                            <div class="form-group ">
+                                                <input type="text" class="form-control" placeholder="Quantity"
+                                                    id="user_id_1" />
+                                            </div>
+                                        </td>
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
+                                            <div class="form-group ">
+                                                <input type="text" class="form-control" placeholder="CGST"
+                                                    id="user_id_1" />
+                                            </div>
+                                        </td>
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
+                                            <div class="form-group ">
+                                                <input type="text" class="form-control" placeholder="SGST"
+                                                    id="user_id_1" />
+                                            </div>
+                                        </td>
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
+                                            <div class="form-group ">
+                                                <select name="unit_name" class="form-control s2id" id="unit_name">
+                                                    <option value="">Select Unit</option>
+                                                    <% item.forEach(dt=> { %>
+                                                        <option value="<%= dt.sl_no %>">
+                                                            <%= dt.unit_name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        </td>
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="form-group col-8 mt-3" style="margin-left: 29vw;">
+                                <button class="btn btn-warning" type="submit" value="SUBMIT"
+                                    style="color: black;border-radius: 3px;font-weight: 500;">Submit</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function add_tb_row() {
+        console.log('add row')
+        var next_id = $(`#table tbody tr`).length + 1
+        $(`#table tbody:last`).append(`
+        <tr id="tr_${next_id}" class="d-flex flex-wrap row">
+            <td class="tableTd_add_main col-md-4 " style="border-top: 0px !important"></td>
+                                        <td class="tableTd_add_main col-md-4 " style="border-top: 0px !important"></td>
+                                        <td class="tableTd_add_main col-md-4 d-flex justify-content-end my-3" style="border-top: 0px !important">
+                                                <button type="button" class="btn btn_UR btn-success btn-air-primary rounded mx-2"
+                                                    onclick="add_tb_row()">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                            
+                                                <button type="button" class="btn btn_UR btn-danger btn-air-primary rounded"
+                                                    onclick="del_row(${next_id})">
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                </button>
+                                        </td>
+    
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
+                                            <div class="form-group ">
+                                                <select name="item_name" class="form-control s2id" id="item_name">
+                                                    <option value="">Select Item</option>
+                                                    <% item.forEach(dt=> { %>
+                                                        <option value="<%= dt.id %>">
+                                                            <%= dt.item_name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                        </div>
+                                        </td>
+                                       
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
+                                            <div class="form-group ">
+                                          
+                                            <input type="text" class="form-control" placeholder="price"  id="user_id_1"/>
+                                        </div>
+                                        </td>
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
+                                            <div class="form-group ">
+                                                <input type="text" class="form-control" placeholder="Quantity"  id="user_id_1"/>
+                                        </div>
+                                        </td>
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
+                                            <div class="form-group ">
+                                                <input type="text" class="form-control" placeholder="CGST"  id="user_id_1"/>
+                                        </div>
+                                        </td>
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important"> 
+                                            <div class="form-group ">
+                                                <input type="text" class="form-control" placeholder="SGST"  id="user_id_1"/>
+                                        </div>
+                                        </td>
+                                        <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
+                                            <div class="form-group ">
+                                                <select name="unit_name" class="form-control s2id" id="unit_name">
+                                                    <option value="">Select Unit</option>
+                                                    <% item.forEach(dt=> { %>
+                                                        <option value="<%= dt.sl_no %>">
+                                                            <%= dt.unit_name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                               
+                                            </div>
+                                        </td>
+                                        
+                                    </td>
+           
+        </tr>
+        `);
+    }
+
+    function del_row(id){
+        console.log("SSSSSSSSSSSSSSSSSSSSSSSSS")
+
+        if (confirm('Are you sure you want to delete?')) {
+            if($('#id').val() > 0){
+                console.log(id)
+                $(`#tr_${id}`).remove()
+
+                // $.ajax({
+                //     method: "POST",
+                //     url: "/delete_my_project",
+                //     data: { id: id },
+                //     dataType: "html",
+                //     beforeSend: function () {
+                //         $(".loader-wrapper").show();
+                //     },
+                //     success: function (result) {
+                //         var res = JSON.parse(result);
+                //         // console.log(res);
+                //         if (res.suc > 0 && res.msg.length > 0){
+                //             $(`#tr_${id}`).remove()
+                //         }
+                //     },
+                //     complete: function () {
+                //         $(".loader-wrapper").hide();
+                //     }
+                // })
+            }else{
+                $(`#tr_${id}`).remove()
+            }
+        }
+    }
+</script>

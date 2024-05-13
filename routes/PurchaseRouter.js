@@ -1,5 +1,5 @@
 const express = require("express");
-const{ supplier_lt, supplier_list, save_add_sup_data, save_edit_sup_data, sup_edit_dtls, sup_list_id, save_add_purchase_data, br_list } = require("../module/PurchaseModule");
+const{ supplier_lt, supplier_list, save_add_sup_data, save_edit_sup_data, sup_edit_dtls, sup_list_id, save_add_purchase_data, br_list, item_list, unit_list } = require("../module/PurchaseModule");
 const{ getUnitList } = require("../module/UnitModule");
 const PurchaseRouter = express.Router();
 
@@ -83,18 +83,31 @@ PurchaseRouter.post("/save_data", async (req, res) => {
     res.redirect("/purchase/supplier_details")
   });
 
-  PurchaseRouter.post("/purchase_info", async (req, res) => {
-    res.redirect("/purchase/purchase_info")
-  });
-
 // ==============================================================================================
-PurchaseRouter.get("/brn_list", async (req, res) => {
+// PurchaseRouter.get("/brn_list", async (req, res) => {
+//   comp_id = req.session.user.comp_id
+//   var brn_list = await br_list(comp_id);
+//   var res_dt = {
+//     branch: brn_list.suc > 0 ? brn_list.msg : [],
+//   };
+//   res.send("purchase/purchase_info", res_dt);
+//   console.log(res_dt,'juju');
+// });
+
+PurchaseRouter.get("/purchase_info", async (req, res) => {
   comp_id = req.session.user.comp_id
   var brn_list = await br_list(comp_id);
+  var suppliers = await supplier_list(comp_id);
+  var items = await item_list(comp_id);
+  var units = await unit_list(comp_id);
   var res_dt = {
-    data: brn_list.suc > 0 ? brn_list.msg : [],
+    branch: brn_list.suc > 0 ? brn_list.msg : [],
+    sup_dtls: suppliers.suc > 0 ? suppliers.msg : [],
+    item: items.suc > 0 ? items.msg : [],
+    unit: units.suc > 0 ? units.msg : []
   };
-  res.render("purchase/purchase_info", res_dt);
+  res.render("purchase/purchase_info",res_dt)
+  // console.log(res_dt);
 });
 
 PurchaseRouter.post("/save_purchase_data", async (req, res) => {
@@ -102,7 +115,11 @@ PurchaseRouter.post("/save_purchase_data", async (req, res) => {
   // console.log(data,"lalal");
   comp_id = req.session.user.comp_id
   var add_data = await save_add_purchase_data(data,comp_id);
-  res.redirect("/purchase/purchase_info")
+  var res_dt = {
+    data: add_data.suc > 0 ? add_data.msg : []
+  };
+  res.redirect("/purchase/purchase_info",res_dt);
+  console.log(res_dt);
 });
 
 module.exports = { PurchaseRouter };

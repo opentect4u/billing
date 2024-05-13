@@ -77,6 +77,27 @@ const br_list = (comp_id) => {
   });
 };
 
+const item_list = (comp_id) => {
+  return new Promise(async (resolve, reject) => {
+    var select = "id,item_name",
+      table_name = "md_items",
+      where = `comp_id = '${comp_id}'`;
+    var res_dt = await db_Select(select, table_name, where, null);
+    resolve(res_dt);
+  });
+};
+
+const unit_list = (comp_id) => {
+  return new Promise(async (resolve, reject) => {
+    var select = "sl_no,unit_name",
+      table_name = "md_unit",
+      where = `comp_id = '${comp_id}'`;
+    var res_dt = await db_Select(select, table_name, where, null);
+    resolve(res_dt);
+    // console.log(res_dt);
+  });
+};
+
 const save_add_purchase_data = (data,comp_id) => {
   return new Promise (async (resolve, reject) =>{
    current_datetime = datetime.now()
@@ -89,15 +110,17 @@ const save_add_purchase_data = (data,comp_id) => {
    where = null,
    flag = 0;
    var res_dt = await db_Insert(table_name,fields,values,where,flag);
-  //  if(res_dt.suc > 0){
-  //   var table_name1 = "md_item_rate",
-  //  fields1 = `(item_id,price,discount,cgst,sgst,created_by,created_dt)`,
-  //  values1 = `(${res_dt.lastId.insertId},'${data.price}','${data.discount}','${data.cgst}','${data.sgst}','admin','${datetime}')`,
-  //  where1 = null,
-  //  flag1 = 0;
-  //  var res_dt1 = await db_Insert(table_name1,fields1,values1,where1,flag1);
-  //  }
-   resolve(res_dt);
+  console.log(res_dt);
+  if(res_dt.suc > 0){
+   var table_name1 = "td_item_purchase",
+   fields1 = `purchase_id = '${data.purchase_id}', br_id = '${data.br_id}', item_id = '${data.id}', price = '${data.price}', cgst_prtg = '${data.cgst}',sgst_prtg = '${data.sgst}',qty = '${data.qty}',unit_name = '${data.unit_name}', modified_by = 'admin', modified_dt = '${datetime}'`,
+   values1 = null,
+   where1 = `comp_id = ${data.comp_id}`,
+   flag1 = 1;
+   var res_dt1 = await db_Insert(table_name1,fields1,values1,where1,flag1);
+   }
+   resolve(res_dt1);
+   console.log(res_dt1);
   })
 }
 
@@ -109,5 +132,7 @@ save_edit_sup_data,
 sup_edit_dtls,
 sup_list_id,
 save_add_purchase_data,
-br_list
+br_list,
+item_list,
+unit_list
  };
