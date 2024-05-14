@@ -100,27 +100,62 @@ const unit_list = (comp_id) => {
 
 const save_add_purchase_data = (data,comp_id) => {
   return new Promise (async (resolve, reject) =>{
-   current_datetime = datetime.now()
-   receipt = int(round(current_datetime.timestamp()))
-   datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
-   date = dateFormat(new Date(), "yyyy-mm-dd");
+   var current_datetime = new Date(),
+    receipt = Math.floor(current_datetime.getTime()/1000),
+    datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss"),
+    date = dateFormat(new Date(), "yyyy-mm-dd");
+    // console.log(data, receipt);
    var table_name = "td_purchase",
-   fields = `(purchase_id,comp_id,br_id, supplier_id,invoice_no,invoice_date,pay_mode,created_by,created_at)`,
-   values = `('${receipt}','${comp_id}','${data.br_id}','${data.supplier_id}', '${data.invoice_no}','${date}','${data.pay_mode}','admin','${datetime}')`,
-   where = null,
-   flag = 0;
+   fields = data.receipt > 0 ? `supplier_id='${data.id}',pay_mode='${data.pay_mode}'` : `(purchase_id,comp_id,br_id, supplier_id,invoice_no,invoice_date,pay_mode,created_by,created_at)`,
+   values = `('${receipt}','${comp_id}','${data.brn_id}','${data.id}', '${data.invoice_no}','${date}','${data.pay_mode}','admin','${datetime}')`,
+   where = data.receipt > 0 ? `purchase_id = ${data.receipt}` : null,
+   flag = data.receipt > 0 ? 1 : 0;
    var res_dt = await db_Insert(table_name,fields,values,where,flag);
-  console.log(res_dt);
-  if(res_dt.suc > 0){
-   var table_name1 = "td_item_purchase",
-   fields1 = `purchase_id = '${data.purchase_id}', br_id = '${data.br_id}', item_id = '${data.id}', price = '${data.price}', cgst_prtg = '${data.cgst}',sgst_prtg = '${data.sgst}',qty = '${data.qty}',unit_name = '${data.unit_name}', modified_by = 'admin', modified_dt = '${datetime}'`,
-   values1 = null,
-   where1 = `comp_id = ${data.comp_id}`,
-   flag1 = 1;
-   var res_dt1 = await db_Insert(table_name1,fields1,values1,where1,flag1);
-   }
-   resolve(res_dt1);
-   console.log(res_dt1);
+   console.log(res_dt);
+   if(res_dt.suc > 0){
+    if(Array.isArray(data.item_name)){
+      for(let i=0; i<data.item_name.length; i++){
+        var table_name1 = 'td_item_purchase',
+        fields1 = data.receipt > 0 ? `price=${data.price[i]}, cgst_prtg=${data.cgst[i]}, cgst_amt=${((data.price[i]*data.cgst[i])/100).toFixed(2)}, sgst_prtg=${data.sgst[i]}, sgst_amt=${((data.price[i]*data.sgst[i])/100).toFixed(2)}, qty=${data.qty[i]}, modified_by="admin", modified_dt='${datetime}'` : '(purchase_id, comp_id, br_id, item_id, price, cgst_prtg, cgst_amt, sgst_prtg, sgst_amt, qty, unit_name, created_by, created_dt)',
+        values1 = `(${receipt}, ${comp_id}, ${data.brn_id}, ${data.item_name[i]}, ${data.price[i]}, ${data.cgst[i]}, ${((data.price[i]*data.cgst[i])/100).toFixed(2)}, ${data.sgst[i]}, ${((data.price[i]*data.sgst[i])/100).toFixed(2)}, ${data.qty[i]}, '${data.unit_name[i]}',"admin",'${datetime}')`,
+        where1 = data.receipt > 0 ? `purchase_id = ${data.receipt} AND item_id = ${data.item_name[i]} AND unit_name = '${data.unit_name[i]}'` : null,
+        flag1 = data.receipt > 0 ? 1 : 0;
+        var res_dt1 = await db_Insert(table_name1, fields1, values1, where1, flag1)
+      }
+    }else{
+      var table_name1 = 'td_item_purchase',
+        fields1 = data.receipt > 0 ? `price=${data.price}, cgst_prtg=${data.cgst}, cgst_amt=${((data.price*data.cgst)/100).toFixed(2)}, sgst_prtg=${data.sgst}, sgst_amt=${((data.price*data.sgst)/100).toFixed(2)}, qty=${data.qty}, modified_by="admin", modified_dt='${datetime}'` : '(purchase_id, comp_id, br_id, item_id, price, cgst_prtg, cgst_amt, sgst_prtg, sgst_amt, qty, unit_name, created_by, created_dt)',
+        values1 = `(${receipt}, ${comp_id}, ${data.brn_id}, ${data.item_name}, ${data.price}, ${data.cgst}, ${((data.price*data.cgst)/100).toFixed(2)}, ${data.sgst}, ${((data.price*data.sgst)/100).toFixed(2)}, ${data.qty}, '${data.unit_name}',"admin",'${datetime}')`,
+        where1 = data.receipt > 0 ? `purchase_id = ${data.receipt} AND item_id = ${data.item_name} AND unit_name = '${data.unit_name}'` : null,
+        flag1 = data.receipt > 0 ? 1 : 0;
+        var res_dt1 = await db_Insert(table_name1, fields1, values1, where1, flag1)
+    }}
+    resolve(res_dt1);
+    // console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", res_dt1);
+  
+  })
+}
+
+// ===========================================================================================
+// purchase_info_main
+
+const purchase_list = (comp_id, purchase_id = 0) => {
+  return new Promise(async (resolve, reject) => {
+    var select = "a.purchase_id, a.br_id, c.branch_name, a.supplier_id, a.invoice_no, a.pay_mode, b.supplier_name, b.gstin, b.address",
+      table_name = "td_purchase a, md_supplier b, md_branch c",
+      where = `a.supplier_id=b.id AND a.br_id=c.id AND a.comp_id = '${comp_id}' AND b.comp_id = '${comp_id}' ${purchase_id > 0 ? `AND a.purchase_id = ${purchase_id}` : ''}`;
+    var res_dt = await db_Select(select, table_name, where, null);
+    resolve(res_dt);
+  });
+};
+
+const purchase_item_list = (comp_id, purchase_id = 0) => {
+  return new Promise(async (resolve, reject) => {
+    var select = "purchase_id, comp_id, br_id, item_id, price, cgst_prtg, cgst_amt, sgst_prtg, sgst_amt, qty, unit_name",
+    table_name = "td_item_purchase",
+    where = `comp_id = '${comp_id}' ${purchase_id > 0 ? `AND purchase_id = ${purchase_id}` : ''}`;
+    var res_dt = await db_Select(select, table_name, where, null);
+    resolve(res_dt);
   })
 }
 
@@ -134,5 +169,7 @@ sup_list_id,
 save_add_purchase_data,
 br_list,
 item_list,
-unit_list
+unit_list,
+purchase_list,
+purchase_item_list
  };
