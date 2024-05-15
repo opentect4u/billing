@@ -121,6 +121,14 @@ const save_add_purchase_data = (data,comp_id) => {
         where1 = data.receipt > 0 ? `purchase_id = ${data.receipt} AND item_id = ${data.item_name[i]} AND unit_name = '${data.unit_name[i]}'` : null,
         flag1 = data.receipt > 0 ? 1 : 0;
         var res_dt1 = await db_Insert(table_name1, fields1, values1, where1, flag1)
+        if(res_dt1.suc>0){
+          var table_name2 = "td_stock",
+          fields2 = `stock = stock + ${data.qty[i]}, modified_by = 'admin', modified_dt = '${datetime}'`,
+          values2 = null,
+          where2 = `comp_id = ${comp_id} and item_id = ${data.item_name[i]}`,
+          flag2 = 1;
+          var res_dt2 = await db_Insert(table_name2,fields2,values2,where2,flag2);
+        }
       }
     }else{
       var table_name1 = 'td_item_purchase',
@@ -129,8 +137,16 @@ const save_add_purchase_data = (data,comp_id) => {
         where1 = data.receipt > 0 ? `purchase_id = ${data.receipt} AND item_id = ${data.item_name} AND unit_name = '${data.unit_name}'` : null,
         flag1 = data.receipt > 0 ? 1 : 0;
         var res_dt1 = await db_Insert(table_name1, fields1, values1, where1, flag1)
+        if(res_dt1.suc>0){
+          var table_name2 = "td_stock",
+          fields2 = `stock = stock + ${data.qty}, modified_by = 'admin', modified_dt = '${datetime}'`,
+          values2 = null,
+          where2 = `comp_id = ${comp_id} and item_id = ${data.item_name}`,
+          flag2 = 1;
+          var res_dt2 = await db_Insert(table_name2,fields2,values2,where2,flag2);
+        }
     }}
-    resolve(res_dt1);
+    resolve(res_dt2);
     // console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", res_dt1);
   
   })

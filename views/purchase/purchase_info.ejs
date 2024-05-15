@@ -153,7 +153,10 @@
                                                 </td>
                                                 <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
                                                     <div class="form-group ">
-                                                        <input type="text" name="qty" id="qty" class="form-control" placeholder="Quantity" value="<%= pdt.qty %>" />
+                                                        <input type="text" name="qty" id="qty" class="form-control" placeholder="Quantity" value="<%= pdt.qty %>"
+                                                        <%= purchase_dt.length > 0 ? 'readonly' : '' %>
+                                                        required /> 
+                                                        
                                                     </div>
                                                 </td>
                                                 <td class="tableTd_add_main col-md-4" style="border-top: 0px !important">
